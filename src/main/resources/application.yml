@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: springboot-natmeha
+  thymeleaf:
+    # prefix: classpath:/templates # 默认 thymeleaf 模板页面所在位置
+    cache: false
+    encoding: utf-8
+    # 热部署, 修改类和资源时不重启服务
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java  #重启目录
+      exclude: static/**  #设置classpath下 static目录内容修改后不重启。一般设置为静态资源目录
+    freemarker:
+      cache: false  #页面不加载缓存，修改即时生效
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/natmeha?useUnicode=true&characterEncoding=UTF-8&serverTimezone=
+      UTC&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 1
+      maximum-pool-size: 3
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: TutorialsHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+#文件上传下载配置
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+#文件上传根目录
+file:
+  path: /files/download
+  # 开启mvc的HiddenHttpMethodFilter，以便可以表单可以发送PUT、DELETE等请求
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+mybatis:
+  #  config-location: classpath:mybatis/mybatis-config.xml
+  #  设置实体类
+  type-aliases-package: com.lanqiao.natmeha.model
+# 分页
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  reasonable: false
+  supportMethodsArguments: true
+  returnPageInfo: true
+  params: count=countSql
+# 开放所有的 Web endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+# 输出 mybatis SQL日志
+logging:
+  level:
+    root: INFO
+    com.lanqiao.hebeitcm.mapper: DEBUG
+
+  #    path: /Users/jamesmac/projects/SpringBootProjects/springboot-tutorials
+  pattern:
+    file: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+    console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+  # \u65E5\u5FD7\u6587\u4EF6
+  file:
+    name: natmeha.log
+#    path: #日志文件存入的目录
