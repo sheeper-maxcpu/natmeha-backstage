@@ -232,7 +232,7 @@ public class TbNatmehaHotspotController {
         return "tbSolarCounty/solar_county";
     }
 
-    //县级机构显示信息页面
+    //县级机构显示节气养生信息页面
     @RequestMapping("/solar_county_code")
     public String solar_county_codeselectBypage(Integer pageNum,Model model,String neirou) {
         if (pageNum==null) {
@@ -247,4 +247,196 @@ public class TbNatmehaHotspotController {
         model.addAttribute("tbNatmehaHotspots", tbNatmehaHotspots);
         return "tbSolarCounty/solar_county_code";
     }
+
+    //县级查看要审核的具体信息，并且决定是否给予通过
+    @RequestMapping("/solar_county_select")
+    public String solar_county_select(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        if (tbNatmehaHotspot.getDataStatus().equals("1")) {
+            model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+            return "tbSolarCounty/solar_county_update";
+        }
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbSolarCounty/solar_county_see";
+    }
+
+    //查看信息页面，审核决定给予通过还是不通过
+    @RequestMapping("/solar_county_updatecode")
+    public String solar_county_updatecode(Integer itemid,String reset,String nopassbtn,String passbtn) throws InterruptedException {
+        if (passbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("3");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_county_code";
+        } else if (nopassbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("2");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_county_code";
+        } else if (reset != null) {
+            return "redirect:;/start/solar_county_code";
+        }
+        return null;
+    }
+
+    @RequestMapping("/solar_county_back")
+    public String solar_county_back() {
+        return "redirect:/start/solar_county_code";
+    }
+
+    //显示信息页面，直接审核通过
+    @RequestMapping("/solar_county_pass/{itemid}")
+    @ResponseBody
+    public int solar_county_pass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("3");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+    //显示信息页面，直接审核不通过
+    @RequestMapping("/solar_county_nopass/{itemid}")
+    @ResponseBody
+    public int solar_county_nopass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("2");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+
+    /*
+     * 启动市级机构“智慧”国医堂惠民信息系统的信息处理页面
+     * */
+    @RequestMapping("/municipal_page")
+    public String municipal_page() {
+        return "tbSolarMunicipal/solar_municipal";
+    }
+
+    //市级审核节气养生信息审核界面
+    @RequestMapping("/solar_municipal_code")
+    public String solar_municipal_codeselectBypage(Integer pageNum,Model model,String neirou) {
+        if (pageNum==null) {
+            pageNum = 1;
+        }
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setDataType("0");
+        tbNatmehaHotspot.setDataStatus("3");
+        tbNatmehaHotspot.setNeirou(neirou);
+        Page<TbNatmehaHotspot> tbNatmehaHotspots = this.tbNatmehaHotspotDaoService.municipal_selectByPage(tbNatmehaHotspot, pageNum, 5);
+        model.addAttribute("neirou", neirou);
+        model.addAttribute("tbNatmehaHotspots", tbNatmehaHotspots);
+        return "tbSolarMunicipal/solar_municipal_code";
+    }
+
+    //市级机构查看需要审核的信息，并决定是否给予通过
+    @RequestMapping("/solar_municipal_select")
+    public String solar_municipal_select(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        if (tbNatmehaHotspot.getDataStatus().equals("3")) {
+            model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+            return "tbSolarMunicipal/solar_municipal_update";
+        }
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbSolarMunicipal/solar_municipal_see";
+    }
+
+    //市级审核决定既不给予通过
+    @RequestMapping("/solar_municipal_updatecode")
+    public String solar_municipal_updatecode(Integer itemid,String reset,String nopassbtn,String passbtn) throws InterruptedException {
+        if (passbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("5");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_municipal_code";
+        } else if (nopassbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("4");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_municipal_code";
+        } else if (reset != null) {
+            return "redirect:/start/solar_municipal_code";
+        }
+        return null;
+    }
+    //单纯查看页面，取消按钮返回
+    @RequestMapping("/solar_municipal_back")
+    public String solar_municipal_back() {
+        return "redirect:/start/solar_municipal_code";
+    }
+
+    //市级审核页面决定通不通过,首先是显示通过的
+    @RequestMapping("/solar_municipal_pass/{itemid}")
+    @ResponseBody
+    public int solar_municipal_pass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("5");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+    //市级审核页面决定通不通过,然后是不给予通过的
+    @RequestMapping("/solar_municipal_nopass/{itemid}")
+    @ResponseBody
+    public int solar_municipal_nopass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("4");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+
+    /*
+     * 启动省级机构“智慧”国医堂惠民信息系统的信息处理页面
+     * */
+    @RequestMapping("/provincial_page")
+    public String provincial_page() {
+        return "tbSolarProvincial/solar_provincial";
+    }
+
+    //省级审核节气养生信息审核界面
+    @RequestMapping("/solar_provincial_code")
+    public String solar_provincial_codeselectBypage(Integer pageNum,Model model,String neirou) {
+        if (pageNum==null) {
+            pageNum = 1;
+        }
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setDataType("0");
+        tbNatmehaHotspot.setDataStatus("5");
+        tbNatmehaHotspot.setNeirou(neirou);
+        Page<TbNatmehaHotspot> tbNatmehaHotspots = this.tbNatmehaHotspotDaoService.provincial_selectByPage(tbNatmehaHotspot, pageNum, 5);
+        model.addAttribute("neirou", neirou);
+        model.addAttribute("tbNatmehaHotspots", tbNatmehaHotspots);
+        return "tbSolarProvincial/solar_provincial_code";
+    }
+
+    //省级审核页面决定通不通过,首先是显示通过的
+    @RequestMapping("/solar_provincial_pass/{itemid}")
+    @ResponseBody
+    public int solar_provincial_pass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("7");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+    //省级审核页面决定通不通过,然后是不给予通过的
+    @RequestMapping("/solar_provincial_nopass/{itemid}")
+    @ResponseBody
+    public int solar_provincial_nopass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("6");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+
 }

@@ -47,4 +47,18 @@ public interface TbNatmehaHotspotDaoService {
      * 县级机构分页查询信息
      */
     Page<TbNatmehaHotspot> county_selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @return
+     * 市级机构分页查询信息
+     */
+    Page<TbNatmehaHotspot> municipal_selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @return
+     * 省级机构分页查询信息
+     */
+    Page<TbNatmehaHotspot> provincial_selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
 }

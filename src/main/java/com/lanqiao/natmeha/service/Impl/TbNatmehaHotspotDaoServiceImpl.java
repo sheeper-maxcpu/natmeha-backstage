@@ -67,4 +67,26 @@ public class TbNatmehaHotspotDaoServiceImpl implements TbNatmehaHotspotDaoServic
     public Page<TbNatmehaHotspot> county_selectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
         return this.tbNatmehaHotspotDao.county_selectByPage(tbNatmehaHotspot,pageNum,pageSize);
     }
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return 市级机构分页查询信息
+     */
+    @Override
+    public Page<TbNatmehaHotspot> municipal_selectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
+        return this.tbNatmehaHotspotDao.municipal_selectByPage(tbNatmehaHotspot,pageNum,pageSize);
+    }
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return 省级机构分页查询信息
+     */
+    @Override
+    public Page<TbNatmehaHotspot> provincial_selectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
+        return this.tbNatmehaHotspotDao.provincial_selectByPage(tbNatmehaHotspot,pageNum,pageSize);
+    }
 }
