@@ -4,7 +4,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>省级机构审核节气养生信息</title>
+    <title>管理员修改自我保健信息</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
     <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
           href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css"/>
@@ -52,17 +52,17 @@
     <script>
         layui.use('form',function () {
             //var form = layui.form;
-            var passbtn = $('#passbtn');
-            var nopassbtn = $('#nopassbtn');
+            var savebtn = $('#savebtn');
+            var putbtn = $('#putbtn');
             //弹出一个loading层
-            passbtn.on('click', function () {
+            savebtn.on('click', function () {
                 var ii = layer.load();
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
                     layer.close(ii);
                 },2000);
             });
-            nopassbtn.on('click', function () {
+            putbtn.on('click', function () {
                 var ii = layer.load();
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
@@ -75,24 +75,24 @@
 <body>
 <div class="container">
     <div class="col-md-12 column">
-        <form class="layui-form" action="/start/solar_provincial_updatecode" lay-filter="example" style="margin-top: 20px" method="post">
+        <form class="layui-form" action="/start/care_updatecode" lay-filter="example" style="margin-top: 20px" method="post">
             <input type="text" name="itemid" th:value="${tbNatmehaHotspot.itemid}" hidden="hidden">
             <div class="layui-form-item">
                 <label class="layui-form-label">标题</label>
                 <div class="layui-input-block">
-                    <input type="text" name="hotspotTitle"readonly="readonly" th:value="${tbNatmehaHotspot.hotspotTitle}" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" style="width: 300px">
+                    <input type="text" name="hotspotTitle" th:value="${tbNatmehaHotspot.hotspotTitle}" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input" style="width: 300px">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">来源</label>
                 <div class="layui-input-block">
-                    <input type="text" name="datasource" readonly="readonly" th:value="${tbNatmehaHotspot.hotspotTitle}" autocomplete="off" class="layui-input" style="width: 300px">
+                    <input type="text" name="datasource" th:value="${tbNatmehaHotspot.hotspotTitle}" autocomplete="off" class="layui-input" style="width: 300px">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">作者</label>
                 <div class="layui-input-block">
-                    <input type="text" name="creater" readonly="readonly" th:value="${tbNatmehaHotspot.creater}" autocomplete="off" class="layui-input" style="width: 300px">
+                    <input type="text" name="creater" th:value="${tbNatmehaHotspot.creater}" autocomplete="off" class="layui-input" style="width: 300px">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -106,8 +106,8 @@
                 <div class="layui-input-block">
                     <p>
                         <button type="submit" name="reset" value="取消" class="layui-btn layui-btn-normal" id="LAY-component-form-setval">取消</button>
-                        <button type="submit" id="passbtn" name="passbtn" value="通过" class="layui-btn layui-btn-normal">通过</button>
-                        <button type="submit" id="nopassbtn" name="nopassbtn" value="不通过" class="layui-btn" lay-submit="" lay-filter="demo1">不通过</button>
+                        <button type="submit" id="savebtn" name="savebtn" value="保存" class="layui-btn layui-btn-normal">保存</button>
+                        <button type="submit" id="putbtn" name="putbtn" value="立即提交" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
                     </p>
                 </div>
             </div>

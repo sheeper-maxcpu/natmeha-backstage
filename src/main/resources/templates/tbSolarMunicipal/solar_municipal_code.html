@@ -364,7 +364,7 @@
                             <a th:if="${data.dataStatus} != '0'" th:href="@{/start/solar_municipal_select(itemid = ${data.itemid})}">查看</a>
                             <a th:if="${data.dataStatus} == '5'">通过状态</a>
                             <a th:if="${data.dataStatus} == '4'">不通过状态</a>
-                            <a th:if="${data.dataStatus} != '3'" href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${data.itemid}" style="color: red">删除</a>
+                            <!--<a th:if="${data.dataStatus} != '3'" href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${data.itemid}" style="color: red">删除</a>-->
                         </td>
                     </tr>
                     </tbody>

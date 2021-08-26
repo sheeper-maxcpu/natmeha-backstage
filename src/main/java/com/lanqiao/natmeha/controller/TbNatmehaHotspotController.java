@@ -1,15 +1,18 @@
 package com.lanqiao.natmeha.controller;
 
 import com.github.pagehelper.Page;
+import com.lanqiao.natmeha.model.TbNatmehaFile;
 import com.lanqiao.natmeha.model.TbNatmehaHotspot;
+import com.lanqiao.natmeha.service.TbNatmehaFileService;
 import com.lanqiao.natmeha.service.TbNatmehaHotspotDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -28,6 +31,9 @@ public class TbNatmehaHotspotController {
     //注入对象
     @Autowired
     private TbNatmehaHotspotDaoService tbNatmehaHotspotDaoService;
+    //文件表的对象
+    @Autowired
+    private TbNatmehaFileService tbNatmehaFileService;
 
     @RequestMapping("/solar_clerk_code")
     public String selectByPage(Integer pageNum, Model model,String neirou) {
@@ -50,9 +56,10 @@ public class TbNatmehaHotspotController {
         return "tbSolarClerk/solar_clerk_add";
     }
 
+    //static String itemcode = UUID.randomUUID().toString();
     //添加新的数据
     @RequestMapping("/solar_insert")
-    public String solar_insert(String hotspotTitle,String creater,String hotspotContent,
+    public String solar_insert(@RequestParam("file")MultipartFile file, String hotspotTitle,String creater,String hotspotContent,
                                String datasource,String savebtn,String putbtn,String reset) throws Exception {
         String dataType = "0";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
         //如果是保存按钮，即是已保存状态 0，提交状态即是 1
@@ -76,6 +83,36 @@ public class TbNatmehaHotspotController {
             tbNatmehaHotspot.setItemcreateat(itemcreateat);
             tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
+            //获取上传的文件名
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                System.out.println(originalFilename);
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                String itemcode2 = UUID.randomUUID().toString();
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(itemcode2);
+                tbNatmehaFile.setDataCode(itemcode);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
+            }
             return "redirect:/start/solar_clerk_code";
         } else if (putbtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
@@ -97,11 +134,48 @@ public class TbNatmehaHotspotController {
             tbNatmehaHotspot.setItemcreateat(itemcreateat);
             tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
+
+            //获取上传的文件名
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                System.out.println(originalFilename);
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                String itemcode2 = UUID.randomUUID().toString();
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(itemcode2);
+                tbNatmehaFile.setDataCode(itemcode);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
+            }
             return "redirect:/start/solar_clerk_code";
         } else if (reset != null) {
             return "redirect:/start/solar_clerk_code";
         }
         return null;
+    }
+
+    //查看返回
+    @RequestMapping("/solar_clerk_back")
+    public String solar_clerk_back() {
+        return "redirect:/start/solar_clerk_code";
     }
 
     //通过itemID查看信息，如果是保存状态的信息，可以进行更改，然后提交或者选择保存
@@ -131,9 +205,9 @@ public class TbNatmehaHotspotController {
         if (savebtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            //String itemcode = UUID.randomUUID().toString();
+            String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
-            //tbNatmehaHotspot.setItemcode(itemcode);
+            tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
@@ -153,7 +227,7 @@ public class TbNatmehaHotspotController {
         } else if (putbtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            //String itemcode = UUID.randomUUID().toString();
+            String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
             tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
@@ -278,7 +352,7 @@ public class TbNatmehaHotspotController {
             this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
             return "redirect:/start/solar_county_code";
         } else if (reset != null) {
-            return "redirect:;/start/solar_county_code";
+            return "redirect:/start/solar_county_code";
         }
         return null;
     }
@@ -418,6 +492,46 @@ public class TbNatmehaHotspotController {
         return "tbSolarProvincial/solar_provincial_code";
     }
 
+    //县级查看要审核的具体信息，并且决定是否给予通过
+    @RequestMapping("/solar_provincial_select")
+    public String solar_provincial_select(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        if (tbNatmehaHotspot.getDataStatus().equals("5")) {
+            model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+            return "tbSolarProvincial/solar_provincial_update";
+        }
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbSolarProvincial/solar_provincial_see";
+    }
+
+    //查看信息页面，审核决定给予通过还是不通过
+    @RequestMapping("/solar_provincial_updatecode")
+    public String solar_provincial_updatecode(Integer itemid,String reset,String nopassbtn,String passbtn) throws InterruptedException {
+        if (passbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("7");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_provincial_code";
+        } else if (nopassbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("6");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/solar_provincial_code";
+        } else if (reset != null) {
+            return "redirect:/start/solar_provincial_code";
+        }
+        return null;
+    }
+
+    @RequestMapping("/solar_provincial_back")
+    public String solar_provincial_back() {
+        return "redirect:/start/solar_provincial_code";
+    }
+
     //省级审核页面决定通不通过,首先是显示通过的
     @RequestMapping("/solar_provincial_pass/{itemid}")
     @ResponseBody
@@ -439,4 +553,343 @@ public class TbNatmehaHotspotController {
         return i;
     }
 
+    /*
+     * 管理员处理自我保健信息
+     * */
+    @RequestMapping("/care_clerk_code")
+    public String care_clerk_code(Integer pageNum,Model model,String neirou) {
+        if (pageNum==null) {
+            pageNum = 1;
+        }
+        //System.out.println(neirou);
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setDataType("1");
+        tbNatmehaHotspot.setNeirou(neirou);
+        Page<TbNatmehaHotspot> tbNatmehaHotspots = this.tbNatmehaHotspotDaoService.selectByPage(tbNatmehaHotspot, pageNum, 5);
+        model.addAttribute("neirou", neirou);
+        model.addAttribute("tbNatmehaHotspots", tbNatmehaHotspots);
+        return "tbCareClerk/care_clerk_code";
+    }
+    //管理员新增自我保健,先跳转页面
+    //跳转增加节气养生界面
+    @RequestMapping("/care_addimage")
+    public String addpage_care() {
+        return "tbCareClerk/care_clerk_add";
+    }
+    //然后再根据按钮各自执行相关保存和提交功能
+    @RequestMapping("/care_insert")
+    public String care_insert(@RequestParam("file")MultipartFile file, String hotspotTitle,String creater,String hotspotContent,
+                               String datasource,String savebtn,String putbtn,String reset) throws Exception {
+        String dataType = "1";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
+        //如果是保存按钮，即是已保存状态 0，提交状态即是 1
+        if (savebtn != null) {
+            Thread.sleep(2000);//等待2秒后在执行下一步代码
+            //自动生成唯一标识码
+            String itemcode = UUID.randomUUID().toString();
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemcode(itemcode);
+            tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotContent(hotspotContent);
+            tbNatmehaHotspot.setDataStatus("0");
+            tbNatmehaHotspot.setDataType(dataType);
+            tbNatmehaHotspot.setCreater(creater);
+            //创建时间
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String ict = df.format(new Date());
+            Date ite = null;
+            ite = df.parse(ict);
+            java.sql.Date itemcreateat = new java.sql.Date(ite.getTime());
+            tbNatmehaHotspot.setItemcreateat(itemcreateat);
+            tbNatmehaHotspot.setUserCode("5566");
+            this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
+            //获取上传的文件名
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                System.out.println(originalFilename);
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                String itemcode2 = UUID.randomUUID().toString();
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(itemcode2);
+                tbNatmehaFile.setDataCode(itemcode);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                //创建时间
+                SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String ict2 = df.format(new Date());
+                Date ite2 = null;
+                ite = df.parse(ict);
+                java.sql.Date itemcreateat2 = new java.sql.Date(ite.getTime());
+                tbNatmehaHotspot.setItemcreateat(itemcreateat2);
+                int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
+            }
+            return "redirect:/start/care_clerk_code";
+        } else if (putbtn != null) {
+            Thread.sleep(2000);//等待2秒后在执行下一步代码
+            //自动生成唯一标识码
+            String itemcode = UUID.randomUUID().toString();
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemcode(itemcode);
+            tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotContent(hotspotContent);
+            tbNatmehaHotspot.setDataStatus("1");//1代表的是待市级审核，即科员审核
+            tbNatmehaHotspot.setDataType(dataType);
+            tbNatmehaHotspot.setCreater(creater);
+            //创建时间
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String ict = df.format(new Date());
+            Date ite = null;
+            ite = df.parse(ict);
+            java.sql.Date itemcreateat = new java.sql.Date(ite.getTime());
+            tbNatmehaHotspot.setItemcreateat(itemcreateat);
+            tbNatmehaHotspot.setUserCode("5566");
+            this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
+
+            //获取上传的文件名
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                System.out.println(originalFilename);
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                String itemcode2 = UUID.randomUUID().toString();
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(itemcode2);
+                tbNatmehaFile.setDataCode(itemcode);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                //创建时间
+                SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String ict2 = df.format(new Date());
+                Date ite2 = null;
+                ite = df.parse(ict);
+                java.sql.Date itemcreateat2 = new java.sql.Date(ite.getTime());
+                tbNatmehaHotspot.setItemcreateat(itemcreateat2);
+                int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
+            }
+            return "redirect:/start/care_clerk_code";
+        } else if (reset != null) {
+            return "redirect:/start/care_clerk_code";
+        }
+        return null;
+    }
+    //管理员查看不是保存状态的信息
+    //通过itemID查看信息，如果是保存状态的信息，可以进行更改，然后提交或者选择保存
+    @RequestMapping("/care_clerck_select")
+    public String care_clerck_select(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbCareClerk/care_clerk_see";
+    }
+
+    //care_clerk_see.html页面取消按钮，返回数据页面
+    @RequestMapping("/care_clerk_back")
+    public String care_clerk_back() {
+        return "redirect:/start/care_clerk_code";
+    }
+    //管理员通过修改按钮，跳转自我保健修改页面
+    @RequestMapping("/care_clerck_update")
+    public String care_clerck_update(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbCareClerk/care_clerk_update";
+    }
+
+    //修改保存状态下的信息,并且确定是保存还是提交
+    @RequestMapping("/care_updatecode")
+    public String care_updatecode(Integer itemid,String hotspotTitle,String creater,String hotspotContent,
+                                   String datasource,String savebtn,String putbtn,String reset) throws Exception {
+
+        String dataType = "1";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
+        //如果是保存按钮，即是已保存状态 0，提交状态（待县级审核）即是 1，县级审核不通过2，待市级审核3，
+        // 市级审核不通过4，待省级审核5，省级审核不通过6，省级通过7，管理员发布8,
+        if (savebtn != null) {
+            Thread.sleep(2000);//等待2秒后在执行下一步代码
+            //自动生成唯一标识码
+            String itemcode = UUID.randomUUID().toString();
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemcode(itemcode);
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotContent(hotspotContent);
+            tbNatmehaHotspot.setDataStatus("0");
+            tbNatmehaHotspot.setDataType(dataType);
+            tbNatmehaHotspot.setCreater(creater);
+            //创建时间
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String ict = df.format(new Date());
+            Date ite = null;
+            ite = df.parse(ict);
+            java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
+            tbNatmehaHotspot.setItemupdateat(itemupdateat);
+            tbNatmehaHotspot.setUserCode("5566");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/care_clerk_code";//修改成功后返回数据主页面
+        } else if (putbtn != null) {
+            Thread.sleep(2000);//等待2秒后在执行下一步代码
+            //自动生成唯一标识码
+            String itemcode = UUID.randomUUID().toString();
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotContent(hotspotContent);
+            tbNatmehaHotspot.setDataStatus("1");//1代表的是待市级审核，即科员审核
+            tbNatmehaHotspot.setDataType(dataType);
+            tbNatmehaHotspot.setCreater(creater);
+            //创建时间
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String ict = df.format(new Date());
+            Date ite = null;
+            ite = df.parse(ict);
+            java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
+            tbNatmehaHotspot.setItemupdateat(itemupdateat);
+            tbNatmehaHotspot.setUserCode("5566");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/care_clerk_code";
+        } else if (reset != null) {
+            return "redirect:/start/care_clerk_code";
+        }
+        return null;
+    }
+
+    //管理员节气养生信息页面直接提交数据给上一级审核,只需要改变数据状态就可
+    @RequestMapping("/care_clerck_directUpdate/{itemid}")
+    @ResponseBody
+    public int care_clerck_directUpdate(@PathVariable("itemid") Integer itemid) {
+        //String dataType = "0";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("1");//1代表的是待县级审核，即科员审核
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+    //管理员发布自我保健信息
+    @RequestMapping("/care_clerck_release/{itemid}")
+    @ResponseBody
+    public int care_clerck_release(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("8");//1代表的是待市级审核，即科员审核,8代表发布
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+
+    //管理员下架发布信息
+    @RequestMapping("/care_clerck_norelease/{itemid}")
+    @ResponseBody
+    public int care_clerck_norelease(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("7");//1代表的是待市级审核，即科员审核,8代表发布，状态变为省级审核通过
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+
+    //县级机构处理管理员提交的信息
+    //县级机构显示自我保健信息页面
+    @RequestMapping("/care_county_code")
+    public String care_county_codeselectBypage(Integer pageNum,Model model,String neirou) {
+        if (pageNum==null) {
+            pageNum = 1;
+        }
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setDataType("1");
+        tbNatmehaHotspot.setDataStatus("1");
+        tbNatmehaHotspot.setNeirou(neirou);
+        Page<TbNatmehaHotspot> tbNatmehaHotspots = this.tbNatmehaHotspotDaoService.county_selectByPage(tbNatmehaHotspot, pageNum, 5);
+        model.addAttribute("neirou", neirou);
+        model.addAttribute("tbNatmehaHotspots", tbNatmehaHotspots);
+        return "tbCareCounty/care_county_code";
+    }
+    //县级查看要审核的具体信息，并且决定是否给予通过
+    @RequestMapping("/care_county_select")
+    public String care_county_select(Integer itemid,Model model) {
+        TbNatmehaHotspot tbNatmehaHotspot = this.tbNatmehaHotspotDaoService.solar_select(itemid);
+        if (tbNatmehaHotspot.getDataStatus().equals("1")) {
+            model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+            return "tbCareCounty/care_county_update";
+        }
+        model.addAttribute("tbNatmehaHotspot", tbNatmehaHotspot);
+        return "tbCareCounty/care_county_see";
+    }
+
+    //查看信息页面，审核决定给予通过还是不通过
+    @RequestMapping("/care_county_updatecode")
+    public String care_county_updatecode(Integer itemid,String reset,String nopassbtn,String passbtn) throws InterruptedException {
+        if (passbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("3");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/care_county_code";
+        } else if (nopassbtn != null) {
+            Thread.sleep(2000);
+            TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+            tbNatmehaHotspot.setItemid(itemid);
+            tbNatmehaHotspot.setDataStatus("2");
+            this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            return "redirect:/start/care_county_code";
+        } else if (reset != null) {
+            return "redirect:/start/care_county_code";
+        }
+        return null;
+    }
+
+    @RequestMapping("/care_county_back")
+    public String care_county_back() {
+        return "redirect:/start/care_county_code";
+    }
+
+    //显示信息页面，直接审核通过
+    @RequestMapping("/care_county_pass/{itemid}")
+    @ResponseBody
+    public int care_county_pass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("3");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
+    //显示信息页面，直接审核不通过
+    @RequestMapping("/care_county_nopass/{itemid}")
+    @ResponseBody
+    public int care_county_nopass(@PathVariable("itemid") Integer itemid) {
+        TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
+        tbNatmehaHotspot.setItemid(itemid);
+        tbNatmehaHotspot.setDataStatus("2");
+        int i = this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+        return i;
+    }
 }

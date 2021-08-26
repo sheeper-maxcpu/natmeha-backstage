@@ -2,7 +2,6 @@ package com.lanqiao.natmeha.service;
 
 import com.github.pagehelper.Page;
 import com.lanqiao.natmeha.model.TbNatmehaHotspot;
-import com.lanqiao.natmeha.model.TbNatmehaHotspotKey;
 
 public interface TbNatmehaHotspotDaoService {
 
