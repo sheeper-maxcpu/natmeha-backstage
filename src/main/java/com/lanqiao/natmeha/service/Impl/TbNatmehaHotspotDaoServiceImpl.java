@@ -23,6 +23,17 @@ public class TbNatmehaHotspotDaoServiceImpl implements TbNatmehaHotspotDaoServic
 
     /**
      * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return 主管理员分页查询信息
+     */
+    @Override
+    public Page<TbNatmehaHotspot> mainselectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
+        return this.tbNatmehaHotspotDao.mainselectByPage(tbNatmehaHotspot,pageNum,pageSize);
+    }
+
+    /**
+     * @param tbNatmehaHotspot
      * @return 科员添加新的信息
      */
     @Override
@@ -89,4 +100,27 @@ public class TbNatmehaHotspotDaoServiceImpl implements TbNatmehaHotspotDaoServic
     public Page<TbNatmehaHotspot> provincial_selectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
         return this.tbNatmehaHotspotDao.provincial_selectByPage(tbNatmehaHotspot,pageNum,pageSize);
     }
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return 市级管理员分页查询信息
+     */
+    @Override
+    public Page<TbNatmehaHotspot> municipal_clerkselectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
+        return this.tbNatmehaHotspotDao.municipal_clerkselectByPage(tbNatmehaHotspot,pageNum,pageSize);
+    }
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return 省级管理员分页查询信息
+     */
+    @Override
+    public Page<TbNatmehaHotspot> provincial_clerk_selectByPage(TbNatmehaHotspot tbNatmehaHotspot, int pageNum, int pageSize) {
+        return this.tbNatmehaHotspotDao.provincial_clerk_selectByPage(tbNatmehaHotspot,pageNum,pageSize);
+    }
+
 }

@@ -32,6 +32,17 @@ public interface TbNatmehaHotspotDao {
             @Param("tbNatmehaHotspot") TbNatmehaHotspot tbNatmehaHotspot,
             @Param("pageNum") Integer pageNum,
             @Param("pageSize") Integer pageSize);
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * 主管理员发布页面
+     */
+    Page<TbNatmehaHotspot> mainselectByPage(
+            @Param("tbNatmehaHotspot") TbNatmehaHotspot tbNatmehaHotspot,
+            @Param("pageNum") Integer pageNum,
+            @Param("pageSize") Integer pageSize);
 
     /**
      * @param itemid
@@ -84,4 +95,29 @@ public interface TbNatmehaHotspotDao {
             @Param("tbNatmehaHotspot") TbNatmehaHotspot tbNatmehaHotspot,
             @Param("pageNum") Integer pageNum,
             @Param("pageSize") Integer pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * 市级管理员分页查询节气养生信息
+     */
+    Page<TbNatmehaHotspot> municipal_clerkselectByPage(
+            @Param("tbNatmehaHotspot") TbNatmehaHotspot tbNatmehaHotspot,
+            @Param("pageNum") Integer pageNum,
+            @Param("pageSize") Integer pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * 省级管理员分页查询节气养生信息
+     */
+    Page<TbNatmehaHotspot> provincial_clerk_selectByPage(
+            @Param("tbNatmehaHotspot") TbNatmehaHotspot tbNatmehaHotspot,
+            @Param("pageNum") Integer pageNum,
+            @Param("pageSize") Integer pageSize);
+
 }

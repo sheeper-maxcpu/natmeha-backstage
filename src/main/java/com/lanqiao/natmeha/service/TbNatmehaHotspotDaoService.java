@@ -11,6 +11,12 @@ public interface TbNatmehaHotspotDaoService {
      * 分页查询信息
      */
     Page<TbNatmehaHotspot> selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+    /**
+     * @param tbNatmehaHotspot
+     * @return
+     * 主管理员分页查询信息
+     */
+    Page<TbNatmehaHotspot> mainselectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
 
     /**
      * @param tbNatmehaHotspot
@@ -60,4 +66,20 @@ public interface TbNatmehaHotspotDaoService {
      * 省级机构分页查询信息
      */
     Page<TbNatmehaHotspot> provincial_selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @return
+     * 市级管理员分页查询信息
+     */
+    Page<TbNatmehaHotspot> municipal_clerkselectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+
+    /**
+     * @param tbNatmehaHotspot
+     * @return
+     * 省级管理员分页查询信息
+     */
+    Page<TbNatmehaHotspot> provincial_clerk_selectByPage(TbNatmehaHotspot tbNatmehaHotspot,int pageNum,int pageSize);
+
+
 }
