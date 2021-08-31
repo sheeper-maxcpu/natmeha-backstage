@@ -1,17 +1,22 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 /**
- * 文件上传记录表
- * @TableName tb_natmeha_file
+ * tb_natmeha_file
+ * @author 
  */
 @Data
 @ToString
-public class TbNatmehaFile{
+@NoArgsConstructor
+@AllArgsConstructor
+public class TbNatmehaFile  {
     /**
      * 自增id
      */
@@ -21,7 +26,6 @@ public class TbNatmehaFile{
      * 唯一标识
      */
     private String itemcode;
-
     /**
      * 数据源itemcode
      */
@@ -47,9 +51,6 @@ public class TbNatmehaFile{
      */
     private String fileType;
 
-    /**
-     * 
-     */
     private Double fileSize;
 
     /**
@@ -57,9 +58,7 @@ public class TbNatmehaFile{
      */
     private String filePath;
 
-    /**
-     * 
-     */
     private Date itemcreateat;
 
+    private static final long serialVersionUID = 1L;
 }

@@ -1,17 +1,16 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * 今日热点记录表
- * @TableName tb_natmeha_hotspot
+ * tb_natmeha_hotspot
+ * @author 
  */
 @Data
-@ToString
-public class TbNatmehaHotspot{
+public class TbNatmehaHotspot {
+
     /**
      * 自增id
      */
@@ -21,7 +20,6 @@ public class TbNatmehaHotspot{
      * UUID
      */
     private String itemcode;
-
     /**
      * 热点名称
      */
@@ -42,9 +40,6 @@ public class TbNatmehaHotspot{
      */
     private String dataType;
 
-    /**
-     * 
-     */
     private String userCode;
 
     /**
@@ -67,4 +62,15 @@ public class TbNatmehaHotspot{
      */
     private Date itemupdateat;
 
+    /*
+     *搜索栏内容搜索信息
+     * */
+    private String neirou;
+
+    /*
+     * 关联文件表
+     * */
+    private TbNatmehaFile tbNatmehaFile;
+
+    private static final long serialVersionUID = 1L;
 }

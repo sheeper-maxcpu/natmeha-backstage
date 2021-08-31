@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主管理员药膳食疗数据界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.css"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+          href="../../static/layui/css/modules/laydate/default/laydate.css"/>
+    <link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}"
+          href="../../static/kindeditor/themes/default/default.css"/>
+    <script type="text/javascript" th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script type="text/javascript"  th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+    <script th:src="@{/layui/layui.js}"
+            src="../../static/layui/layui.js"></script>
+    <script th:src="@{/layer/layer.js}"
+            src="../../static/layer/layer.js"></script>
+    <style>
+
+        .container {
+            width: 1000px;
+        }
+        .search input {
+            width: 240px;
+            height: 27px;
+            background-color: rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(153, 153, 153, 1);
+            border-radius: 5px;
+            text-indent: 30px;
+            margin-top: 20px;
+        }
+
+        .search span {
+            color: #ffffff;
+        }
+
+        .leftNav .news .news-text p {
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: rgba(27, 27, 27, 0.647058823529412);
+            text-align: left;
+        }
+        .leftNav .news .news-text p a{
+            text-decoration: none;
+            display: block;
+            height: 38px;
+            line-height: 38px;
+            width: 100%;
+            color: rgba(27, 27, 27, 0.647058823529412);
+        }
+        .leftNav .news .news-text p a.active {
+            color: rgba(214, 0, 0, 1);
+            font-size: 10px;
+        }
+        .newsSearch {
+            position: absolute;
+            top: 30px;
+            width: 240px;
+            height: 32px;
+            background-color: rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(217, 217, 217, 1);
+            border-radius: 4px;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+            box-shadow: none;
+            font-family: 'Microsoft YaHei ', 'Microsoft YaHei', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 16px;
+            color: rgba(0, 0, 0, 0.247058823529412);
+            text-align: left;
+            line-height: 24px;
+        }
+
+        .searchBtn {
+            position: absolute;
+            top: 30px;
+            left: 255px;
+            width: 64px;
+            height: 32px;
+            background-color: rgba(214, 0, 0, 1);
+            border: none;
+            border-radius: 4px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            box-shadow: none;
+            font-family: 'Microsoft YaHei ', 'Microsoft YaHei', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 24px;
+        }
+
+        .status span {
+            font-family: 'Microsoft YaHei ', 'Microsoft YaHei', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.847058823529412);
+            text-align: right;
+            line-height: 22px;
+        }
+        .status select {
+            width: 240px;
+            height: 32px;
+            color: rgba(0, 0, 0, 0.247058823529412);
+            font-family: 'Arial Normal', 'Arial', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 14px;
+            border-color: rgba(0, 0, 0, 0.247058823529412);
+            text-transform: none;
+            outline: none;
+        }
+        .status input {
+            width: 90px;
+            height: 35px;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 2px;
+            border: none;
+            font-size: 14px;
+            text-align: left;
+            box-shadow:-2px -1px 5px rgba(0, 0, 0, 0.247058823529412);
+            text-indent: 5px;
+        }
+        .status button {
+            width: 102px;
+            height: 29px;
+            background-color: rgba(214, 0, 0, 1);
+            border: none;
+            border-radius: 5px;
+            box-shadow: none;
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tr-title {
+            height: 52px;
+            background-color: #775637;
+        }
+        .tr-title th {
+            font-family: 'Microsoft Tai Le Bold', 'Microsoft Tai Le Regular', 'Microsoft Tai Le', sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.980392156862745);
+            text-align: center;
+            line-height: 53px;
+        }
+        .newsList tr{
+            height: 92px;
+        }
+        .newsList tr td,.newsList tr td a {
+            font-family: 'Microsoft YaHei ', 'Microsoft YaHei', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: #775637;
+            text-align: center;
+            line-height: 92px;
+        }
+
+        .pageLink{
+            height: 26px;
+            text-align: center;
+        }
+        .pageLink li {
+            list-style: none;
+            display: inline-block;
+        }
+        .pageLink li a {
+            display: block;
+            border: 1px solid rgba(217, 217, 217, 1);
+            font-family: 'Microsoft YaHei ', 'Microsoft YaHei', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: #775637;
+            width: 28px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-left: 5px;
+            text-decoration: none;
+        }
+
+        .pageLink .tiao{
+            width: 47px;
+            height: 26px;
+            font-size: 14px;
+            text-indent: 5px;
+            border-radius: 4px;
+            box-shadow: none;
+            color: rgba(0, 0, 0, 0.647058823529412);
+            text-align: left;
+            line-height: 22px;
+            outline: none;
+            border: 1px solid rgba(217, 217, 217, 1);;
+        }
+
+        .mytable tr td{
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            border: 0;
+            text-align: center;
+        }
+        .mytable th{
+            width: 188px;
+        }
+        #add{
+            color: black;
+        }
+
+        button{
+            width: 58px;
+            color: black;
+            text-align: left;
+        }
+
+    </style>
+    <script>
+        //删除时，弹出提示框
+        function deleteitemid(obj) {
+            var itemid= $(obj).attr("itemid");
+            console.log(itemid);
+            //询问框
+            layer.confirm('确定要删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/start/med_mainclerk_deleteByItemid/"+itemid,
+                    type: "get",
+                    dataType: "json",
+                    success:function (result) {
+                        console.log(result);
+                    }
+                });
+                layer.msg('删除成功！', {icon: 1});
+                //刷新页面
+                window.location.reload();
+            }, function(){
+                layer.msg('取消删除成功！', {icon: 1});
+            });
+        }
+        //管理员决定发布或者不发布省级通过的信息
+        function clerk_release(obj) {
+            var itemid= $(obj).attr("itemid");
+            console.log(itemid);
+            //询问框
+            layer.confirm('此信息发布后将展示给用户查看，需要文责自负，是否确认发布？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/start/med_mainclerck_release/"+itemid,
+                    type: "get",
+                    dataType: "json",
+                    success:function (result) {
+                        console.log(result);
+                    }
+                });
+                layer.msg('发布信息成功！', {icon: 1});
+                //刷新页面
+                window.location.reload();
+            }, function(){
+                layer.msg('取消发布成功！', {icon: 1});
+            });
+        }
+        function clerk_no_release(obj) {
+            var itemid= $(obj).attr("itemid");
+            console.log(itemid);
+            //询问框
+            layer.confirm('是否下架发布的信息？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/start/med_mainclerck_norelease/"+itemid,
+                    type: "get",
+                    dataType: "json",
+                    success:function (result) {
+                        console.log(result);
+                    }
+                });
+                layer.msg('下架成功！', {icon: 1});
+                //刷新页面
+                window.location.reload();
+            }, function(){
+                layer.msg('取消成功！', {icon: 1});
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12 column">
+        <form action="/start/med_main_clerk_code" method="get">
+            <div style="margin-left: 20px">
+                <div style="height: 77px">
+                    <input type="text" placeholder="请输入" name="neirou" class="newsSearch"/>
+                    <button type="submit" href="#" value="搜 索" class="searchBtn">搜索</button>
+                </div>
+                <!--分割线-->
+                <div class="row" >
+                    <div class="col-md-12">
+                        <div style="height: 22px;width: 100%;margin-top:22px;border-top: #bdbfbd 2px dashed;"></div>
+                    </div>
+                </div>
+                <div class="status">
+                    <!--<img th:src="@{images/code/u70.svg}" width="100%"/>-->
+                    <span>其他选项：</span>
+                    <span>展示状态：</span>
+                    <select name="dataStatus">
+                        <option value="">--请选择--</option>
+                        <option value="已保存">已保存</option>
+                    </select>
+                    <span style="margin-left: 30px">发布时间：</span>
+                    <input type="number" value="00"/><span style="color: #333">&nbsp;:&nbsp;</span>
+                    <input type="number" value="00"/> <span>&nbsp;至&nbsp;</span>
+                    <input type="number" value="00"/><span style="color: #333">&nbsp;:&nbsp;</span>
+                    <input type="number" value="00"/>
+                    <br>
+                    <!--<button class="button"><a href="/tbCulproData/toaddpage"  target="rightNav" id="add">新增新闻</a></button>-->
+                </div>
+            </div>
+
+            <!--表格-->
+            <div class="col-md-12">
+                <table class="mytable" width="98%" border="0px" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+                    <thead>
+                    <tr class="tr-title">
+                        <th width="150px">文章标题</th>
+                        <th width="150px">来源</th>
+                        <th width="150px">作者</th>
+                        <th width="150px">发布时间</th>
+                        <th width="200px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="newsList">
+                    <tr th:each="data,iter:${tbNatmehaHotspots}">
+                        <td th:text="${data.hotspotTitle}"></td>
+                        <td th:text="${data.creater}"></td>
+                        <td th:text="${data.creater}"></td>
+                        <td th:text="${#dates.format(data.itemcreateat,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td>
+                            <!--<a th:if="${data.dataStatus}=='0'" th:href="@{/start/med_clerck_update(itemid = ${data.itemid})}">修改</a>-->
+                            <!--<a th:if="${data.dataStatus}=='0'" href="javascript:void(0);" onclick="directUpdata(this)" th:itemid="${data.itemid}">提交</a>-->
+                            <a th:href="@{/start/med_clerck_select(itemid = ${data.itemid})}">查看</a><!--只能查看不是保存状态的信息，保存状态的信息可以点击修改按钮查看-->
+                            <a th:if="${data.dataStatus} == '7'" href="javascript:void(0);" onclick="clerk_release(this)" th:itemid="${data.itemid}">发布</a>
+                            <a th:if="${data.dataStatus} == '8'" href="javascript:void(0);" onclick="clerk_no_release(this)" th:itemid="${data.itemid}">取消发布</a>
+                            <a th:if="${data.dataStatus} == '7'" href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${data.itemid}" style="color: red">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <form>
+            <div class="pageLink">
+                <ul>
+                    <li th:if="${tbNatmehaHotspots.pageNum le tbNatmehaHotspots.pages}">
+                        <a th:href="@{/start/med_main_clerk_code(pageNum=1,neirou=${neirou})}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum}>1">
+                        <a th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}-1,neirou=${neirou})}">&lt;</a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum -3 gt 1}">
+                        <a th:text="${tbNatmehaHotspots.pageNum -4}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}-4,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum -2 gt 1}">
+                        <a th:text="${tbNatmehaHotspots.pageNum -3}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}-3,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum -1 gt 1}">
+                        <a th:text="${tbNatmehaHotspots.pageNum -2}" th:href="@{/start/med_main_clerk_code(tbNatmehaHotspots=${tbNatmehaHotspots.pageNum}-2,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum gt 1}" >
+                        <a th:text="${tbNatmehaHotspots.pageNum -1}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}-1,neirou=${neirou})}"></a>
+                    </li>
+                    <!--/* 当前页 */-->
+                    <li th:if="${tbNatmehaHotspots.pageNum le tbNatmehaHotspots.pages}">
+                        <a th:text="${tbNatmehaHotspots.pageNum}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum},neirou=${neirou})}" th:class="${tbNatmehaHotspots.pageNum le tbNatmehaHotspots.pages ? 'myactive':''}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum+1 le tbNatmehaHotspots.pages}">
+                        <a th:text="${tbNatmehaHotspots.pageNum+1}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}+1,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum+2 le tbNatmehaHotspots.pages}">
+                        <a th:text="${tbNatmehaHotspots.pageNum+2}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}+2,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum+3 le tbNatmehaHotspots.pages}">
+                        <a th:text="${tbNatmehaHotspots.pageNum+3}" th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}+3,neirou=${neirou})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum lt tbNatmehaHotspots.pages}">
+                        <a th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pageNum}+1,neirou=${neirou})}">&gt;</a>
+                    </li>
+                    <li th:if="${tbNatmehaHotspots.pageNum lt tbNatmehaHotspots.pages}">
+                        <a th:href="@{/start/med_main_clerk_code(pageNum=${tbNatmehaHotspots.pages},neirou=${neirou})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <form style="display: inline-block;margin-left: 20px" action="/start/med_main_clerk_code" method="get">
+                        <span>跳至</span>
+                        <input name="pageNum" type="number" class="tiao" th:value="${#request.getParameter('pageNum')}"/>
+                        <span>页</span>
+                    </form>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

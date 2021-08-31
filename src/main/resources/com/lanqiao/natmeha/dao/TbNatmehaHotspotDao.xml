@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaHotspotDao">
+  <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+    <id column="itemID" jdbcType="INTEGER" property="itemid" />
+    <id column="itemCode" jdbcType="CHAR" property="itemcode" />
+    <result column="HOTSPOT_TITLE" jdbcType="VARCHAR" property="hotspotTitle" />
+    <result column="HOTSPOT_CONTENT" jdbcType="VARCHAR" property="hotspotContent" />
+    <result column="DATA_STATUS" jdbcType="VARCHAR" property="dataStatus" />
+    <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+    <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="itemCreateAt" jdbcType="TIMESTAMP" property="itemcreateat" />
+    <result column="UPDATER" jdbcType="VARCHAR" property="updater" />
+    <result column="itemUpdateAt" jdbcType="TIMESTAMP" property="itemupdateat" />
+    <association property="tbNatmehaFile" javaType="com.lanqiao.natmeha.model.TbNatmehaFile">
+      <id column="f_itemID" jdbcType="INTEGER" property="itemid" />
+      <id column="f_itemCode" jdbcType="VARCHAR" property="itemcode" />
+      <result column="f_dataCode" jdbcType="VARCHAR" property="dataCode" />
+      <result column="f_fileName" jdbcType="VARCHAR" property="fileName" />
+      <result column="f_filepath" jdbcType="VARCHAR" property="filePath" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    itemID, itemCode, HOTSPOT_TITLE, HOTSPOT_CONTENT, DATA_STATUS, DATA_TYPE, USER_CODE, 
+    CREATER, itemCreateAt, UPDATER, itemUpdateAt
+  </sql>
+  <select id="selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot.dataType != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot.dataStatus != null">
+        and DATA_STATUS = #{tbNatmehaHotspot.dataStatus}
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+  <!--主管理员发布-->
+  <select id="mainselectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot.dataType != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot != null">
+        and (DATA_STATUS = "7" or DATA_STATUS = "8")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByItemid" parameterType="int">
+    delete from tb_natmeha_hotspot
+    where itemID = #{itemid,jdbcType=INTEGER}
+  </delete>
+  <insert id="solar_insert_code" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" useGeneratedKeys="true">
+    insert into tb_natmeha_hotspot (itemCode, HOTSPOT_TITLE, HOTSPOT_CONTENT, 
+      DATA_STATUS, DATA_TYPE,CREATER,itemCreateAt,USER_CODE)
+    values (#{itemcode,jdbcType=CHAR}, #{hotspotTitle,jdbcType=VARCHAR}, #{hotspotContent,jdbcType=VARCHAR}, 
+      #{dataStatus,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR},#{creater,jdbcType=VARCHAR}, #{itemcreateat,jdbcType=TIMESTAMP},#{userCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" useGeneratedKeys="true">
+    insert into tb_natmeha_hotspot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemcode != null">
+        itemCode,
+      </if>
+      <if test="hotspotTitle != null">
+        HOTSPOT_TITLE,
+      </if>
+      <if test="hotspotContent != null">
+        HOTSPOT_CONTENT,
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS,
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE,
+      </if>
+      <if test="userCode != null">
+        USER_CODE,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="itemcreateat != null">
+        itemCreateAt,
+      </if>
+      <if test="updater != null">
+        UPDATER,
+      </if>
+      <if test="itemupdateat != null">
+        itemUpdateAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemcode != null">
+        #{itemcode,jdbcType=CHAR},
+      </if>
+      <if test="hotspotTitle != null">
+        #{hotspotTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="hotspotContent != null">
+        #{hotspotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dataStatus != null">
+        #{dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=CHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcreateat != null">
+        #{itemcreateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemupdateat != null">
+        #{itemupdateat,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!--通过itemID来查询信息-->
+  <select id="solar_select" parameterType="integer" resultMap="BaseResultMap">
+    SELECT
+        h.itemID,
+        h.itemCode,
+        h.HOTSPOT_TITLE,
+        h.HOTSPOT_CONTENT,
+        h.DATA_STATUS,
+        h.DATA_TYPE,
+        h.USER_CODE,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        f.itemID  f_itemID,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName,
+        f.FILE_PATH f_filepath
+   FROM natmeha.tb_natmeha_hotspot h
+     left join natmeha.tb_natmeha_file f
+        on h.itemCode = f.DATA_CODE
+    WHERE h.itemID = #{itemid}
+  </select>
+
+  <update id="solar_updata_code" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+    update tb_natmeha_hotspot
+    <set>
+      <if test="hotspotTitle != null">
+        HOTSPOT_TITLE = #{hotspotTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="hotspotContent != null">
+        HOTSPOT_CONTENT = #{hotspotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="dataStatus != null">
+        DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null">
+        USER_CODE = #{userCode,jdbcType=CHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemcreateat != null">
+        itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        UPDATER = #{updater,jdbcType=VARCHAR},
+      </if>
+      <if test="itemupdateat != null">
+        itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where itemID = #{itemid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+    update tb_natmeha_hotspot
+    set HOTSPOT_TITLE = #{hotspotTitle,jdbcType=VARCHAR},
+      HOTSPOT_CONTENT = #{hotspotContent,jdbcType=VARCHAR},
+      DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      USER_CODE = #{userCode,jdbcType=CHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+      UPDATER = #{updater,jdbcType=VARCHAR},
+      itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP}
+    where itemID = #{itemid,jdbcType=INTEGER}
+      and itemCode = #{itemcode,jdbcType=CHAR}
+  </update>
+
+  <!--市级管理员自我养生页面-->
+  <select id="municipal_clerkselectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot.dataType != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot != null">
+        and (DATA_STATUS = "9" or DATA_STATUS = "3" or DATA_STATUS = "4" or DATA_STATUS = "5")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+  <!--省级管理员-->
+  <select id="provincial_clerk_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot.dataType != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot != null">
+        and (DATA_STATUS = "10" or DATA_STATUS = "5" or DATA_STATUS = "6" or DATA_STATUS = "7")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+
+  <!--县级机构审核，要显示的信息显示-->
+  <select id="county_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot !=null">
+        and (DATA_STATUS = #{tbNatmehaHotspot.dataStatus} or DATA_STATUS = "2" or DATA_STATUS = "3")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+
+  <!--市级机构审核，要显示的信息显示-->
+  <select id="municipal_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot !=null">
+        and (DATA_STATUS = #{tbNatmehaHotspot.dataStatus} or DATA_STATUS = "4" or DATA_STATUS = "5")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+
+  <!--省级机构审核，要显示的信息显示-->
+  <select id="provincial_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_natmeha_hotspot
+    <where>
+      <if test="tbNatmehaHotspot != null">
+        DATA_TYPE = #{tbNatmehaHotspot.dataType}
+      </if>
+      <if test="tbNatmehaHotspot !=null">
+        and (DATA_STATUS = #{tbNatmehaHotspot.dataStatus} or DATA_STATUS = "6" or DATA_STATUS = "7")
+      </if>
+      <if test="tbNatmehaHotspot.neirou != null">
+        and (HOTSPOT_TITLE like "%"#{tbNatmehaHotspot.neirou}"%" or CREATER like "%"#{tbNatmehaHotspot.neirou}"%")
+      </if>
+    </where>
+  </select>
+</mapper>
