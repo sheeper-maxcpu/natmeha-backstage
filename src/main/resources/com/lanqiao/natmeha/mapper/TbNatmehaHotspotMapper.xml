@@ -144,7 +144,7 @@
     <!--中医文化 儿童健康 县级管理员搜索-->
     <select id="selectAllByPage" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        *
         from
         tb_natmeha_hotspot h
         where
@@ -260,7 +260,7 @@
         </if>
     </select>
 
-    <!--中医文化 省级管理员搜索-->
+    <!--中医文化 国医堂管理员搜索-->
     <select id="selectAllByPageFour" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

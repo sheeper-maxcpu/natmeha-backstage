@@ -30,7 +30,7 @@ public interface TbNatmehaHotspotService {
 
     TbNatmehaHotspot queryByIdAndCode(Integer itemid,String itemcode);
 
-    int deleteById(@Param("itemid") Integer itemid);
+    int deleteById(Integer itemid);
 
     Page<TbNatmehaHotspot> selectAllByPageForCountry(String message,
                                                      String dataType,

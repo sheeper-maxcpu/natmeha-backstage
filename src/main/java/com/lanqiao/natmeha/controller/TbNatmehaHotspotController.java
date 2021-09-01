@@ -32,12 +32,12 @@ public class TbNatmehaHotspotController {
     @Autowired
     private TbNatmehaHotspotService tbNatmehaHotspotService;
 
+
     /**
      * 服务对象
      */
     @Resource
     private TbNatmehaFileService tbNatmehaFileService;
-
 
     /*--李荣锋中医文化begin---*/
     /**
@@ -1527,7 +1527,7 @@ public class TbNatmehaHotspotController {
             session.setAttribute("message",message);
         }else {
             // 点击分页链接时取回查询条件
-            message = (String) session.getAttribute(message);
+            message = (String) session.getAttribute("message");
         }
         String dataType = "4";
         Page<TbNatmehaHotspot> tbHotspotsList = this.tbNatmehaHotspotService.selectAllByPageFour(message,dataType,pageNum,5);
@@ -1559,5 +1559,6 @@ public class TbNatmehaHotspotController {
             return null;
     }
     /* 李荣锋儿童健康end */
+
 
 }
