@@ -1,17 +1,15 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 医院服务团队记录表
  * @TableName tb_natmeha_doctor
  */
 @Data
-@ToString
-public class TbNatmehaDoctor{
+public class TbNatmehaDoctor implements Serializable {
     /**
      * 自增id
      */
@@ -82,4 +80,15 @@ public class TbNatmehaDoctor{
      */
     private String orgCode;
 
+    /*
+     *搜索栏内容搜索信息
+     * */
+    private String neirou;
+
+    /*
+     * 关联文件表
+     * */
+    private TbNatmehaFile tbNatmehaFile;
+
+    private static final long serialVersionUID = 1L;
 }

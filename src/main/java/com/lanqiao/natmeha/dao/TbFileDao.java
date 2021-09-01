@@ -8,4 +8,6 @@ public interface TbFileDao {
 
     int insert(TbNatmehaFile record);
 
+    public TbNatmehaFile selectFile(String dateCode);
+
 }

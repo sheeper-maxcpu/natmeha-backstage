@@ -1,17 +1,15 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 用户表
  * @TableName user
  */
 @Data
-@ToString
-public class User {
+public class User implements Serializable {
     /**
      * 
      */
@@ -122,4 +120,5 @@ public class User {
      */
     private byte[] portrait;
 
+    private static final long serialVersionUID = 1L;
 }

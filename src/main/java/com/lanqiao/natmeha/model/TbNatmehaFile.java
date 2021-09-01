@@ -8,15 +8,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
+
 /**
- * tb_natmeha_file
- * @author 
+ * 文件上传记录表
+ * @TableName tb_natmeha_file
  */
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TbNatmehaFile  {
+public class TbNatmehaFile implements Serializable {
     /**
      * 自增id
      */
@@ -26,6 +30,7 @@ public class TbNatmehaFile  {
      * 唯一标识
      */
     private String itemcode;
+
     /**
      * 数据源itemcode
      */
@@ -51,6 +56,9 @@ public class TbNatmehaFile  {
      */
     private String fileType;
 
+    /**
+     * 
+     */
     private Double fileSize;
 
     /**
@@ -58,6 +66,9 @@ public class TbNatmehaFile  {
      */
     private String filePath;
 
+    /**
+     * 
+     */
     private Date itemcreateat;
 
     private static final long serialVersionUID = 1L;

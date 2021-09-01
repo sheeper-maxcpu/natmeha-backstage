@@ -20,4 +20,9 @@ public class TbFileServiceImpl implements TbFileService {
         return tbFileDao.insert(tbNatmehaFile);
     }
 
+    @Override
+    public TbNatmehaFile selectFile(String dateCode) {
+        return this.tbFileDao.selectFile(dateCode);
+    }
+
 }

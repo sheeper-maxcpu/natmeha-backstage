@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>省级管理员首页</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/quixlab/images/favicon.png"
+          th:href="@{/quixlab/images/favicon.png}">
+    <!-- Pignose Calender -->
+    <link href="../static/quixlab/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet"
+          th:href="@{/quixlab/plugins/pg-calendar/css/pignose.calendar.min.css}">
+    <!-- Chartist -->
+    <link rel="stylesheet" href="../static/quixlab/plugins/chartist/css/chartist.min.css"
+          th:href="@{/quixlab/plugins/chartist/css/chartist.min.css}">
+    <link rel="stylesheet" href="../static/quixlab/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css"
+          th:href="@{/quixlab/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css}">
+    <!-- Custom Stylesheet -->
+    <link href="../static/quixlab/css/style.css" rel="stylesheet"
+          th:href="@{/quixlab/css/style.css}">
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="../static/layer/layer.js"
+            th:src="@{/layer/layer.js}"></script>
+    <style>
+        .demo-input{padding-left: 10px; height: 38px; min-width: 262px; line-height: 38px; border: 1px solid #e6e6e6;  background-color: #fff;  border-radius: 2px;}
+        .demo-footer{padding: 50px 0; color: #999; font-size: 14px;}
+        .demo-footer a{padding: 0 5px; color: #01AAED;}
+    </style>
+</head>
+<body>
+<div id="main-wrapper">
+
+    <div class="nav-header" style="background-color: rgba(119, 86, 55, 1);">
+        <div class="brand-logo">
+            <a href="index.html">
+                <h2 style="color: white;text-align: center">国医堂</h2>
+            </a>
+        </div>
+    </div>
+    <div class="header" >
+        <div class="header-content clearfix" style="text-align: center;line-height: 10px">
+
+            <div class="header-left">
+
+            </div>
+
+            <div class="header-right" style="margin-right: 200px">
+                <div class="input-group icons">
+                    <h1>信息系统</h1>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nk-sidebar">
+        <div class="nk-nav-scroll">
+            <ul class="metismenu" id="menu">
+                <li class="mega-menu mega-menu-sm">
+                    <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class="icon-globe-alt menu-icon"></i><span class="nav-text">预防保健</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a th:href="@{/start/solar_provincial_code}" target="rightNav">节气养生</a></li>
+                        <li><a th:href="@{/start/care_provincial_code}" target="rightNav">自我保健</a></li>
+                        <li><a th:href="@{/start/med_provincial_code}" target="rightNav">药膳食疗</a></li>
+                        <li><a th:href="@{/hospital}" target="rightNav">中药常识</a></li>
+                        <li><a th:href="@{/hospital}" target="rightNav">中医文化</a></li>
+                        <li><a th:href="@{/hospital}" target="rightNav">儿童健康</a></li>
+                    </ul>
+                </li>
+
+                <li class="mega-menu mega-menu-sm">
+                    <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class="icon-globe-alt menu-icon"></i><span class="nav-text">信息管理</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <!--<li><a href="#">号源管理</a></li>
+                        <li><a href="#">服务团队</a></li>-->
+                        <li><a href="#">开展项目</a></li>
+                        <li><a href="#">功效特色</a></li>
+                        <li><a th:href="@{/hospital}" target="rightNav">信息维护</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-body">
+        <iframe src="" scrolling="no" width="100%" name="rightNav" frameborder="0" marginheight="0" marginwidth="0" height="1100px"></iframe>
+    </div>
+    <script src="../static/quixlab/plugins/common/common.min.js" th:src="@{/quixlab/plugins/common/common.min.js}"></script>
+    <script src="../static/quixlab/js/custom.min.js" th:src="@{/quixlab/js/custom.min.js}"></script>
+    <script src="../static/quixlab/js/settings.js" th:src="@{/quixlab/js/settings.js}"></script>
+    <script src="../static/quixlab/js/gleek.js" th:src="@{/quixlab/js/gleek.js}"></script>
+    <script src="../static/quixlab/js/styleSwitcher.js" th:src="@{/quixlab/js/styleSwitcher.js}"></script>
+
+    <!-- Chartjs -->
+    <script src="../static/quixlab/plugins/chart.js/Chart.bundle.min.js"
+            th:src="@{/quixlab/plugins/chart.js/Chart.bundle.min.js}"></script>
+    <!-- Circle progress -->
+    <script src="../static/quixlab/plugins/circle-progress/circle-progress.min.js"
+            th:src="@{/quixlab/plugins/circle-progress/circle-progress.min.js}"></script>
+    <!-- Datamap -->
+    <script src="../static/quixlab/plugins/d3v3/index.js"
+            th:src="@{/quixlab/plugins/d3v3/index.js}"></script>
+    <script src="../static/quixlab/plugins/topojson/topojson.min.js"
+            th:src="@{/quixlab/plugins/topojson/topojson.min.js}"></script>
+    <script src="../static/quixlab/plugins/datamaps/datamaps.world.min.js"
+            th:src="@{/quixlab/plugins/datamaps/datamaps.world.min.js}"></script>
+    <!-- Morrisjs -->
+    <script src="../static/quixlab/plugins/raphael/raphael.min.js"
+            th:src="@{/quixlab/plugins/raphael/raphael.min.js}"></script>
+    <script src="../static/quixlab/plugins/morris/morris.min.js"
+            th:src="@{/quixlab/plugins/morris/morris.min.js}"></script>
+    <!-- Pignose Calender -->
+    <script src="../static/quixlab/plugins/moment/moment.min.js"
+            th:src="@{/quixlab/plugins/moment/moment.min.js}"></script>
+    <script src="../static/quixlab/plugins/pg-calendar/js/pignose.calendar.min.js"
+            th:src="@{/quixlab/plugins/pg-calendar/js/pignose.calendar.min.js}"></script>
+    <!-- ChartistJS -->
+    <script src="../static/quixlab/plugins/chartist/js/chartist.min.js"
+            th:src="@{/quixlab/plugins/chartist/js/chartist.min.js}"></script>
+    <script src="../static/quixlab/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"
+            th:src="@{/quixlab/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js}"></script>
+
+
+    <script src="../static/quixlab/js/dashboard/dashboard-1.js"
+            th:src="@{/quixlab/js/dashboard/dashboard-1.js}"></script>
+
+
+</div>
+</body>
+</html>

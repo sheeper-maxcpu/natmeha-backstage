@@ -8,4 +8,6 @@ import com.lanqiao.natmeha.model.TbNatmehaFile;
  */
 public interface TbFileService {
     public int insert(TbNatmehaFile tbNatmehaFile);
+
+    public TbNatmehaFile selectFile(String dateCode);
 }

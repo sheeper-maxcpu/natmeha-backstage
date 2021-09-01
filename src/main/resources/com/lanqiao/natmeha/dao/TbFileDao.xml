@@ -29,4 +29,10 @@
       #{fileSize,jdbcType=DOUBLE}, #{filePath,jdbcType=VARCHAR}, #{itemcreateat,jdbcType=TIMESTAMP}
       )
   </insert>
+
+    <select id="selectFile" resultMap="BaseResultMap" parameterType="TbNatmehaFile">
+        select * from tb_natmeha_file where DATA_CODE=#{dateCode}
+    </select>
+
+
 </mapper>

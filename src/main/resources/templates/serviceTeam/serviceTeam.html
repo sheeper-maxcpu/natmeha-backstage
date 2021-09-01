@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>服务团队</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+  <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+        href="../../static/component/bootstrap-3.3.7/css/bootstrap.css"/>
+  <link rel="stylesheet" th:href="@{/css/infoManage/serviceManage.css}"
+        href="../../static/css/infoManage/serviceManage.css">
+  <script type="text/javascript" th:src="@{/component/js/jquery-2.2.4.js}"
+          src="../../static/component/js/jquery-2.2.4.js"></script>
+  <script type="text/javascript"  th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"
+          src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+  <script th:src="@{/js/service.js}"
+          src="../../static/js/service.js"></script>
+
+  <link rel="stylesheet" th:href="@{/css/infoManage/layer.css}"
+        href="../../static/css/infoManage/layer.css">
+  <link rel="stylesheet" th:href="@{/css/infoManage/default.css}"
+        href="../../static/css/infoManage/default.css">
+
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+        href="../../static/layui/css/modules/laydate/default/laydate.css"/>
+  <script th:src="@{/layui/layui.js}"
+          src="../../static/layui/layui.js"></script>
+  <script th:src="@{/layer/layer.js}"
+          src="../../static/layer/layer.js"></script>
+
+  <script>
+    //删除时，弹出提示框
+    function deleteitemid(obj) {
+      var itemid= $(obj).attr("itemid");
+      console.log(itemid);
+      //询问框
+      layer.confirm('确定要删除吗？', {
+        btn: ['确定','取消'] //按钮
+      }, function(){
+        $.ajax({
+          url:"/serviceTeam/"+itemid,
+          type: "get",
+          dataType: "json",
+          success:function (result) {
+            console.log(result);
+          }
+        });
+        layer.msg('删除成功！', {icon: 1});
+        //刷新页面
+        window.location.reload();
+      }, function(){
+        layer.msg('取消删除成功！', {icon: 1});
+      });
+    }
+  </script>
+
+</head>
+<body>
+<div class="container">
+  <div class="col-md-12 column">
+    <form action="/serviceTeam" method="get">
+      <div style="margin-left: 20px">
+        <div style="height: 77px">
+          <input type="text" placeholder="请输入" name="neirou" class="newsSearch"/>
+          <button type="submit" href="#" value="搜 索" class="searchBtn" style="left: 275px;">搜索</button>
+        </div>
+        <!--分割线-->
+        <div class="row" >
+          <div class="col-md-12">
+            <div style="height: 22px;width: 100%;margin-top:22px;border-top: #bdbfbd 2px dashed;"></div>
+          </div>
+        </div>
+        <div class="status">
+          <a th:href="@{/serviceTeam/add}" target="rightNav" id="add">
+            <button type="button" class="text-center" style="font-size: 12px;width: 110px;height: 38px">新增医生信息</button>
+          </a>
+        </div>
+      </div>
+
+      <!--表格-->
+      <div class="col-md-12">
+        <table class="mytable" width="98%" border="0px" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+          <thead>
+          <tr class="tr-title">
+            <th width="150px">专家名称</th>
+            <th width="150px">专家照片</th>
+            <th width="150px">职称</th>
+            <th width="150px">擅长治疗</th>
+            <th width="150px">号别</th>
+            <th width="200px">操作</th>
+          </tr>
+          </thead>
+          <tbody class="newsList">
+          <tr th:each="tbNatmehaDoctor,status : ${tbNatmehaDoctorList}">
+            <td th:text="${tbNatmehaDoctor.doctorName}"></td>
+            <td><img th:src="${tbNatmehaDoctor.tbNatmehaFile.filePath}" style="width: 50px;height: 50px"></td>
+
+<!--            <td th:utext=""-->
+            <td th:text="${tbNatmehaDoctor.doctorTitle}"></td>
+            <td th:text="${tbNatmehaDoctor.doctorTreatment}"></td>
+            <td th:text="${tbNatmehaDoctor.numType}"></td>
+            <td>
+              <a th:href="@{/serviceTeam/doctorUpdate(itemid = ${tbNatmehaDoctor.itemid})}">修改</a>
+              <a href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${tbNatmehaDoctor.itemid}" style="color: red">删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <form>
+      <div class="pageLink">
+        <ul>
+          <li th:if="${tbNatmehaDoctorList.pageNum le tbNatmehaDoctorList.pages}">
+            <a th:href="@{/serviceTeam(pageNum=1,neirou=${neirou})}">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum}>1">
+            <a th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}-1,neirou=${neirou})}">&lt;</a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum -3 gt 1}">
+            <a th:text="${tbNatmehaDoctorList.pageNum -4}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}-4,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum -2 gt 1}">
+            <a th:text="${tbNatmehaDoctorList.pageNum -3}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}-3,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum -1 gt 1}">
+            <a th:text="${tbNatmehaDoctorList.pageNum -2}" th:href="@{/serviceTeam(tbNatmehaDoctorList=${tbNatmehaDoctorList.pageNum}-2,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum gt 1}" >
+            <a th:text="${tbNatmehaDoctorList.pageNum -1}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}-1,neirou=${neirou})}"></a>
+          </li>
+          <!--/* 当前页 */-->
+          <li th:if="${tbNatmehaDoctorList.pageNum le tbNatmehaDoctorList.pages}">
+            <a th:style="'background-color:#9c7049'"
+               th:text="${tbNatmehaDoctorList.pageNum}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum},neirou=${neirou})}" th:class="${tbNatmehaDoctorList.pageNum le tbNatmehaDoctorList.pages ? 'myactive':''}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum+1 le tbNatmehaDoctorList.pages}">
+            <a th:text="${tbNatmehaDoctorList.pageNum+1}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}+1,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum+2 le tbNatmehaDoctorList.pages}">
+            <a th:text="${tbNatmehaDoctorList.pageNum+2}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}+2,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum+3 le tbNatmehaDoctorList.pages}">
+            <a th:text="${tbNatmehaDoctorList.pageNum+3}" th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}+3,neirou=${neirou})}"></a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum lt tbNatmehaDoctorList.pages}">
+            <a th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pageNum}+1,neirou=${neirou})}">&gt;</a>
+          </li>
+          <li th:if="${tbNatmehaDoctorList.pageNum lt tbNatmehaDoctorList.pages}">
+            <a th:href="@{/serviceTeam(pageNum=${tbNatmehaDoctorList.pages},neirou=${neirou})}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <form style="display: inline-block;margin-left: 20px;" action="/serviceTeam" method="get">
+            <span>跳至</span>
+            <input name="pageNum" type="text" class="tiao"
+                   th:placeholder="${tbNatmehaDoctorList.pageNum}+'/'+${tbNatmehaDoctorList.pages}"/>
+            <span>页</span>
+            <button type="submit" style="width: 40px;height: 26px;">go</button>
+          </form>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- 删除提示框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="mymodal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="/serviceTeam/delete">
+        <input name="deitemid" id="deitemid" hidden="hidden" type="text">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">删除信息</h4>
+        </div>
+        <div class="modal-body">
+          <p>确定删除该条信息吗？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="submit" class="btn btn-danger">确定</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</body>
+</html>
