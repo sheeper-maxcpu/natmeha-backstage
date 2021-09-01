@@ -15,9 +15,12 @@ spring:
       cache: false  #页面不加载缓存，修改即时生效
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/natmeha?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
+#    url: jdbc:mysql://localhost:3306/natmeha?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
+#    username: root
+#    password: 123456
+    url: jdbc:mysql://rm-bp195yd0o28vvx5i5lo.mysql.rds.aliyuncs.com/natmeha?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&useOldAliasMetadataBehavior=true
     username: root
-    password: 123456
+    password: Natmeha123456
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       minimum-idle: 1
