@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 国医堂信息记录表
@@ -103,5 +104,5 @@ public class TbNatmehaHospital implements Serializable{
      */
     private byte[] introduce;
 
-    private static final long serialVersionUID = 1L;
+
 }

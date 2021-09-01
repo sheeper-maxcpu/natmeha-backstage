@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 /**
  * @auther cheng
@@ -40,13 +41,19 @@ public class UserController {
             if (logUser.getType() == 99) {
                 return "index"; // 重定向只可以定向到控制器，不可定向到模板页面
             } else if (logUser.getType() == 0) {
-                return "index_municipal";
-            } else if (logUser.getType() == 1) {
                 return "index_county";
+            } else if (logUser.getType() == 1) {
+                return "index_municipal";
             } else if (logUser.getType() == 2) {
                 return "index_provincial";
+            }else if (logUser.getType() == 3) {
+                return "index_county_audit";
+            }else if (logUser.getType() == 4) {
+                return "index_municipal_audit";
+            }else if (logUser.getType() == 5) {
+                return "index_provincial_audit";
             }
-            return "index";
+            return "user/login";
         } else {
             return "user/login";
         }
@@ -56,6 +63,7 @@ public class UserController {
     @RequestMapping("/user/reg")
     public Object insertForReg(User user, Organization organization){
         if (user.getUsername() != null && user.getPassword() != null){
+            user.setItemcode(UUID.randomUUID().toString());
             user.setType(99);
             userService.insertForReg(user);
 //            userService.insertForRegOrg(organization);

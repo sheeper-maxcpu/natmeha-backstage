@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>首页</title>
+    <title>县级审核</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../static/quixlab/images/favicon.png"
           th:href="@{/quixlab/images/favicon.png}">
@@ -62,13 +62,13 @@
         <div class="nk-nav-scroll">
             <ul class="metismenu" id="menu">
                 <li class="mega-menu mega-menu-sm">
-                    <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <a class="has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <i class="icon-globe-alt menu-icon"></i><span class="nav-text">预防保健</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a th:href="@{/start/solar_main_clerk_code}" target="rightNav">节气养生</a></li>
-                        <li><a th:href="@{/start/care_main_clerk_code}" target="rightNav">自我保健</a></li>
-                        <li><a th:href="@{/start/med_main_clerk_code}" target="rightNav">药膳食疗</a></li>
+                        <li><a th:href="@{/start/solar_county_code}" target="rightNav">节气养生</a></li>
+                        <li><a th:href="@{/start/care_county_code}" target="rightNav">自我保健</a></li>
+                        <li><a th:href="@{/start/med_county_code}" target="rightNav">药膳食疗</a></li>
                         <li><a th:href="@{/hospital}" target="rightNav">中药常识</a></li>
                         <li><a th:href="@{/hospital}" target="rightNav">中医文化</a></li>
                         <li><a th:href="@{/hospital}" target="rightNav">儿童健康</a></li>
@@ -80,11 +80,8 @@
                         <i class="icon-globe-alt menu-icon"></i><span class="nav-text">信息管理</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a th:href="@{/numManage}" target="rightNav">号源管理</a></li>
-                        <li><a th:href="@{/serviceTeam}" target="rightNav">服务团队</a></li>
                         <li><a href="#" target="rightNav">开展项目</a></li>
                         <li><a href="#" target="rightNav">功效特色</a></li>
-                        <li><a th:href="@{/hospital}" target="rightNav">信息维护</a></li>
                     </ul>
                 </li>
             </ul>
