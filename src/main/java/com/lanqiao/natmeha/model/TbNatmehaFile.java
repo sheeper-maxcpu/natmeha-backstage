@@ -1,17 +1,15 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 文件上传记录表
  * @TableName tb_natmeha_file
  */
 @Data
-@ToString
-public class TbNatmehaFile{
+public class TbNatmehaFile implements Serializable {
     /**
      * 自增id
      */
@@ -62,4 +60,5 @@ public class TbNatmehaFile{
      */
     private Date itemcreateat;
 
+    private static final long serialVersionUID = 1L;
 }

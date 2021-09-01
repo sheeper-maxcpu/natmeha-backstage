@@ -1,17 +1,15 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 号源维护记录表
  * @TableName tb_natmeha_signal_source
  */
 @Data
-@ToString
-public class TbNatmehaSignalSource {
+public class TbNatmehaSignalSource implements Serializable {
     /**
      * 
      */
@@ -72,4 +70,12 @@ public class TbNatmehaSignalSource {
      */
     private Date itemupdateat;
 
+    /*
+     *搜索栏内容搜索信息
+     * */
+    private String searchYear;
+
+    private TbNatmehaDoctor tbNatmehaDoctor;
+
+    private static final long serialVersionUID = 1L;
 }

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>号源维护</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.css"/>
+    <script type="text/javascript" th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script type="text/javascript"  th:src="@{/component/bootstrap-3.3.7/js/bootstrap.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+
+
+    <link rel="stylesheet" th:href="@{/css/infoManage/serviceManage.css}"
+          href="../../static/css/infoManage/serviceManage.css">
+
+    <link rel="stylesheet" th:href="@{/css/infoManage/layer.css}"
+          href="../../static/css/infoManage/layer.css">
+    <link rel="stylesheet" th:href="@{/css/infoManage/default.css}"
+          href="../../static/css/infoManage/default.css">
+    <link rel="stylesheet" th:href="@{/datetimepicker/jquery.datetimepicker.css}"
+          href="../../static/datetimepicker/jquery.datetimepicker.css">
+
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+          href="../../static/layui/css/modules/laydate/default/laydate.css"/>
+    <script th:src="@{/layui/layui.js}"
+            src="../../static/layui/layui.js">
+    </script>
+    <script th:src="@{/layer/layer.js}"
+            src="../../static/layer/layer.js"></script>
+    <!--<script th:src="@{/datetimepicker/jquery.js}"
+            src="../../static/datetimepicker/jquery.js"></script>-->
+    <script th:src="@{/datetimepicker/jquery.datetimepicker.js}"
+            src="../../static/datetimepicker/jquery.datetimepicker.js"></script>
+    <script th:src="@{/datetimepicker/build/jquery.datetimepicker.full.min.js}"
+            src="../../static/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+
+    <script>
+
+    </script>
+    <script>
+        $('#test1').datetimepicker({lang:'ch'});
+        //删除时，弹出提示框
+        function deleteitemid(obj) {
+            var itemid= $(obj).attr("itemid");
+            console.log(itemid);
+            //询问框
+            layer.confirm('确定要删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/numManage/delete/"+itemid,
+                    type: "get",
+                    dataType: "json",
+                    success:function (result) {
+                        console.log(result);
+                    }
+                });
+                layer.msg('删除成功！', {icon: 1});
+                //刷新页面
+                window.location.reload();
+            }, function(){
+                layer.msg('取消删除成功！', {icon: 1});
+            });
+        }
+        //修改时，弹出提示框
+        function updateitemid(obj) {
+            var itemid= $(obj).attr("itemid");
+            var doctorName=$(obj).attr("doctorName");
+            var registerType=$(obj).attr("registerType");
+            var registerDate=$(obj).attr("registerDate");
+            console.log(itemid);
+            console.log(doctorName);
+            console.log(registerType);
+            console.log(registerDate);
+
+            $('#test2').val(registerDate);
+            $('#message-text2').val(registerType);
+            $('#name-text2').val(doctorName);
+
+            var modelinfo = $("#updateexampleModal");
+            modelinfo.modal();
+            //询问框
+            /*layer.confirm('修改号源', {
+
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url:"/numManage/update/"+itemid,
+                    type: "get",
+                    dataType: "json",
+                    success:function (result) {
+                        console.log(result);
+                    }
+                });
+                layer.msg('修改成功！', {icon: 1});
+                //刷新页面
+                window.location.reload();
+            }, function(){
+                layer.msg('取消修改成功！', {icon: 1});
+            });*/
+        }
+    </script>
+    <style>
+        .demo-input{padding-left: 10px; height: 38px; min-width: 262px; line-height: 38px; border: 1px solid #e6e6e6;  background-color: #fff;  border-radius: 2px;}
+        .demo-footer{padding: 50px 0; color: #999; font-size: 14px;}
+        .demo-footer a{padding: 0 5px; color: #01AAED;}
+    </style>
+
+
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12 column">
+        <form action="/numManage" method="get" >
+            <div style="margin-left: 20px">
+                <div class="status" style="margin-top: 30px">
+                    <span>年份：</span>
+                    <select name="searchYear">
+                        <option value="1">请选择</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+                <div id="u1249" class="ax_default heading_1 status" >
+                    <div id="u1249_text" class="text">
+                        <span>状态：</span>
+                        <select name="status">
+                            <option value="1">请选择</option>
+                            <option value="有效">有效</option>
+                            <option value="失效">失效</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" href="#" value="搜 索" class="searchBtn" style="left: 716px;">搜索</button>
+                </div>
+                <!--分割线-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="height: 22px;width: 100%;margin-top:45px;border-top: #bdbfbd 2px dashed;"></div>
+                    </div>
+                </div>
+                <div class="status">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">新增专家号源</button>
+                </div>
+            </div>
+
+            <!--表格-->
+            <div class="col-md-12">
+                <table class="mytable" width="98%" border="0px" cellspacing="0" cellpadding="0" style="table-layout: fixed">
+                    <thead>
+                    <tr class="tr-title">
+                        <th width="150px">序号</th>
+                        <th width="150px">出诊日期</th>
+                        <th width="150px">医生姓名</th>
+                        <th width="150px">号别</th>
+                        <th width="150px">状态</th>
+                        <th width="200px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="newsList">
+                    <tr th:each="tbNatmehaSignalSources,status : ${tbNatmehaSignalSourcesList}">
+                        <td th:text="${tbNatmehaSignalSources.itemid}"></td>
+                        <td th:text="${#dates.format(tbNatmehaSignalSources.registerDate, 'yyyy-MM-dd E a')}"></td>
+                        <td th:text="${tbNatmehaSignalSources.tbNatmehaDoctor.doctorName}"></td>
+<!--                        <td th:text="${name}"></td>-->
+                        <td th:text="${tbNatmehaSignalSources.registerType}"></td>
+                        <td th:text="${tbNatmehaSignalSources.status}"></td>
+                        <td>
+<!--                            <a th:href="@{/numManage/numUpdate(itemid = ${tbNatmehaSignalSources.itemid})}">修改</a>-->
+                            <a href="javascript:void(0);" onclick="updateitemid(this)"
+                               th:itemid="${tbNatmehaSignalSources.itemid}"
+                               th:doctorName="${tbNatmehaSignalSources.tbNatmehaDoctor.doctorName}"
+                               th:registerType="${tbNatmehaSignalSources.registerType}"
+                               th:registerDate="${tbNatmehaSignalSources.registerDate}">修改</a>
+                            <a href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${tbNatmehaSignalSources.itemid}" style="color: red">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <!-- 分页-->
+        <form>
+            <div class="pageLink">
+                <ul>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum le tbNatmehaSignalSourcesList.pages}">
+                        <a th:href="@{/numManage(pageNum=1)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum}>1">
+                        <a th:href="@{/numManage(pageNum=${tbNatmehaSignalSourcesList.pageNum}-1)}">&lt;</a>
+                    </li>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum!=1}"
+                        th:each="page : ${#numbers.sequence((tbNatmehaSignalSourcesList.pageNum -4 > 0 ? tbNatmehaSignalSourcesList.pageNum -4 : 1), tbNatmehaSignalSourcesList.pageNum -1)}">
+                        <a th:href="@{/numManage(pageNum=${page})}" th:text="${page}"></a>
+                    </li>
+                    <!--/* 当前页 */-->
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum le tbNatmehaSignalSourcesList.pages}">
+                        <a th:style="'background-color:#9c7049'"
+                           th:text="${tbNatmehaSignalSourcesList.pageNum}" th:href="@{/numManage(pageNum=${tbNatmehaSignalSourcesList.pageNum})}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum!=tbNatmehaSignalSourcesList.pages}"
+                        th:each="page : ${#numbers.sequence(tbNatmehaSignalSourcesList.pageNum +1,(tbNatmehaSignalSourcesList.pageNum +4 < tbNatmehaSignalSourcesList.pages ? tbNatmehaSignalSourcesList.pageNum +4 : tbNatmehaSignalSourcesList.pages))}">
+                        <a th:href="@{/numManage(pageNum=${page})}" th:text="${page}"></a>
+                    </li>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum lt tbNatmehaSignalSourcesList.pages}">
+                        <a th:href="@{/numManage(pageNum=${tbNatmehaSignalSourcesList.pageNum}+1)}">&gt;</a>
+                    </li>
+                    <li th:if="${tbNatmehaSignalSourcesList.pageNum le tbNatmehaSignalSourcesList.pages}">
+                        <a th:href="@{/numManage(pageNum=${tbNatmehaSignalSourcesList.pages})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <form style="display: inline-block;margin-left: 20px" action="/numManage" method="get">
+                        <span>跳至</span>
+                        <input name="pageNum" type="text" class="tiao"
+                               th:placeholder="${tbNatmehaSignalSourcesList.pageNum}+'/'+${tbNatmehaSignalSourcesList.pages}"/>
+                        <span>页</span>
+                        <button type="submit" style="width: 40px;height: 26px;">go</button>
+                    </form>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: red">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">专家号源</h4>
+            </div>
+            <div class="modal-body">
+                <form class="layui-form" action="/numManage/insertNum" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="test1" class="control-label" >出诊时间:</label>
+                        <input type="text" name="registerDate" class="demo-input" placeholder="请选择日期" id="test1">
+                        <script>
+                            $('#test1').datetimepicker();
+                        </script>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">号别:</label>
+                        <input type="text" name="registerType" class="form-control" id="message-text">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">专家姓名:</label>
+                        <input type="text" name="doctorName" class="form-control" id="name-text">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateexampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: red">&times;</span></button>
+                <h4 class="modal-title" id="updateexampleModalLabel">专家号源</h4>
+            </div>
+            <div class="modal-body">
+                <form class="layui-form" action="/numManage/numUpdatecode" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="test2" class="control-label" >出诊时间:</label>
+                        <input type="text" name="registerDate" class="demo-input" placeholder="请选择日期" id="test2">
+                        <script>
+                            $('#test2').datetimepicker();
+                        </script>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">号别:</label>
+                        <input type="text" name="registerType" class="form-control" id="message-text2">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">专家姓名:</label>
+                        <input type="text" name="doctorName" class="form-control" id="name-text2">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,17 +1,15 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 智能就诊信息记录表
  * @TableName tb_natmeha_inte_treat
  */
 @Data
-@ToString
-public class TbNatmehaInteTreat{
+public class TbNatmehaInteTreat implements Serializable {
     /**
      * 
      */
@@ -82,4 +80,5 @@ public class TbNatmehaInteTreat{
      */
     private Date itemupdateat;
 
+    private static final long serialVersionUID = 1L;
 }

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaDoctorDao">
+
+    <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaDoctor">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="doctorName" column="DOCTOR_NAME" jdbcType="VARCHAR"/>
+            <result property="doctorTitle" column="DOCTOR_TITLE" jdbcType="VARCHAR"/>
+            <result property="doctorTreatment" column="DOCTOR_TREATMENT" jdbcType="VARCHAR"/>
+            <result property="doctorSorce" column="DOCTOR_SORCE" jdbcType="DOUBLE"/>
+            <result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+            <result property="numType" column="NUM_TYPE" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+            <result property="orgCode" column="ORG_CODE" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,itemCode,DOCTOR_NAME,
+        DOCTOR_TITLE,DOCTOR_TREATMENT,DOCTOR_SORCE,
+        DEPT_CODE,NUM_TYPE,USER_CODE,
+        CREATER,itemCreateAt,UPDATER,
+        itemUpdateAt,ORG_CODE
+    </sql>
+
+    <select id="selectDoctor" resultMap="BaseResultMap" parameterType="TbNatmehaDoctor">
+        select * from tb_natmeha_doctor where itemCode=#{itemCode}
+    </select>
+    <!--  查询所有数据  -->
+    <select id="selectAllDoctor" parameterType="TbNatmehaDoctor" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_doctor
+        <where>
+            <if test="tbNatmehaDoctor.neirou != null">
+                and (DOCTOR_TITLE like "%"#{tbNatmehaDoctor.neirou}"%"
+                or DOCTOR_NAME like "%"#{tbNatmehaDoctor.neirou}"%"
+                or DOCTOR_TREATMENT like "%"#{tbNatmehaDoctor.neirou}"%"
+                or NUM_TYPE like "%"#{tbNatmehaDoctor.neirou}"%")
+            </if>
+        </where>
+        order by itemcreateat desc
+    </select>
+
+    <!--  查询医生图片  -->
+    <select id="getFile" resultType="java.lang.String">
+        SELECT FILE_NAME
+        FROM tb_natmeha_file LEFT JOIN tb_natmeha_doctor ON tb_natmeha_file.DATA_CODE=tb_natmeha_doctor.itemCode
+        WHERE  tb_natmeha_file.DATA_CODE=(select itemCode from tb_natmeha_doctor where itemCode=#{itemCode});
+    </select>
+
+    <!--通过itemID来查询信息-->
+    <select id="selectByItemid" parameterType="TbNatmehaDoctor" resultMap="BaseResultMap">
+        SELECT
+            d.itemID,
+            d.itemCode,
+            d.DOCTOR_NAME,
+            d.DOCTOR_TITLE,
+            d.DOCTOR_TREATMENT,
+            d.DOCTOR_SORCE,
+            d.DEPT_CODE,
+            d.NUM_TYPE,
+            d.USER_CODE,
+            d.CREATER,
+            d.itemCreateAt,
+            d.UPDATER,
+            d.itemUpdateAt,
+            f.itemID  f_itemID,
+            f.itemCode  f_itemCode,
+            f.DATA_CODE f_dataCode,
+            f.FILE_NAME f_fileName
+        FROM natmeha.tb_natmeha_doctor d
+                 left join natmeha.tb_natmeha_file f
+                           on d.itemCode = f.DATA_CODE
+        WHERE d.itemID = #{itemid}
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap">
+        select * from natmeha.tb_natmeha_doctor where DOCTOR_NAME=#{doctorName}
+    </select>
+    <update id="updateDoctor" parameterType="com.lanqiao.natmeha.model.TbNatmehaDoctor">
+        update tb_natmeha_doctor
+        <set>
+            <if test="doctorName != null">
+                DOCTOR_NAME = #{doctorName,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorTitle != null">
+                DOCTOR_TITLE = #{doctorTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="numType != null">
+                NUM_TYPE = #{numType,jdbcType=VARCHAR},
+            </if>
+<!--            <if test="deptCode != null">-->
+<!--                DEPT_CODE = #{deptCode,jdbcType=VARCHAR},-->
+<!--            </if>-->
+            <if test="doctorTreatment != null">
+                DOCTOR_TREATMENT = #{doctorTreatment,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                USER_CODE = #{userCode,jdbcType=CHAR},
+            </if>
+            <if test="creater != null">
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcreateat != null">
+                itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                UPDATER = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemupdateat != null">
+                itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where itemID = #{itemid,jdbcType=INTEGER}
+    </update>
+
+    <!--  新增服务团队  -->
+    <insert id="insertDoctor" parameterType="TbNatmehaDoctor">
+        insert into itemCode, DOCTOR_NAME, DOCTOR_TITLE, DOCTOR_TREATMENT, DOCTOR_SORCE,
+                    DEPT_CODE, NUM_TYPE, USER_CODE, CREATER, UPDATER, ORG_CODE
+        values (#{itemcode}, #{doctorName}, #{doctorTitle}, #{doctorTreatment}, #{doctorSorce}, #{deptCode},
+                #{numType}, #{userCode}, #{creater}, #{updater}, #{orgCode})
+    </insert>
+
+    <!-- 根据itemid删除服务团队 -->
+    <delete id="deleteDoctor" parameterType="int">
+        delete
+        from tb_natmeha_doctor
+        where itemID=#{itemid,jdbcType=INTEGER};
+    </delete>
+
+
+
+
+    <select id="selectByPrimaryKey"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_natmeha_doctor
+        where itemCode = #{itemcode,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" >
+        delete from tb_natmeha_doctor
+        where itemCode = #{itemcode,jdbcType=CHAR}
+    </delete>
+    <insert id="insert" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaDoctor" useGeneratedKeys="true">
+        insert into tb_natmeha_doctor (itemCode, DOCTOR_NAME, DOCTOR_TITLE,
+                                       DOCTOR_TREATMENT, DOCTOR_SORCE, DEPT_CODE,
+                                       NUM_TYPE, USER_CODE, CREATER,
+                                       itemCreateAt, UPDATER, itemUpdateAt,
+                                       ORG_CODE)
+        values (#{itemcode,jdbcType=CHAR}, #{doctorName,jdbcType=VARCHAR}, #{doctorTitle,jdbcType=VARCHAR},
+                #{doctorTreatment,jdbcType=VARCHAR}, #{doctorSorce,jdbcType=DOUBLE}, #{deptCode,jdbcType=VARCHAR},
+                #{numType,jdbcType=VARCHAR}, #{userCode,jdbcType=CHAR}, #{creater,jdbcType=VARCHAR},
+                #{itemcreateat,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, #{itemupdateat,jdbcType=TIMESTAMP},
+                #{orgCode,jdbcType=CHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaDoctor" useGeneratedKeys="true">
+        insert into tb_natmeha_doctor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemcode != null">
+                itemCode,
+            </if>
+            <if test="doctorName != null">
+                DOCTOR_NAME,
+            </if>
+            <if test="doctorTitle != null">
+                DOCTOR_TITLE,
+            </if>
+            <if test="doctorTreatment != null">
+                DOCTOR_TREATMENT,
+            </if>
+            <if test="doctorSorce != null">
+                DOCTOR_SORCE,
+            </if>
+            <if test="deptCode != null">
+                DEPT_CODE,
+            </if>
+            <if test="numType != null">
+                NUM_TYPE,
+            </if>
+            <if test="userCode != null">
+                USER_CODE,
+            </if>
+            <if test="creater != null">
+                CREATER,
+            </if>
+            <if test="itemcreateat != null">
+                itemCreateAt,
+            </if>
+            <if test="updater != null">
+                UPDATER,
+            </if>
+            <if test="itemupdateat != null">
+                itemUpdateAt,
+            </if>
+            <if test="orgCode != null">
+                ORG_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemcode != null">
+                #{itemcode,jdbcType=CHAR},
+            </if>
+            <if test="doctorName != null">
+                #{doctorName,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorTitle != null">
+                #{doctorTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorTreatment != null">
+                #{doctorTreatment,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorSorce != null">
+                #{doctorSorce,jdbcType=DOUBLE},
+            </if>
+            <if test="deptCode != null">
+                #{deptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="numType != null">
+                #{numType,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=CHAR},
+            </if>
+            <if test="creater != null">
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcreateat != null">
+                #{itemcreateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemupdateat != null">
+                #{itemupdateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orgCode != null">
+                #{orgCode,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lanqiao.natmeha.model.TbNatmehaDoctor">
+        update tb_natmeha_doctor
+        <set>
+            <if test="doctorName != null">
+                DOCTOR_NAME = #{doctorName,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorTitle != null">
+                DOCTOR_TITLE = #{doctorTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorTreatment != null">
+                DOCTOR_TREATMENT = #{doctorTreatment,jdbcType=VARCHAR},
+            </if>
+            <if test="doctorSorce != null">
+                DOCTOR_SORCE = #{doctorSorce,jdbcType=DOUBLE},
+            </if>
+            <if test="deptCode != null">
+                DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="numType != null">
+                NUM_TYPE = #{numType,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                USER_CODE = #{userCode,jdbcType=CHAR},
+            </if>
+            <if test="creater != null">
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcreateat != null">
+                itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                UPDATER = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemupdateat != null">
+                itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orgCode != null">
+                ORG_CODE = #{orgCode,jdbcType=CHAR},
+            </if>
+        </set>
+        where itemID = #{itemid,jdbcType=INTEGER}
+        and itemCode = #{itemcode,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lanqiao.natmeha.model.TbNatmehaDoctor">
+        update tb_natmeha_doctor
+        set DOCTOR_NAME = #{doctorName,jdbcType=VARCHAR},
+            DOCTOR_TITLE = #{doctorTitle,jdbcType=VARCHAR},
+            DOCTOR_TREATMENT = #{doctorTreatment,jdbcType=VARCHAR},
+            DOCTOR_SORCE = #{doctorSorce,jdbcType=DOUBLE},
+            DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+            NUM_TYPE = #{numType,jdbcType=VARCHAR},
+            USER_CODE = #{userCode,jdbcType=CHAR},
+            CREATER = #{creater,jdbcType=VARCHAR},
+            itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+            UPDATER = #{updater,jdbcType=VARCHAR},
+            itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+            ORG_CODE = #{orgCode,jdbcType=CHAR}
+        where itemID = #{itemid,jdbcType=INTEGER}
+          and itemCode = #{itemcode,jdbcType=CHAR}
+    </update>
+</mapper>

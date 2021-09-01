@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaSignalSourceDao">
+
+    <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaSignalSource">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="doctorCode" column="DOCTOR_CODE" jdbcType="CHAR"/>
+            <result property="registerType" column="REGISTER_TYPE" jdbcType="VARCHAR"/>
+            <result property="registerDate" column="REGISTER_DATE" jdbcType="TIMESTAMP"/>
+            <result property="registerCount" column="REGISTER_COUNT" jdbcType="INTEGER"/>
+            <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="extendBaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaSignalSource" extends="com.lanqiao.natmeha.dao.TbNatmehaSignalSourceDao.BaseResultMap">
+        <!--  映射TbCulproFile实体（文件上传记录）-->
+        <association property="tbNatmehaDoctor" columnPrefix="f_"
+                     resultMap="com.lanqiao.natmeha.dao.TbNatmehaDoctorDao.BaseResultMap">
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,itemCode,DOCTOR_CODE,
+        REGISTER_TYPE,REGISTER_DATE,REGISTER_COUNT,
+        STATUS,USER_CODE,CREATER,
+        itemCreateAt,UPDATER,itemUpdateAt
+    </sql>
+
+    <!--  查询所有数据  -->
+    <select id="selectAllNum" parameterType="TbNatmehaSignalSource" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from tb_natmeha_signal_source
+        <where>
+            <if test="tbNatmehaSignalSource.searchYear != null">
+                and DATE_FORMAT(REGISTER_DATE,'%Y')=#{tbNatmehaSignalSource.searchYear}
+            </if>
+            <if test="tbNatmehaSignalSource.status != null">
+                 and STATUS = #{tbNatmehaSignalSource.status}
+            </if>
+        </where>
+    </select>
+
+   <!-- <select id="selectAllNum" parameterType="TbNatmehaSignalSource" resultMap="extendBaseResultMap">
+        select
+               s.itemID,
+               s.itemCode,
+               s.DOCTOR_CODE,
+               s.REGISTER_TYPE,
+               s.REGISTER_DATE,
+               s.REGISTER_COUNT,
+               s.STATUS,
+               s.USER_CODE,
+               s.CREATER,
+               s.itemCreateAt,
+               s.UPDATER,
+               s.itemUpdateAt,
+
+               d.itemID,
+               d.itemCode,
+               d.DOCTOR_NAME,
+        d.DOCTOR_TITLE,
+               d.DOCTOR_TREATMENT,
+               d.DOCTOR_SORCE,
+        d.DEPT_CODE,
+               d.NUM_TYPE,
+               d.USER_CODE,
+        d.CREATER,
+               d.itemCreateAt,
+               d.UPDATER,
+        d.itemUpdateAt,
+               d.ORG_CODE
+        from natmeha.tb_natmeha_signal_source s left join natmeha.tb_natmeha_doctor d
+        on s.DOCTOR_CODE=d.itemCode
+        <where>
+            <if test="tbNatmehaSignalSource.searchYear != null">
+                and (REGISTER_DATE like "%"#{tbNatmehaDoctor.searchYear}"%")
+            </if>
+            <if test="tbNatmehaSignalSource.status != null">
+                STATUS = #{tbNatmehaSignalSource.status}
+            </if>
+        </where>
+    </select>-->
+
+    <!--  查询医生姓名  -->
+    <select id="getName" resultType="java.lang.String">
+        SELECT tb_natmeha_doctor.DOCTOR_NAME
+        FROM tb_natmeha_doctor LEFT JOIN tb_natmeha_signal_source ON tb_natmeha_signal_source.DOCTOR_CODE = tb_natmeha_doctor.itemCode
+        WHERE  tb_natmeha_doctor.itemCode = (select tb_natmeha_signal_source.DOCTOR_CODE from tb_natmeha_signal_source where itemCode=#{itemCode});
+    </select>
+
+    <insert id="insertSelective" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaSignalSource" useGeneratedKeys="true">
+        insert into tb_natmeha_signal_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemcode != null">
+                itemCode,
+            </if>
+            <if test="doctorCode != null">
+                DOCTOR_CODE,
+            </if>
+            <if test="registerType != null">
+                REGISTER_TYPE,
+            </if>
+            <if test="registerDate != null">
+                REGISTER_DATE,
+            </if>
+            <if test="registerCount != null">
+            --  预约量
+                REGISTER_COUNT,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="userCode != null">
+                USER_CODE,
+            </if>
+            <if test="creater != null">
+                CREATER,
+            </if>
+            <if test="itemcreateat != null">
+                itemCreateAt,
+            </if>
+            <if test="updater != null">
+                UPDATER,
+            </if>
+            <if test="itemupdateat != null">
+                itemUpdateAt,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemcode != null">
+                #{itemcode,jdbcType=CHAR},
+            </if>
+            <if test="doctorCode != null">
+                #{doctorCode,jdbcType=VARCHAR},
+            </if>
+            <if test="registerType != null">
+                #{registerType,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null">
+                #{registerDate,jdbcType=DATE},
+            </if>
+            <if test="registerCount != null">
+                #{registerCount,jdbcType=DOUBLE},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="creater != null">
+                #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcreateat != null">
+                #{itemcreateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemupdateat != null">
+                #{itemupdateat,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--  新增号源  -->
+    <insert id="insertNum" parameterType="TbNatmehaFile">
+        insert into itemCode, DOCTOR_CODE, REGISTER_TYPE, REGISTER_DATE, REGISTER_COUNT, USER_CODE, CREATER
+        values (#{itemcode}, #{doctorCode}, #{registerType}, #{registerDate}, #{registerCount}, #{userCode}, #{creater}
+    </insert>
+
+    <!-- 根据itemid删除号源 -->
+    <delete id="deleteNum" parameterType="int">
+        delete
+        from tb_natmeha_signal_source
+        where itemID=#{itemid,jdbcType=INTEGER};
+    </delete>
+
+    <!--通过itemID来查询信息-->
+    <select id="selectByItemid" parameterType="TbNatmehaSignalSource" resultMap="BaseResultMap">
+        SELECT
+            s.itemID,
+            s.itemCode,
+            s.DOCTOR_CODE,
+            s.REGISTER_TYPE,
+            s.REGISTER_DATE,
+            s.REGISTER_COUNT,
+            s.STATUS,
+            s.USER_CODE,
+            s.CREATER,
+            s.itemCreateAt,
+            s.UPDATER,
+            s.itemUpdateAt,
+            d.itemID  d_itemID,
+            d.itemCode  d_itemCode,
+            d.DOCTOR_NAME d_doctorName
+        FROM natmeha.tb_natmeha_signal_source s
+                 left join natmeha.tb_natmeha_doctor d
+                           on s.DOCTOR_CODE = d.itemCode
+        WHERE s.itemID = #{itemid}
+    </select>
+    <update id="updateNum" parameterType="com.lanqiao.natmeha.model.TbNatmehaSignalSource">
+        update tb_natmeha_signal_source
+        <set>
+            <if test="registerDate != null">
+                REGISTER_DATE = #{registerDate,jdbcType=DATE},
+            </if>
+            <if test="registerType != null">
+                REGISTER_TYPE = #{registerType,jdbcType=VARCHAR},
+            </if>
+<!--            <if test="doctorName != null">-->
+<!--                DOCTOR_NAME = #{doctorName,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="userCode != null">-->
+<!--                USER_CODE = #{userCode,jdbcType=CHAR},-->
+<!--            </if>-->
+<!--            <if test="creater != null">-->
+<!--                CREATER = #{creater,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="itemcreateat != null">-->
+<!--                itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+<!--            <if test="updater != null">-->
+<!--                UPDATER = #{updater,jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="itemupdateat != null">-->
+<!--                itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},-->
+<!--            </if>-->
+        </set>
+        where itemID = #{itemid,jdbcType=INTEGER}
+    </update>
+
+
+
+
+</mapper>

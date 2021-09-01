@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改服务团队</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+          href="../../static/layui/css/modules/laydate/default/laydate.css"/>
+    <link rel="stylesheet" th:href="@{/css/infoManage/default.css}"
+          href="../../static/css/infoManage/default.css">
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/layui/layui.js}"
+            src="../../static/layui/layui.js"></script>
+    <script th:src="@{/layer/layer.js}"
+            src="../../static/layer/layer.js"></script>
+
+    <style>
+        /*清除边框*/
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /*更改默认值*/
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        input{
+            width: 340px;
+            height: 32px;
+        }
+        button{
+            width: 102px;
+            height: 31px;
+            background-color:rgba(217, 0, 27, 1);
+        }
+        p,button{
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12 column">
+        <form class="layui-form" action="/serviceTeam/doctorUpdatecode" lay-filter="example" style="margin-top: 20px" method="post">
+            <input type="text" name="itemid" th:value="${tbNatmehaDoctor.itemid}" hidden="hidden">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">专家姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="doctorName" th:value="${tbNatmehaDoctor.doctorName}" lay-verify="title" autocomplete="off" placeholder="请输入专家姓名" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">职称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="doctorTitle" th:value="${tbNatmehaDoctor.doctorTitle}" autocomplete="off" placeholder="请输入专家职称" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">号别</label>
+                <div class="layui-input-block">
+                    <input type="text" name="numType" th:value="${tbNatmehaDoctor.numType}" autocomplete="off" placeholder="请输入专家号别" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">专家照片</label>
+                <div class="layui-input-block">
+<!--                    <td><img th:src="${tbNatmehaDoctor.tbNatmehaFile.filePath}" style="width: 50px;height: 50px"></td>-->
+<!--                    th:value="${tbNatmehaDoctor.deptCode}"-->
+                    <input type="text" name="deptCode" th:value="${tbNatmehaDoctor.deptCode}" placeholder="请输入专家照片" autocomplete="off" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">擅长治疗</label>
+                <div class="layui-input-block">
+                    <input type="text" name="doctorTreatment" th:value="${tbNatmehaDoctor.doctorTreatment}" autocomplete="off" class="layui-input" style="height: 50px">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <p>
+                        <button type="submit" name="reset" value="取消" class="layui-btn layui-btn-normal" id="LAY-component-form-setval">取消</button>
+                        <button type="submit" id="savebtn" name="savebtn" value="保存" class="layui-btn layui-btn-normal" >保存</button>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
