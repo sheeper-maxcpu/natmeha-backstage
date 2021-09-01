@@ -18,5 +18,5 @@ public interface TbNatmehaFileDao {
 
     int updateByPrimaryKeySelective(TbNatmehaFile record);
 
-    int updateByPrimaryKey(TbNatmehaFile record);
+    int updateByTbNatmehaFile(TbNatmehaFile tbNatmehaFile);
 }

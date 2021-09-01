@@ -59,7 +59,7 @@ public class TbNatmehaHotspotController {
     //添加新的数据
     @RequestMapping("/solar_insert")
     public String solar_insert(@RequestParam("file")MultipartFile file, String hotspotTitle,String creater,String hotspotContent,
-                               String datasource,String savebtn,String putbtn,String reset) throws Exception {
+                               String hotspotSource,String savebtn,String putbtn,String reset) throws Exception {
         String dataType = "0";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
         //如果是保存按钮，即是已保存状态 0，提交状态即是 1
         if (savebtn != null) {
@@ -69,6 +69,7 @@ public class TbNatmehaHotspotController {
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
             tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("0");
             tbNatmehaHotspot.setDataType(dataType);
@@ -110,6 +111,7 @@ public class TbNatmehaHotspotController {
                 tbNatmehaFile.setDataCode(itemcode);
                 tbNatmehaFile.setFileName(Filename);
                 tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
                 int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
             }
             return "redirect:/start/solar_clerk_code";
@@ -131,7 +133,8 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemcreateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemcreateat(itemcreateat);
-            tbNatmehaHotspot.setUserCode("5566");
+            String userCode = UUID.randomUUID().toString();
+            tbNatmehaHotspot.setUserCode(userCode);
             this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
 
             //获取上传的文件名
@@ -162,6 +165,7 @@ public class TbNatmehaHotspotController {
                 tbNatmehaFile.setDataCode(itemcode);
                 tbNatmehaFile.setFileName(Filename);
                 tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
                 int insert = this.tbNatmehaFileService.insert(tbNatmehaFile);
             }
             return "redirect:/start/solar_clerk_code";
@@ -195,8 +199,9 @@ public class TbNatmehaHotspotController {
 
     //修改保存状态下的信息,并且确定是保存还是提交
     @RequestMapping("/solar_updatecode")
-    public String solar_updatecode(Integer itemid,String hotspotTitle,String creater,String hotspotContent,
-                                   String datasource,String savebtn,String putbtn,String reset) throws Exception {
+    public String solar_updatecode(@RequestParam("file")MultipartFile file, Integer itemid,
+                                   String hotspotTitle,String creater,String hotspotContent,String fileitemCode,Integer fileItemid,
+                                   String hotspotSource,String savebtn,String putbtn,String reset) throws Exception {
 
         String dataType = "0";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
         //如果是保存按钮，即是已保存状态 0，提交状态（待县级审核）即是 1，县级审核不通过2，待市级审核3，
@@ -204,11 +209,12 @@ public class TbNatmehaHotspotController {
         if (savebtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
+            //String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
-            tbNatmehaHotspot.setItemcode(itemcode);
+            //tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("0");
             tbNatmehaHotspot.setDataType(dataType);
@@ -220,13 +226,41 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemupdateat(itemupdateat);
-            tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            //更改图片信息
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(fileitemCode);
+                tbNatmehaFile.setItemid(fileItemid);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
+                int updataFile = this.tbNatmehaFileService.updataFile(tbNatmehaFile);
+            }
             return "redirect:/start/solar_clerk_code";//修改成功后返回数据主页面
         } else if (putbtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
+            //String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
             tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
@@ -241,8 +275,36 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemupdateat(itemupdateat);
-            tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            //更改图片信息
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(fileitemCode);
+                tbNatmehaFile.setItemid(fileItemid);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
+                int updataFile = this.tbNatmehaFileService.updataFile(tbNatmehaFile);
+            }
             return "redirect:/start/solar_clerk_code";
         } else if (reset != null) {
             return "redirect:/start/solar_clerk_code";
@@ -578,7 +640,7 @@ public class TbNatmehaHotspotController {
     //然后再根据按钮各自执行相关保存和提交功能
     @RequestMapping("/care_insert")
     public String care_insert(@RequestParam("file")MultipartFile file, String hotspotTitle,String creater,String hotspotContent,
-                               String datasource,String savebtn,String putbtn,String reset) throws Exception {
+                               String hotspotSource,String savebtn,String putbtn,String reset) throws Exception {
         String dataType = "1";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
         //如果是保存按钮，即是已保存状态 0，提交状态即是 1
         if (savebtn != null) {
@@ -588,6 +650,7 @@ public class TbNatmehaHotspotController {
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
             tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("0");
             tbNatmehaHotspot.setDataType(dataType);
@@ -599,7 +662,8 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemcreateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemcreateat(itemcreateat);
-            tbNatmehaHotspot.setUserCode("5566");
+            String userCode = UUID.randomUUID().toString();
+            tbNatmehaHotspot.setUserCode(userCode);
             this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
             //获取上传的文件名
             String originalFilename = file.getOriginalFilename();
@@ -646,6 +710,7 @@ public class TbNatmehaHotspotController {
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
             tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("1");//1代表的是待市级审核，即科员审核
             tbNatmehaHotspot.setDataType(dataType);
@@ -657,7 +722,8 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemcreateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemcreateat(itemcreateat);
-            tbNatmehaHotspot.setUserCode("5566");
+            String userCode = UUID.randomUUID().toString();
+            tbNatmehaHotspot.setUserCode(userCode);
             this.tbNatmehaHotspotDaoService.solar_insert_code(tbNatmehaHotspot);
 
             //获取上传的文件名
@@ -727,8 +793,8 @@ public class TbNatmehaHotspotController {
 
     //修改保存状态下的信息,并且确定是保存还是提交
     @RequestMapping("/care_updatecode")
-    public String care_updatecode(Integer itemid,String hotspotTitle,String creater,String hotspotContent,
-                                   String datasource,String savebtn,String putbtn,String reset) throws Exception {
+    public String care_updatecode(@RequestParam("file")MultipartFile file, Integer itemid,String hotspotTitle,String creater,String hotspotContent,String fileitemCode,Integer fileItemid,
+                                   String hotspotSource,String savebtn,String putbtn,String reset) throws Exception {
 
         String dataType = "1";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
         //如果是保存按钮，即是已保存状态 0，提交状态（待县级审核）即是 1，县级审核不通过2，待市级审核3，
@@ -736,11 +802,12 @@ public class TbNatmehaHotspotController {
         if (savebtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
+            //String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
-            tbNatmehaHotspot.setItemcode(itemcode);
+            //tbNatmehaHotspot.setItemcode(itemcode);
             tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("0");
             tbNatmehaHotspot.setDataType(dataType);
@@ -752,16 +819,46 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemupdateat(itemupdateat);
-            tbNatmehaHotspot.setUserCode("5566");
+            //tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            //更改图片信息
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(fileitemCode);
+                tbNatmehaFile.setItemid(fileItemid);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
+                int updataFile = this.tbNatmehaFileService.updataFile(tbNatmehaFile);
+            }
             return "redirect:/start/care_clerk_code";//修改成功后返回数据主页面
         } else if (putbtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
+            //String itemcode = UUID.randomUUID().toString();
             TbNatmehaHotspot tbNatmehaHotspot = new TbNatmehaHotspot();
-            tbNatmehaHotspot.setItemid(itemid);
+            //tbNatmehaHotspot.setItemid(itemid);
             tbNatmehaHotspot.setHotspotTitle(hotspotTitle);
+            tbNatmehaHotspot.setHotspotSource(hotspotSource);
             tbNatmehaHotspot.setHotspotContent(hotspotContent);
             tbNatmehaHotspot.setDataStatus("1");//1代表的是待市级审核，即科员审核
             tbNatmehaHotspot.setDataType(dataType);
@@ -773,8 +870,37 @@ public class TbNatmehaHotspotController {
             ite = df.parse(ict);
             java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
             tbNatmehaHotspot.setItemupdateat(itemupdateat);
-            tbNatmehaHotspot.setUserCode("5566");
+            //tbNatmehaHotspot.setUserCode("5566");
             this.tbNatmehaHotspotDaoService.solar_updata_code(tbNatmehaHotspot);
+            //更改图片信息
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix+fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "F:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://114.55.92.180/portals/images/ffilepackge/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                String filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+                tbNatmehaFile.setItemcode(fileitemCode);
+                tbNatmehaFile.setItemid(fileItemid);
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFilePath(filePath);
+                tbNatmehaFile.setFileType(fileNameSuffix);
+                int updataFile = this.tbNatmehaFileService.updataFile(tbNatmehaFile);
+            }
             return "redirect:/start/care_clerk_code";
         } else if (reset != null) {
             return "redirect:/start/care_clerk_code";

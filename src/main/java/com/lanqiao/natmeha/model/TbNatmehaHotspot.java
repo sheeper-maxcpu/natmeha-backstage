@@ -24,6 +24,10 @@ public class TbNatmehaHotspot {
      * 热点名称
      */
     private String hotspotTitle;
+    /*
+     * 来源
+     * */
+    private String hotspotSource;
 
     /**
      * 介绍

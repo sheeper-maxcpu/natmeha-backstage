@@ -20,12 +20,12 @@
 
 
   <insert id="insert" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaFile" useGeneratedKeys="true">
-    insert into tb_natmeha_file (itemCode, DATA_CODE, UPLOADER, 
-      UPLOADER_CODE, FILE_NAME, FILE_TYPE, 
+    insert into tb_natmeha_file (itemCode, DATA_CODE, UPLOADER,
+      UPLOADER_CODE, FILE_NAME, FILE_TYPE,
       FILE_SIZE, FILE_PATH, itemCreateAt
       )
-    values (#{itemcode,jdbcType=CHAR}, #{dataCode,jdbcType=CHAR}, #{uploader,jdbcType=VARCHAR}, 
-      #{uploaderCode,jdbcType=CHAR}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, 
+    values (#{itemcode,jdbcType=CHAR}, #{dataCode,jdbcType=CHAR}, #{uploader,jdbcType=VARCHAR},
+      #{uploaderCode,jdbcType=CHAR}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR},
       #{fileSize,jdbcType=DOUBLE}, #{filePath,jdbcType=VARCHAR}, #{itemcreateat,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -119,11 +119,11 @@
       </if>
     </set>
     where itemID = #{itemid,jdbcType=INTEGER}
-      and itemCode = #{itemcode,jdbcType=CHAR}
+    and itemCode = #{itemcode,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lanqiao.natmeha.model.TbNatmehaFile">
+  <update id="updateByTbNatmehaFile" parameterType="com.lanqiao.natmeha.model.TbNatmehaFile">
     update tb_natmeha_file
-    set DATA_CODE = #{dataCode,jdbcType=CHAR},
+    set
       UPLOADER = #{uploader,jdbcType=VARCHAR},
       UPLOADER_CODE = #{uploaderCode,jdbcType=CHAR},
       FILE_NAME = #{fileName,jdbcType=VARCHAR},

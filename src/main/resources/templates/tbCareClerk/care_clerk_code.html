@@ -388,8 +388,8 @@
                             <a th:if="${data.dataStatus}=='0'" th:href="@{/start/care_clerck_update(itemid = ${data.itemid})}">修改</a>
                             <a th:if="${data.dataStatus}=='0'" href="javascript:void(0);" onclick="directUpdata(this)" th:itemid="${data.itemid}">提交</a>
                             <a th:if="${data.dataStatus} != '0'" th:href="@{/start/care_clerck_select(itemid = ${data.itemid})}">查看</a><!--只能查看不是保存状态的信息，保存状态的信息可以点击修改按钮查看-->
-                            <a th:if="${data.dataStatus} == '7'" href="javascript:void(0);" onclick="clerk_release(this)" th:itemid="${data.itemid}">发布</a>
-                            <a th:if="${data.dataStatus} == '8'" href="javascript:void(0);" onclick="clerk_no_release(this)" th:itemid="${data.itemid}">取消发布</a>
+                            <!--<a th:if="${data.dataStatus} == '7'" href="javascript:void(0);" onclick="clerk_release(this)" th:itemid="${data.itemid}">发布</a>-->
+                            <!--<a th:if="${data.dataStatus} == '8'" href="javascript:void(0);" onclick="clerk_no_release(this)" th:itemid="${data.itemid}">取消发布</a>-->
                             <a th:if="${data.dataStatus} == '0'" href="javascript:void(0);" onclick="deleteitemid(this)" th:itemid="${data.itemid}" style="color: red">删除</a>
                         </td>
                     </tr>

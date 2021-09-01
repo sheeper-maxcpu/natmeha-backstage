@@ -13,4 +13,6 @@ public interface TbNatmehaFileService {
      * 向文件表里面添加文件
      */
     int insert(TbNatmehaFile tbNatmehaFile);
+
+    public int updataFile(TbNatmehaFile tbNatmehaFile);
 }

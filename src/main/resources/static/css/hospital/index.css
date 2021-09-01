@@ -1,0 +1,85 @@
+.main{
+    width:1381px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px;
+}
+.header{
+    height: 85px;
+    background-color: rgba(119, 86, 55, 1);
+}
+.header input,input:focus{
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 5px;
+}
+.right{
+    display: flex;
+    flex-direction: row;
+}
+.search{
+    height: 27px;
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    margin-top: 29px;
+}
+.left{
+    height: 85px;
+    font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+    color: #FFFFFF;
+    line-height: 85px;
+}
+.navitem{
+    height: 38px;
+    width: 219px;
+    border-top: #dcdedc 1px dashed;
+    border-left: #dcdedc 1px dashed;
+    border-right: #dcdedc 1px dashed;
+    background: rgb(248,249,251);
+}
+.myselect{
+    background: rgb(176, 177, 179);
+}
+.navitem p,a{
+    color: rgb(105,105,106);
+    height: 100%;
+    line-height: 38px;
+    margin-left: 30px
+}
+.myshow th{
+    font-family: 'Microsoft Tai Le Bold', 'Microsoft Tai Le Regular', 'Microsoft Tai Le', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.980392156862745);
+    width: 20%;
+    height: 52px;
+    text-align: center;
+    vertical-align: middle
+}
+.myshow td{
+    width: 20%;
+    text-align: center;
+    vertical-align: middle
+}
+.pages li{
+    height: 30px;
+    width: 30px;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+.addnewDrug{
+    height: 29px;
+    width: 102px;
+    margin-top:35px;
+    background-color: #D60000;
+    border-radius: 5px;
+    color: white;
+    text-align: center
+}

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 国医堂信息记录表
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 @ToString
 public class TbNatmehaHospital{
+    private static final long serialVersionUID = 895440423498828006L;
     /**
      * 自增id
      */
@@ -20,7 +22,7 @@ public class TbNatmehaHospital{
     /**
      * UUID
      */
-    private String itemcode;
+    private String itemcode= UUID.randomUUID().toString();;
 
     /**
      * 国医堂名称

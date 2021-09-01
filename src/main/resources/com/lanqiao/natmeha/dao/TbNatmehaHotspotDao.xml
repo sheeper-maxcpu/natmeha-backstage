@@ -6,6 +6,7 @@
     <id column="itemCode" jdbcType="CHAR" property="itemcode" />
     <result column="HOTSPOT_TITLE" jdbcType="VARCHAR" property="hotspotTitle" />
     <result column="HOTSPOT_CONTENT" jdbcType="VARCHAR" property="hotspotContent" />
+    <result column="HOTSPOT_SOURCE" jdbcType="VARCHAR" property="hotspotSource" />
     <result column="DATA_STATUS" jdbcType="VARCHAR" property="dataStatus" />
     <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
     <result column="USER_CODE" jdbcType="CHAR" property="userCode" />
@@ -23,7 +24,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    itemID, itemCode, HOTSPOT_TITLE, HOTSPOT_CONTENT, DATA_STATUS, DATA_TYPE, USER_CODE, 
+    itemID, itemCode, HOTSPOT_TITLE, HOTSPOT_CONTENT,HOTSPOT_SOURCE, DATA_STATUS, DATA_TYPE, USER_CODE,
     CREATER, itemCreateAt, UPDATER, itemUpdateAt
   </sql>
   <select id="selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" resultMap="BaseResultMap">
@@ -64,10 +65,28 @@
     where itemID = #{itemid,jdbcType=INTEGER}
   </delete>
   <insert id="solar_insert_code" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" useGeneratedKeys="true">
-    insert into tb_natmeha_hotspot (itemCode, HOTSPOT_TITLE, HOTSPOT_CONTENT, 
-      DATA_STATUS, DATA_TYPE,CREATER,itemCreateAt,USER_CODE)
-    values (#{itemcode,jdbcType=CHAR}, #{hotspotTitle,jdbcType=VARCHAR}, #{hotspotContent,jdbcType=VARCHAR}, 
-      #{dataStatus,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR},#{creater,jdbcType=VARCHAR}, #{itemcreateat,jdbcType=TIMESTAMP},#{userCode,jdbcType=VARCHAR})
+    insert into tb_natmeha_hotspot (
+    itemCode,
+    HOTSPOT_TITLE,
+    HOTSPOT_CONTENT,
+    HOTSPOT_SOURCE,
+    DATA_STATUS,
+    DATA_TYPE,
+    CREATER,
+    itemCreateAt,
+    USER_CODE
+    )
+    values (
+    #{itemcode,jdbcType=CHAR},
+    #{hotspotTitle,jdbcType=VARCHAR},
+    #{hotspotContent,jdbcType=VARCHAR},
+    #{hotspotSource,jdbcType=VARCHAR},
+    #{dataStatus,jdbcType=VARCHAR},
+    #{dataType,jdbcType=VARCHAR},
+    #{creater,jdbcType=VARCHAR},
+    #{itemcreateat,jdbcType=TIMESTAMP},
+    #{userCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot" useGeneratedKeys="true">
     insert into tb_natmeha_hotspot
@@ -143,6 +162,7 @@
         h.itemCode,
         h.HOTSPOT_TITLE,
         h.HOTSPOT_CONTENT,
+        h.HOTSPOT_SOURCE,
         h.DATA_STATUS,
         h.DATA_TYPE,
         h.USER_CODE,
@@ -169,6 +189,9 @@
       </if>
       <if test="hotspotContent != null">
         HOTSPOT_CONTENT = #{hotspotContent,jdbcType=VARCHAR},
+      </if>
+      <if test="hotspotSource != null">
+        HOTSPOT_SOURCE = #{hotspotSource,jdbcType=VARCHAR},
       </if>
       <if test="dataStatus != null">
         DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},

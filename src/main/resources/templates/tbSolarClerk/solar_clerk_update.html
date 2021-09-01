@@ -70,13 +70,41 @@
                 },2000);
             });
         });
+        //图片上传到浏览器并显示
+        function imgfile(obj) {
+            //判断是否支持FileReader
+            if (window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+            //获取文件
+            var file = obj.files[0];
+            console.log(file);
+            var imageType = /^image\//;
+            //是否是图片
+            if (!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            //读取完成
+            reader.onload = function(e) {
+                //获取图片展示的位置
+                var img = document.getElementById("demo1");
+                //图片路径设置为读取的图片
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
     </script>
 </head>
 <body>
 <div class="container">
     <div class="col-md-12 column">
-        <form class="layui-form" action="/start/solar_updatecode" lay-filter="example" style="margin-top: 20px" method="post">
+        <form class="layui-form" action="/start/solar_updatecode" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
             <input type="text" name="itemid" th:value="${tbNatmehaHotspot.itemid}" hidden="hidden">
+            <input type="text" name="fileitemCode" th:value="${tbNatmehaHotspot.tbNatmehaFile}==null?'':${tbNatmehaHotspot.tbNatmehaFile.itemcode}" hidden="hidden">
+            <input type="text" name="fileItemid" th:value="${tbNatmehaHotspot.tbNatmehaFile}==null?'':${tbNatmehaHotspot.tbNatmehaFile.itemid}" hidden="hidden">
             <div class="layui-form-item">
                 <label class="layui-form-label">标题</label>
                 <div class="layui-input-block">
@@ -86,13 +114,20 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">来源</label>
                 <div class="layui-input-block">
-                    <input type="text" name="datasource" th:value="${tbNatmehaHotspot.hotspotTitle}" autocomplete="off" class="layui-input" style="width: 300px">
+                    <input type="text" name="hotspotSource" th:value="${tbNatmehaHotspot.hotspotSource}" autocomplete="off" class="layui-input" style="width: 300px">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">作者</label>
                 <div class="layui-input-block">
                     <input type="text" name="creater" th:value="${tbNatmehaHotspot.creater}" autocomplete="off" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <input type="file" name="file" onchange="imgfile(this)" accept="image/gif,image/jpeg, image/png, image/jpg">
+                <div class="layui-input-block">
+                    <img th:src="@{http://localhost/portals/images/{image}(image=(${tbNatmehaHotspot.tbNatmehaFile}==null?'':${tbNatmehaHotspot.tbNatmehaFile.fileName}))}"  id="demo1" width="100%" height="100%">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">

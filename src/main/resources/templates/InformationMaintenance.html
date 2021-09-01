@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>信息维护</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../static/component/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+          href="../static/layui/css/modules/laydate/default/laydate.css"/>
+    <link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}"
+          href="../static/kindeditor/themes/default/default.css"/>
+    <link rel="stylesheet" href="../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}">
+
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/layui/layui.js}"
+            src="../static/layui/layui.js"></script>
+
+    <script th:src="@{/layui/mods/layarea.js}"
+            src="../static/layui/mods/layarea.js"></script>
+    <!--文本编辑器-->
+    <script charset="utf-8" th:src="@{/kindeditor/kindeditor-all.js}"
+            src="../static/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" th:src="@{/kindeditor/lang/zh-CN.js}"
+            src="../static/kindeditor/lang/zh-CN.js"></script>
+    <style>
+        /*清除边框*/
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /*更改默认值*/
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        input{
+            width: 240px;
+            height: 32px;
+        }
+        button{
+            width: 102px;
+            height: 31px;
+            background-color:rgba(217, 0, 27, 1);
+        }
+        p,button{
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12 column">
+        <form class="layui-form" action="/hospital/insertHospital" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">国医堂名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="hospitalName" lay-verify="title" autocomplete="off" placeholder="请输入国医堂名称" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">联系电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="hospitalPhone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="area-picker">
+                <label class="layui-form-label" style="width: 100px">地址</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <select name="hospitalPro" class="province-selector" data-value="河北省" lay-filter="province-1">
+                        <option value="">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <select name="hospitalCity" class="city-selector"  lay-filter="city-1" data-value="--选择市--">
+                        <option value="">请选择市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <select name="hospitalCountry" class="county-selector"  lay-filter="county-1" data-value="--选择区--">
+                        <option value="">请选择区</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">详细地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="hospitalAdress" placeholder="请输入详细地址" autocomplete="off" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 100px">国医堂图片</label>
+                <div class="layui-input-block">
+                    <input type="file" name="file" onchange="imgfile(this)" accept="image/gif,image/jpeg, image/png, image/jpg">
+                    <div>
+                        <img src=""  id="demo1" style="width: 202px;height: auto ">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" style="width: 100px">国医堂简介</label>
+                <div class="layui-input-block" id="editor">
+                    <textarea placeholder="请输入内容" class="layui-textarea" id="hotspotContent" name="introduce" style="height: 300px"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <p>
+                        <button type="submit" name="reset" value="取消" class="layui-btn layui-btn-normal" id="LAY-component-form-setval">取消</button>
+                        <button type="submit" name="savebtn" value="保存" class="layui-btn layui-btn-normal" id="savebtn">保存</button>
+                        <button type="submit" id="putbtn" name="putbtn" value="立即提交" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    /*layui.config({
+        base: '../static/layui/mods/'
+        , version: '1.0'
+    });*/
+    layui.use(['layer', 'form', 'layarea'], function () {
+        var layer = layui.layer
+            , form = layui.form
+            , layarea = layui.layarea;
+
+        layarea.render({
+            elem: '#area-picker',
+            change: function (res) {
+                //选择结果
+                console.log(res);
+            }
+        });
+
+        var savebtn = $('#savebtn');
+        var putbtn = $('#putbtn');
+        //弹出一个loading层
+        savebtn.on('click', function () {
+            var ii = layer.load();
+            //此处用setTimeout演示ajax的回调
+            setTimeout(function () {
+                layer.close(ii);
+            },2000);
+        });
+        putbtn.on('click', function () {
+            var ii = layer.load();
+            //此处用setTimeout演示ajax的回调
+            setTimeout(function () {
+                layer.close(ii);
+            },2000);
+        });
+    });
+
+
+    //图片上传到浏览器并显示
+    function imgfile(obj) {
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        }
+        //获取文件
+        var file = obj.files[0];
+        console.log(file);
+        var imageType = /^image\//;
+        //是否是图片
+        if (!imageType.test(file.type)) {
+            alert("请选择图片！");
+            return;
+        }
+        //读取完成
+        reader.onload = function(e) {
+            //获取图片展示的位置
+            var img = document.getElementById("demo1");
+            //图片路径设置为读取的图片
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+<script type="text/javascript">
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#hotspotContent');
+    });
+</script>
+</body>
+</html>

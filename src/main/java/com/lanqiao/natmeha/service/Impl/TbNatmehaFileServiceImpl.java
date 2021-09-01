@@ -23,4 +23,10 @@ public class TbNatmehaFileServiceImpl implements TbNatmehaFileService {
     public int insert(TbNatmehaFile tbNatmehaFile) {
         return this.tbNatmehaFileDao.insert(tbNatmehaFile);
     }
+
+    //更改图片
+    @Override
+    public int updataFile(TbNatmehaFile tbNatmehaFile) {
+        return this.tbNatmehaFileDao.updateByTbNatmehaFile(tbNatmehaFile);
+    }
 }
