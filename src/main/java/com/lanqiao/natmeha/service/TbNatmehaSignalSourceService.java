@@ -16,7 +16,7 @@ public interface TbNatmehaSignalSourceService {
 
 //    public TbNatmehaSignalSource insertNum(TbNatmehaSignalSource tbNatmehaSignalSource);
 
-    public TbNatmehaSignalSource selectByItemid(Integer itemid);
+    public TbNatmehaSignalSource selectByItemid(String itemid);
 
     public int updateNum(TbNatmehaSignalSource tbNatmehaSignalSource);
 

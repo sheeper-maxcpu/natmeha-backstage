@@ -139,22 +139,19 @@ public class TbNatmehaSignalSourceController {
 
     //修改保存状态下的信息
     @RequestMapping("/numUpdatecode")
-    public String numUpdatecode(Model model,
-            Integer itemid,Date registerDate,String registerType,
-                                String savebtn,String reset) throws Exception {
+    public String numUpdatecode(Model model, HttpSession session,
+                                String itemcode, Date registerDate, String registerType,
+                                String savebtn, String reset) throws Exception {
 
-        TbNatmehaSignalSource tbNatmehaSignalSource = this.tbNatmehaSignalSourceService.selectByItemid(itemid);
+        TbNatmehaSignalSource tbNatmehaSignalSource = this.tbNatmehaSignalSourceService.selectByItemid(itemcode);
         model.addAttribute("tbNatmehaSignalSource", tbNatmehaSignalSource);
 
-        if (savebtn != null) {
-            Thread.sleep(2000);//等待2秒后在执行下一步代码
-            //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
-            TbNatmehaSignalSource num = new TbNatmehaSignalSource();
-            num.setItemcode(itemcode);
-            num.setItemid(itemid);
-            num.setRegisterDate(registerDate);
-            num.setRegisterType(registerType);
+
+        Thread.sleep(2000);//等待2秒后在执行下一步代码
+        //自动生成唯一标识码
+        TbNatmehaSignalSource num = new TbNatmehaSignalSource();
+        num.setRegisterDate(registerDate);
+        num.setRegisterType(registerType);
 
 //            //创建时间
 //            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
@@ -163,13 +160,10 @@ public class TbNatmehaSignalSourceController {
 //            ite = df.parse(ict);
 //            java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
 //            num.setItemupdateat(itemupdateat);
-            num.setUserCode("5566");
-            this.tbNatmehaSignalSourceService.updateNum(num);
-            return "redirect:/numManage";//修改成功后返回数据主页面
-        } else if (reset != null) {
-            return "redirect:/numManage";
-        }
-        return null;
+        User logUser = (User) session.getAttribute("logUser");
+        num.setUserCode(logUser.getItemcode());
+        this.tbNatmehaSignalSourceService.updateNum(num);
+        return "redirect:/numManage";//修改成功后返回数据主页面
     }
 
 }

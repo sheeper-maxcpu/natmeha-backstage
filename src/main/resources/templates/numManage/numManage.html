@@ -68,15 +68,16 @@
         }
         //修改时，弹出提示框
         function updateitemid(obj) {
-            var itemid= $(obj).attr("itemid");
+            var itemcode= $(obj).attr("itemcode");
             var doctorName=$(obj).attr("doctorName");
             var registerType=$(obj).attr("registerType");
             var registerDate=$(obj).attr("registerDate");
-            console.log(itemid);
+            console.log(itemcode);
             console.log(doctorName);
             console.log(registerType);
             console.log(registerDate);
 
+            $('#itemcode').val(itemcode);
             $('#test2').val(registerDate);
             $('#message-text2').val(registerType);
             $('#name-text2').val(doctorName);
@@ -169,11 +170,14 @@
                         <td th:text="${tbNatmehaSignalSources.tbNatmehaDoctor.doctorName}"></td>
 <!--                        <td th:text="${name}"></td>-->
                         <td th:text="${tbNatmehaSignalSources.registerType}"></td>
-                        <td th:text="${tbNatmehaSignalSources.status}"></td>
+                        <td>
+                            <div th:if="${tbNatmehaSignalSources.status} eq 0">失效</div>
+                            <div th:if="${tbNatmehaSignalSources.status} eq 1">有效</div>
+                        </td>
                         <td>
 <!--                            <a th:href="@{/numManage/numUpdate(itemid = ${tbNatmehaSignalSources.itemid})}">修改</a>-->
                             <a href="javascript:void(0);" onclick="updateitemid(this)"
-                               th:itemid="${tbNatmehaSignalSources.itemid}"
+                               th:itemcode="${tbNatmehaSignalSources.itemcode}"
                                th:doctorName="${tbNatmehaSignalSources.tbNatmehaDoctor.doctorName}"
                                th:registerType="${tbNatmehaSignalSources.registerType}"
                                th:registerDate="${tbNatmehaSignalSources.registerDate}">修改</a>
@@ -273,6 +277,7 @@
             <div class="modal-body">
                 <form class="layui-form" action="/numManage/numUpdatecode" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
                     <div class="form-group">
+                        <input type="hidden" id="itemcode" name="itemcode" >
                         <label for="test2" class="control-label" >出诊时间:</label>
                         <input type="text" name="registerDate" class="demo-input" placeholder="请选择日期" id="test2">
                         <script>

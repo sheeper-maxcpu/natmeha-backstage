@@ -22,7 +22,7 @@ public interface TbNatmehaSignalSourceDao {
 
     public int deleteNum(int itemid);
 
-    public TbNatmehaSignalSource selectByItemid(Integer itemid);
+    public TbNatmehaSignalSource selectByItemid(String itemid);
 
     public int updateNum(TbNatmehaSignalSource tbNatmehaSignalSource);
 

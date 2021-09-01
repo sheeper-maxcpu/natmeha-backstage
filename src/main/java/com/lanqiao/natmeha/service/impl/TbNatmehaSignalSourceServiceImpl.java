@@ -36,7 +36,7 @@ public class TbNatmehaSignalSourceServiceImpl implements TbNatmehaSignalSourceSe
     }
 
     @Override
-    public TbNatmehaSignalSource selectByItemid(Integer itemid) {
+    public TbNatmehaSignalSource selectByItemid(String itemid) {
         return this.tbNatmehaSignalSourceDao.selectByItemid(itemid);
     }
 

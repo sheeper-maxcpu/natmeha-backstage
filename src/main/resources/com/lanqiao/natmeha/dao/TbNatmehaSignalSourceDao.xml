@@ -183,7 +183,7 @@
     </delete>
 
     <!--通过itemID来查询信息-->
-    <select id="selectByItemid" parameterType="TbNatmehaSignalSource" resultMap="BaseResultMap">
+    <select id="selectByItemid"  resultMap="BaseResultMap">
         SELECT
             s.itemID,
             s.itemCode,
@@ -203,7 +203,7 @@
         FROM natmeha.tb_natmeha_signal_source s
                  left join natmeha.tb_natmeha_doctor d
                            on s.DOCTOR_CODE = d.itemCode
-        WHERE s.itemID = #{itemid}
+        WHERE s.itemCode = #{itemid}
     </select>
     <update id="updateNum" parameterType="com.lanqiao.natmeha.model.TbNatmehaSignalSource">
         update tb_natmeha_signal_source

@@ -36,9 +36,17 @@ public class UserController {
 
         final User logUser = this.userService.selectForLogin(user);
         if (logUser != null) {
-            model.addAttribute("logUser", logUser);
-            return "redirect:/numManage"; // 重定向只可以定向到控制器，不可定向到模板页面
-
+            httpSession.setAttribute("logUser", logUser);
+            if (logUser.getType() == 99) {
+                return "index"; // 重定向只可以定向到控制器，不可定向到模板页面
+            } else if (logUser.getType() == 0) {
+                return "index_municipal";
+            } else if (logUser.getType() == 1) {
+                return "index_county";
+            } else if (logUser.getType() == 2) {
+                return "index_provincial";
+            }
+            return "index";
         } else {
             return "user/login";
         }
@@ -48,7 +56,7 @@ public class UserController {
     @RequestMapping("/user/reg")
     public Object insertForReg(User user, Organization organization){
         if (user.getUsername() != null && user.getPassword() != null){
-            user.setType(1);
+            user.setType(99);
             userService.insertForReg(user);
 //            userService.insertForRegOrg(organization);
             return "user/login";
