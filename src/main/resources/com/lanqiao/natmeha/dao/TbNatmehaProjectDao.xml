@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaProjectDao">
+  <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaProject">
+      <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+      <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+      <result property="name" column="NAME" jdbcType="VARCHAR"/>
+      <result property="content" column="CONTENT" jdbcType="VARCHAR"/>
+      <result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR"/>
+      <result property="price" column="PRICE" jdbcType="INTEGER"/>
+      <result property="dataStatus" column="DATA_STATUS" jdbcType="VARCHAR"/>
+      <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+      <result property="visitNum" column="VISIT_NUM" jdbcType="INTEGER"/>
+      <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+      <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+      <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+      <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+      <result property="projectSorce" column="PROJECT_SORCE" jdbcType="DOUBLE"/>
+      <result property="doctorSorce" column="DOCTOR_SORCE" jdbcType="DOUBLE"/>
+
+      <association property="tbNatmehaFile">
+          <id column="f_itemid" jdbcType="INTEGER" property="itemid" />
+          <id column="f_itemCode" jdbcType="CHAR" property="itemcode" />
+          <result column="f_dataCode" jdbcType="VARCHAR" property="dataCode" />
+          <result column="f_fileName" jdbcType="VARCHAR" property="fileName" />
+      </association>
+
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,itemCode,name ,
+        CONTENT,DATA_TYPE,PRICE,
+        DATA_STATUS,USER_CODE,VISIT_NUM,
+        CREATER,itemCreateAt,UPDATER,
+        itemUpdateAt,PROJECT_SORCE,DOCTOR_SORCE
+    </sql>
+
+    <delete id="deleteByItemid" parameterType="int">
+        delete from tb_natmeha_project
+       where itemID = #{itemid,jdbcType=INTEGER}
+    </delete>
+    <insert id="solar_insert_code" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" useGeneratedKeys="true">
+        insert into tb_natmeha_project
+        ( itemCode,NAME
+        ,CONTENT,DATA_TYPE,PRICE
+        ,DATA_STATUS,USER_CODE,VISIT_NUM
+        ,CREATER,itemCreateAt
+        ,itemUpdateAt,PROJECT_SORCE,DOCTOR_SORCE
+        )
+        values (#{itemcode,jdbcType=CHAR},#{name,jdbcType=VARCHAR}
+        ,#{content,jdbcType=VARCHAR},#{dataType,jdbcType=VARCHAR},#{price,jdbcType=INTEGER}
+        ,#{dataStatus,jdbcType=VARCHAR},#{userCode,jdbcType=CHAR},#{visitNum,jdbcType=INTEGER}
+        ,#{creater,jdbcType=VARCHAR},#{itemcreateat,jdbcType=TIMESTAMP}
+        ,#{itemupdateat,jdbcType=TIMESTAMP},#{projectSorce,jdbcType=DOUBLE},#{doctorSorce,jdbcType=DOUBLE}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="itemID" keyProperty="itemid" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" useGeneratedKeys="true">
+        insert into tb_natmeha_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemid != null">itemid,</if>
+            <if test="itemcode != null">itemcode,</if>
+            <if test="name != null">name,</if>
+            <if test="content != null">content,</if>
+            <if test="dataType != null">dataType,</if>
+            <if test="price != null">price,</if>
+            <if test="dataStatus != null">dataStatus,</if>
+            <if test="userCode != null">userCode,</if>
+            <if test="visitNum != null">visitNum,</if>
+            <if test="creater != null">creater,</if>
+            <if test="itemcreateat != null">itemcreateat,</if>
+            <if test="updater != null">updater,</if>
+            <if test="itemupdateat != null">itemupdateat,</if>
+            <if test="projectSorce != null">projectSorce,</if>
+            <if test="doctorSorce != null">doctorSorce,</if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemid != null">itemID = #{itemid,jdbcType=INTEGER},</if>
+            <if test="itemcode != null">itemCode = #{itemcode,jdbcType=CHAR},</if>
+            <if test="name != null">NAME = #{name,jdbcType=VARCHAR},</if>
+            <if test="content != null">CONTENT = #{content,jdbcType=VARCHAR},</if>
+            <if test="dataType != null">DATA_TYPE = #{dataType,jdbcType=VARCHAR},</if>
+            <if test="price != null">PRICE = #{price,jdbcType=INTEGER},</if>
+            <if test="dataStatus != null">DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},</if>
+            <if test="userCode != null">USER_CODE = #{userCode,jdbcType=CHAR},</if>
+            <if test="visitNum != null">VISIT_NUM = #{visitNum,jdbcType=INTEGER},</if>
+            <if test="creater != null">CREATER = #{creater,jdbcType=VARCHAR},</if>
+            <if test="itemcreateat != null">itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},</if>
+            <if test="updater != null">UPDATER = #{updater,jdbcType=VARCHAR},</if>
+            <if test="itemupdateat != null">itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},</if>
+            <if test="projectSorce != null">PROJECT_SORCE = #{projectSorce,jdbcType=DOUBLE},</if>
+            <if test="doctorSorce != null"> DOCTOR_SORCE= #{doctorSorce,jdbcType=DOUBLE},</if>
+
+        </trim>
+    </insert>
+
+    <!--通过itemID来查询信息-->
+    <select id="solar_select" parameterType="integer" resultMap="BaseResultMap">
+    SELECT
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+   FROM natmeha.tb_natmeha_project h
+     left join natmeha.tb_natmeha_file f
+        on h.itemCode = f.DATA_CODE
+    WHERE h.itemID = #{itemid}
+  </select>
+    <update id="solar_updata_code" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject">
+        update tb_natmeha_project
+        <set>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                PRICE = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="dataStatus != null">
+                DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                USER_CODE = #{userCode,jdbcType=CHAR},
+            </if>
+            <if test="visitNum != null">
+                VISIT_NUM = #{visitNum,jdbcType=INTEGER},
+            </if>
+            <if test="creater != null">
+                CREATER = #{creater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemcreateat != null">
+                itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                UPDATER = #{updater,jdbcType=VARCHAR},
+            </if>
+            <if test="itemupdateat != null">
+                itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+            </if>
+            <if test="projectSorce != null">
+                PROJECT_SORCE = #{projectSorce,jdbcType=DOUBLE},
+            </if>
+            <if test="doctorSorce != null">
+                DOCTOR_SORCE = #{doctorSorce,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where   itemID = #{itemid,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject">
+        update tb_natmeha_project
+        set
+            NAME =  #{name,jdbcType=VARCHAR},
+            CONTENT =  #{content,jdbcType=VARCHAR},
+            DATA_TYPE =  #{dataType,jdbcType=VARCHAR},
+            PRICE =  #{price,jdbcType=INTEGER},
+            DATA_STATUS =  #{dataStatus,jdbcType=VARCHAR},
+            USER_CODE =  #{userCode,jdbcType=CHAR},
+            VISIT_NUM =  #{visitNum,jdbcType=INTEGER},
+            CREATER =  #{creater,jdbcType=VARCHAR},
+            itemCreateAt =  #{itemcreateat,jdbcType=TIMESTAMP},
+            UPDATER =  #{updater,jdbcType=VARCHAR},
+            itemUpdateAt =  #{itemupdateat,jdbcType=TIMESTAMP},
+            PROJECT_SORCE =  #{projectSorce,jdbcType=DOUBLE},
+            DOCTOR_SORCE =  #{doctorSorce,jdbcType=DOUBLE}
+        where   itemID = #{itemid,jdbcType=INTEGER} AND itemCode = #{itemcode,jdbcType=CHAR}
+    </update>
+
+<!--县级管理员-->
+    <select id="selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+            <if test="tbNatmehaProject != null">
+                DATA_TYPE = #{tbNatmehaProject.dataType}
+            </if>
+            <if test="tbNatmehaProject.dataStatus != null">
+                and DATA_STATUS = #{tbNatmehaProject.dataStatus}
+            </if>
+            <if test="tbNatmehaProject.neirou != null">
+                and ( NAME like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+            </if>
+        </where>
+    </select>
+
+    <!--市级管理员-->
+    <select id="municipal_clerkselectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+            <if test="tbNatmehaProject.dataType != null">
+                DATA_TYPE = #{tbNatmehaProject.dataType}
+            </if>
+            <if test="tbNatmehaProject != null">
+                and (DATA_STATUS = "9" or DATA_STATUS = "3" or DATA_STATUS = "4" or DATA_STATUS = "5")
+            </if>
+            <if test="tbNatmehaProject.neirou != null">
+                and (NAME  like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+            </if>
+        </where>
+    </select>
+
+    <!--省级管理员-->
+    <select id="provincial_clerk_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+            <if test="tbNatmehaProject.dataType != null">
+                DATA_TYPE = #{tbNatmehaProject.dataType}
+            </if>
+            <if test="tbNatmehaProject != null">
+                and (DATA_STATUS = "10" or DATA_STATUS = "5" or DATA_STATUS = "6" or DATA_STATUS = "7")
+            </if>
+            <if test="tbNatmehaProject.neirou != null">
+                and (NAME  like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+            </if>
+        </where>
+    </select>
+
+    <!--国医堂管理员发布-->
+    <select id="natmehaselectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+            <if test="tbNatmehaProject.dataType != null">
+                DATA_TYPE = #{tbNatmehaProject.dataType}
+            </if>
+            <if test="tbNatmehaProject != null">
+                and (DATA_STATUS = "7" or DATA_STATUS = "8")
+            </if>
+            <if test="tbNatmehaProject.neirou != null">
+                and (NAME like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+            </if>
+        </where>
+    </select>
+
+    <!--县级机构审核，要显示的信息显示-->
+    <select id="county_selectByPage" resultMap="BaseResultMap" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+        <if test="tbNatmehaProject != null">
+        DATA_TYPE = #{tbNatmehaProject.dataType}
+        </if>
+        <if test="tbNatmehaProject != null">
+        and ( DATA_STATUS = "1" or DATA_STATUS = "2" or DATA_STATUS = "3")
+        </if>
+        <if test="tbNatmehaProject.neirou != null">
+        and (NAME like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+        </if>
+        </where>
+    </select>
+
+    <!--市级机构审核，要显示的信息显示-->
+    <select id="municipal_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+    <where>
+        <if test="tbNatmehaProject != null">
+            DATA_TYPE = #{tbNatmehaProject.dataType}
+        </if>
+        <if test="tbNatmehaProject !=null">
+            and (DATA_STATUS = "3" or DATA_STATUS = "4" or DATA_STATUS = "5")
+        </if>
+        <if test="tbNatmehaProject.neirou != null">
+            and (NAME like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+        </if>
+    </where>
+</select>
+
+    <!--省级机构审核，要显示的信息显示-->
+    <select id="provincial_selectByPage" parameterType="com.lanqiao.natmeha.model.TbNatmehaProject" resultMap="BaseResultMap">
+        select
+        h.itemID,
+        h.itemCode,
+        h.NAME,
+        h.CONTENT,
+        h.DATA_TYPE,
+        h.PRICE,
+        h.DATA_STATUS,
+        h.USER_CODE,
+        h.VISIT_NUM,
+        h.CREATER,
+        h.itemCreateAt,
+        h.UPDATER,
+        h.itemUpdateAt,
+        h.PROJECT_SORCE,
+        h.DOCTOR_SORCE,
+        f.itemID  f_itemid,
+        f.itemCode  f_itemCode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from tb_natmeha_project h
+        left join tb_natmeha_file f
+        on
+        h.itemCode = f.data_code
+        <where>
+            <if test="tbNatmehaProject != null">
+                DATA_TYPE = #{tbNatmehaProject.dataType}
+            </if>
+            <if test="tbNatmehaProject !=null">
+                and (DATA_STATUS = "5" or DATA_STATUS = "6" or DATA_STATUS = "7")
+            </if>
+            <if test="tbNatmehaProject.neirou != null">
+                and (NAME like "%"#{tbNatmehaProject.neirou}"%" or CREATER like "%"#{tbNatmehaProject.neirou}"%")
+            </if>
+        </where>
+    </select>
+</mapper>

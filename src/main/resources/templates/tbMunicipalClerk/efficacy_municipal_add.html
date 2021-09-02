@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>市级管理员增加功效特色信息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"
+          href="../../static/layui/css/modules/laydate/default/laydate.css"/>
+    <link rel="stylesheet" th:href="@{/kindeditor/themes/default/default.css}"
+          href="../../static/kindeditor/themes/default/default.css"/>
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/layui/layui.js}"
+            src="../../static/layui/layui.js"></script>
+    <!--文本编辑器-->
+    <script charset="utf-8" th:src="@{/kindeditor/kindeditor-all.js}"
+            src="../../static/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" th:src="@{/kindeditor/lang/zh-CN.js}"
+            src="../../static/kindeditor/lang/zh-CN.js"></script>
+    <style>
+        /*清除边框*/
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /*更改默认值*/
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        input{
+            width: 240px;
+            height: 32px;
+        }
+        button{
+            width: 102px;
+            height: 31px;
+            background-color:rgba(217, 0, 27, 1);
+        }
+        p,button{
+            text-align: center;
+        }
+    </style>
+    <script>
+        layui.use('form',function () {
+            //var form = layui.form;
+            var savebtn = $('#savebtn');
+            var putbtn = $('#putbtn');
+            //弹出一个loading层
+            savebtn.on('click', function () {
+                var ii = layer.load();
+                //此处用setTimeout演示ajax的回调
+                setTimeout(function () {
+                    layer.close(ii);
+                },2000);
+            });
+            putbtn.on('click', function () {
+                var ii = layer.load();
+                //此处用setTimeout演示ajax的回调
+                setTimeout(function () {
+                    layer.close(ii);
+                },2000);
+            });
+        });
+
+        //图片上传到浏览器并显示
+        function imgfile(obj) {
+            //判断是否支持FileReader
+            if (window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+            //获取文件
+            var file = obj.files[0];
+            console.log(file);
+            var imageType = /^image\//;
+            //是否是图片
+            if (!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            //读取完成
+            reader.onload = function(e) {
+                //获取图片展示的位置
+                var img = document.getElementById("demo1");
+                //图片路径设置为读取的图片
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12 column">
+        <form class="layui-form" action="/start/efficacy_municipal_insert" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data">
+            <div class="layui-form-item">
+                <label class="layui-form-label">功效特色名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">功效特色价格</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="width: 300px">
+                </div>
+            </div>
+            <br>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-block">
+                    <input type="file" name="file" onchange="imgfile(this)" accept="image/gif,image/jpeg, image/png, image/jpg">
+                    <div>
+                    <img src=""  id="demo1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">功效特色简介</label>
+                <div class="layui-input-block">
+                    <textarea  type="text" name="content" placeholder="请输入" style="height: 130px;width: 60%" onblur="get('')" class="layui-input" ></textarea>
+                </div>
+            </div>
+
+            <br><br><br><br><br><br><br>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <p>
+                        <button type="submit" name="reset" value="取消" class="layui-btn layui-btn-normal" id="LAY-component-form-setval">取消</button>
+                        <button type="submit" name="savebtn" value="保存" class="layui-btn layui-btn-normal" id="savebtn">保存</button>
+                        <button type="submit" id="putbtn" name="putbtn" value="立即提交" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#hotspotContent');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员信息系统界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css"/>
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .container {
+            width: 1350px;
+        }
+        .mytop {
+            background-color: #775637;
+            height: 85px;
+        }
+
+        .text {
+            font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 20px;
+            color: #FFFFFF;
+            line-height: 85px;
+            float: left;
+            margin-left: 10px;
+        }
+
+        .search {
+            float: right;
+        }
+
+        .search .right-img {
+            width: 24px;
+            height: 24px;
+            margin-left: 30px;
+        }
+        .search input {
+            width: 240px;
+            height: 27px;
+            background-color: rgba(255, 255, 255, 1);
+            box-sizing: border-box;
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(153, 153, 153, 1);
+            border-radius: 5px;
+            text-indent: 30px;
+            margin-top: 20px;
+        }
+        .search .search-img {
+            position: absolute;
+            right: 363px;
+            top: 26px;
+        }
+        .search span {
+            color: #ffffff;
+        }
+        .leftNav {
+            height: 738px;
+            width: 220px;
+        }
+        .leftNav .fabu {
+            font-family: 'Arial Negreta', 'Arial Normal', 'Arial', sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 14px;
+            height: 50px;
+            line-height: 50px;
+        }
+        .leftNav .news{
+            border-width: 0px;
+            position: absolute;
+            left: 0px;
+            top: 50px;
+            width: 234px;
+            height: 38px;
+            display: flex;
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: rgba(27, 27, 27, 0.647058823529412);
+            text-align: left;
+        }
+        .leftNav .news .news-text {
+            position: absolute;
+            align-self: center;
+            padding: 10px 2px 2px 2px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .leftNav .news .news-text p {
+            font-family: 'Arial Narrow', 'Arial', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 12px;
+            color: rgba(27, 27, 27, 0.647058823529412);
+            text-align: left;
+        }
+
+        .leftNav .news .news-text p a{
+            text-decoration: none;
+            display: block;
+            height: 38px;
+            line-height: 38px;
+            width: 100%;
+            color: rgba(27, 27, 27, 0.647058823529412);
+        }
+        .leftNav .news .news-text p a.active {
+            color: rgba(214, 0, 0, 1);
+            font-size: 10px;
+        }
+        iframe{
+            height: 900px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column mytop">
+            <div class="text">
+                <span>“智慧”国医堂惠民信息系统</span>
+            </div>
+            <div class="search">
+                <input type="text" placeholder="请输入关键字搜索" />
+                <img th:src="@{/images/code/u21.svg}" class="search-img">
+                <img th:src="@{/images/code/u24.jpg}" class="right-img">
+                <span>momo.zxy</span>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-2 column">
+            <div class="leftNav">
+                <div class="fabu">
+                    <p>信息管理</p>
+                </div>
+                <div class="news">
+                    <img th:src="@{/images/code/u13.svg}"/>
+                    <div class="news-text">
+                        <p>
+                            <a href="#" target="rightNav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>号源管理</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="news" style="top: 88px;">
+                    <img th:src="@{/images/code/u13.svg}"/>
+                    <div class="news-text">
+                        <p>
+                            <a href="#" target="rightNav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>服务团队</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news" style="top: 126px;">
+                    <img th:src="@{/images/code/u13.svg}"/>
+                    <div class="news-text">
+                        <p>
+                            <a href="/start/item_clerk_code" target="rightNav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>开展项目</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news" style="top: 164px;">
+                    <img th:src="@{/images/code/u13.svg}"/>
+                    <div class="news-text">
+                        <p>
+                            <a href="/start/efficacy_clerk_code" target="rightNav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>功效特色</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="news" style="top: 202px;">
+                    <img th:src="@{/images/code/u13.svg}"/>
+                    <div class="news-text">
+                        <p>
+                            <a href="#" target="rightNav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>信息维护</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10" align="left">
+            <iframe src="" scrolling="no" width="100%" name="rightNav" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
