@@ -72,4 +72,9 @@ public class TbNatmehaFile implements Serializable {
     private Date itemcreateat;
 
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private String orgCode;
+
 }

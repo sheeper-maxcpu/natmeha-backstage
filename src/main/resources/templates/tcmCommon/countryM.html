@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医常识县级管理员</title>
+    <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
+          href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script th:src="@{/component/js/jquery-2.2.4.js}"
+            src="../../static/component/js/jquery-2.2.4.js"></script>
+    <script th:src="@{/component/bootstrap-3.3.7/js/bootstrap.min.js}"
+            src="../../static/component/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script th:src="@{/component/inspinia/js/plugins/sweetalert/sweetalert.min.js}"
+            src="../../static/component/inspinia/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link rel="stylesheet" th:href="@{/component/inspinia/css/plugins/sweetalert/sweetalert.css}"
+          href="../../static/component/inspinia/css/plugins/sweetalert/sweetalert.css">
+    <link rel="stylesheet"  th:href="@{/style/workprocess/workPro.css}"
+          href="../../static/style/workprocess/workPro.css">
+
+    <style>
+/*        .inpTime{
+            width: 84px;
+            height: 38px;
+            background: inherit;
+            background-color: rgba(255, 255, 255, 1);
+            border: none;
+            border-radius: 2px;
+            -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.349019607843137);
+            -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.349019607843137);
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.349019607843137);
+            font-size: 14px;
+            text-align: left;
+            padding: 0 8px;
+        }*/
+    </style>
+</head>
+
+<body>
+<div class="container-fluid main">
+    <!--头部-->
+    <div class="row header">
+        <div class="col-md-3 left">“智慧”国医堂惠民信息系统</div>
+        <div class="col-md-4 col-md-offset-5 right" style="height: 85px;">
+            <!--搜索框-->
+            <div class="search">
+                <div style="height: 100%;width: 27px;">
+                    <img src="../../static/images/medicne-menterprise-college/u759.svg" style="margin-top: 5px;margin-left: 6px">
+                </div>
+                <div style="height: 100%;width: 213px">
+                    <input type="text"  placeholder="请输入关键字搜索" style="height: 100%;width: 100%">
+                </div>
+            </div>
+            <!--头像-->
+            <div style="height: 24px;width: 24px;margin-top: 30.5px;margin-left: 34px;">
+                <img src="../../images/medicne-menterprise-college/u762.jpg" height="100%" width="100%" >
+            </div>
+            <!--用户名-->
+            <div style="color: white;margin-left: 10px;height: 100%"><p style="line-height: 85px">momo.zxy</p> </div>
+        </div>
+    </div>
+
+    <!--主体-->
+    <div class="row" style="height: 500px;margin-top: 25px">
+        <!--左边导航栏-->
+        <div class="col-md-2" style="padding: 0px">
+            <div class="navitem"><p><a th:href="@{/TbCulproData/selectAllSlideshow}" style="cursor: pointer">&gt;节气养生</a></p></div>
+            <div class="navitem"><p><a th:href="@{/tbCulproData/news}" style="cursor: pointer">&gt;自我保健</a></p></div>
+            <div class="navitem"><p><a th:href="@{/TbCulproData/notice}" style="cursor: pointer">&gt;药膳食疗</a></p></div>
+            <div class="navitem"><p><a th:href="@{/tbCulproData/selectAllByPage}" style="cursor: pointer">&gt;中医常识</a></p></div>
+            <div class="navitem" ><p ><a th:href="@{/tbNatmehaChineseMedicine/countryMan}"  style="cursor: pointer">&gt;中医文化</a></p></div>
+            <div class="navitem" style="border-bottom: #bdbfbd 1px dashed"><p ><a th:href="@{/tbNatmehaChineseMedicine/countryMan}"  style="cursor: pointer">&gt;儿童健康</a></p></div>
+        </div>
+        <!--右边主体-->
+        <div class="col-md-10">
+            <!--搜索栏-->
+            <div class="row">
+                <form action="/tbNatmehaChineseMedicine/countryMan" method="get">
+                    <div style="height: 77px">
+                        <input type="text" placeholder="请输入" th:value="${param.message}" name="message" class="workSearch"/>
+                        <input type="submit" value="搜 索" class="searchBtn"/>
+                    </div>
+                </form>
+            </div>
+            <!--分割线-->
+            <div class="row" >
+                <div class="col-md-12">
+                    <div style="height: 22px;width: 100%;margin-top:22px;border-top: #bdbfbd 2px dashed;"></div>
+                </div>
+            </div>
+            <!--其他选项-->
+            <div class="status" >
+                <span>其他选项：</span>
+                <span>展示状态：</span>
+                <select name="dataStatus">
+                    <option value="">-- 请选择 --</option>
+                   <!-- <option th:selected="" value="0">已保存</option>
+                    <option th:selected="" value="8">已发布</option>
+                    <option th:selected="" value="待审核">待审核</option>
+                    <option th:selected="" value="不通过">被驳回</option>
+                    <option th:selected="" value="通过">已通过</option>
+                    <option th:selected="" value="已下架">已下架</option>-->
+                </select>
+                <span style="margin-left: 100px">功效分类：</span>
+                <select name="classification">
+                    <option value="">解表药</option>
+                    <option value="">清热药</option>
+                </select>
+                    <!--<span>发布时间:&emsp;</span>
+                    <input  name="startTime"
+                           th:value="${session.startTime ne null ? (session.startTime.length()==0?'00:00':session.startTime):('00:00')}"
+                           type="time" value="00:00">
+                    <span>&emsp;至&nbsp;</span>
+                    <input  name="endTime"
+                           th:value="${session.endTime ne null ? (session.endTime.length()==0?'00:00':session.endTime):('00:00')}"
+                           type="time" value="00:00">-->
+            </div>
+
+            <br>
+            <a th:href="@{/tbNatmehaChineseMedicine/countryAddTCMCommon}" class="addBtn btn">新增中医常识</a>
+            <!--展示表格-->
+            <div>
+                <table width="100%">
+                    <thead>
+                    <tr class="tr-title">
+                        <th>中药材名称</th>
+                        <th>别名</th>
+                        <th>中药图片</th>
+                        <th>功效分类</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="workList">
+                    <tr  th:each="tbCHNMedicineItem,iter:${tbCHNMedicineList}" >
+                        <td th:text="${tbCHNMedicineItem.name}"></td>
+                        <td th:text="${tbCHNMedicineItem.alias}"></td>
+                        <td>
+<!--                            <img th:src="@{{im}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.filePath}))}"  id="demo1" width="100px" height="100px">-->
+                            <img th:src="@{http://localhost/portals/images/{image}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.fileName}))}"  id="demo1" width="80px" height="80px">
+                        </td>
+                        <td th:text="${tbCHNMedicineItem.classification}"></td>
+                        <td>
+                            <!--待县级、市级、省级审核状态、发布状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='1' or ${tbCHNMedicineItem.status} =='3' or ${tbCHNMedicineItem.status} =='5' or ${tbCHNMedicineItem.status} =='8'"
+                               th:href="@{/tbNatmehaChineseMedicine/countryCheck(itemid=${tbCHNMedicineItem.itemid})}">查看</a>
+                            <!--保存状态、县级、市级、省级不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/countryUpdateCM(itemid=${tbCHNMedicineItem.itemid},itemcode=${tbCHNMedicineItem.itemcode})}">修改</a>
+                            <!--保存状态、县级、市级、省级不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/countrySubmitCM(itemid=${tbCHNMedicineItem.itemid})}">提交</a>
+                            <!--县级管理员 保存状态、提交至县级、市级、省级但不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/countryDeleteCM(itemid=${tbCHNMedicineItem.itemid})}">删除</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--分页栏-->
+                <nav aria-label="Page navigation" class="text-center">
+                    <ul class="pagination">
+                        <li th:if="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages}">
+                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=1)}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum}>1">
+                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-1)}">&lt;</a>
+                        </li>
+                        <li th:if="${(tbCHNMedicineList.pageNum)-3 gt 1}">
+                            <a th:text="${(tbCHNMedicineList.pageNum)-4}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-4)}"></a>
+                        </li>
+                        <li th:if="${(tbCHNMedicineList.pageNum)-2 gt 1}">
+                            <a th:text="${(tbCHNMedicineList.pageNum)-3}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-3)}"></a>
+                        </li>
+                        <li th:if="${(tbCHNMedicineList.pageNum)-1 gt 1}">
+                            <a th:text="${(tbCHNMedicineList.pageNum)-2}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-2)}"></a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum gt 1}" >
+                            <a th:text="${(tbCHNMedicineList.pageNum)-1}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-1)}"></a>
+                        </li>
+                        <!--/* 当前页 */-->
+                        <li th:if="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages}" th:class="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages ? 'active':''}">
+                            <a th:text="${tbCHNMedicineList.pageNum}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum})}"></a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum+1 le tbCHNMedicineList.pages}">
+                            <a th:text="${tbCHNMedicineList.pageNum+1}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+1)}"></a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum+2 le tbCHNMedicineList.pages}">
+                            <a th:text="${tbCHNMedicineList.pageNum+2}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+2)}"></a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum+3 le tbCHNMedicineList.pages}">
+                            <a th:text="${tbCHNMedicineList.pageNum+3}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+3)}"></a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum lt tbCHNMedicineList.pages}">
+                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+1)}">&gt;</a>
+                        </li>
+                        <li th:if="${tbCHNMedicineList.pageNum lt tbCHNMedicineList.pages}">
+                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pages})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <form style="display: inline-block;margin-left: 20px" action="/tbNatmehaChineseMedicine/countryMan" method="get">
+                            <span>跳至</span>
+                            <input name="pageNum" type="number" class="skip" th:value="${#request.getParameter('pageNum')}"/>
+                            <span>页</span>
+                        </form>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -34,6 +34,12 @@ public class TbNatmehaHotspot {
      */
     private String hotspotContent;
 
+
+    /**
+     *
+     */
+    private String hotspotAuthor;
+
     /**
      * 数据状态
      */
@@ -77,4 +83,5 @@ public class TbNatmehaHotspot {
     private TbNatmehaFile tbNatmehaFile;
 
     private static final long serialVersionUID = 1L;
+
 }

@@ -1,17 +1,14 @@
 package com.lanqiao.natmeha.model;
 
-import lombok.Data;
-import lombok.ToString;
-
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 中药常识信息记录表
- * @TableName tb_natmeha_chinese_medicine
  */
 @Data
-@ToString
-public class TbNatmehaChineseMedicine{
+public class TbNatmehaChineseMedicine implements Serializable {
     /**
      * 
      */
@@ -92,4 +89,16 @@ public class TbNatmehaChineseMedicine{
      */
     private Date itemupdateat;
 
+    private TbNatmehaFile tbNatmehaFile;
+
+    /**
+     * 查询条件
+     */
+    private String message;
+
+    public TbNatmehaChineseMedicine(String message){
+        this.message = message;
+    }
+
+    private static final long serialVersionUID = 1L;
 }

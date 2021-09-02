@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaHotspotMapper">
+
+    <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+            <id property="itemid" column="itemID" jdbcType="INTEGER"/>
+            <id property="itemcode" column="itemCode" jdbcType="CHAR"/>
+            <result property="hotspotTitle" column="HOTSPOT_TITLE" jdbcType="VARCHAR"/>
+            <result property="hotspotContent" column="HOTSPOT_CONTENT" jdbcType="VARCHAR"/>
+            <result property="hotspotSource" column="HOTSPOT_SOURCE" jdbcType="VARCHAR"/>
+            <result property="hotspotAuthor" column="HOTSPOT_AUTHOR" jdbcType="VARCHAR"/>
+            <result property="dataStatus" column="DATA_STATUS" jdbcType="VARCHAR"/>
+            <result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR"/>
+            <result property="userCode" column="USER_CODE" jdbcType="CHAR"/>
+            <result property="creater" column="CREATER" jdbcType="VARCHAR"/>
+            <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
+            <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
+            <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        itemID,itemCode,HOTSPOT_TITLE,
+        HOTSPOT_CONTENT,HOTSPOT_SOURCE,HOTSPOT_AUTHOR,
+        DATA_STATUS,DATA_TYPE,USER_CODE,
+        CREATER,itemCreateAt,UPDATER,
+        itemUpdateAt
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_natmeha_hotspot
+        where  itemID = #{itemid,jdbcType=INTEGER} AND itemCode = #{itemcode,jdbcType=CHAR} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from tb_natmeha_hotspot
+        where  itemID = #{itemid,jdbcType=INTEGER} AND itemCode = #{itemcode,jdbcType=CHAR} 
+    </delete>
+    <insert id="insertTCMCulture">
+        insert into tb_natmeha_hotspot
+        ( itemID,itemCode,HOTSPOT_TITLE
+        ,HOTSPOT_CONTENT,HOTSPOT_SOURCE,HOTSPOT_AUTHOR
+        ,DATA_STATUS,DATA_TYPE,USER_CODE
+        ,CREATER,itemCreateAt,UPDATER
+        ,itemUpdateAt)
+        values (#{itemid,jdbcType=INTEGER},#{itemcode,jdbcType=CHAR},#{hotspotTitle,jdbcType=VARCHAR}
+        ,#{hotspotContent,jdbcType=VARCHAR},#{hotspotSource,jdbcType=VARCHAR},#{hotspotAuthor,jdbcType=VARCHAR}
+        ,#{dataStatus,jdbcType=VARCHAR},#{dataType,jdbcType=VARCHAR},#{userCode,jdbcType=CHAR}
+        ,#{creater,jdbcType=VARCHAR},#{itemcreateat,jdbcType=TIMESTAMP},#{updater,jdbcType=VARCHAR}
+        ,#{itemupdateat,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective">
+        insert into tb_natmeha_hotspot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="itemid != null">itemid,</if>
+                <if test="itemcode != null">itemcode,</if>
+                <if test="hotspotTitle != null">hotspotTitle,</if>
+                <if test="hotspotContent != null">hotspotContent,</if>
+                <if test="hotspotSource != null">hotspotSource,</if>
+                <if test="hotspotAuthor != null">hotspotAuthor,</if>
+                <if test="dataStatus != null">dataStatus,</if>
+                <if test="dataType != null">dataType,</if>
+                <if test="userCode != null">userCode,</if>
+                <if test="creater != null">creater,</if>
+                <if test="itemcreateat != null">itemcreateat,</if>
+                <if test="updater != null">updater,</if>
+                <if test="itemupdateat != null">itemupdateat,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="itemid != null">itemID = #{itemid,jdbcType=INTEGER},</if>
+                <if test="itemcode != null">itemCode = #{itemcode,jdbcType=CHAR},</if>
+                <if test="hotspotTitle != null">HOTSPOT_TITLE = #{hotspotTitle,jdbcType=VARCHAR},</if>
+                <if test="hotspotContent != null">HOTSPOT_CONTENT = #{hotspotContent,jdbcType=VARCHAR},</if>
+                <if test="hotspotSource != null">HOTSPOT_SOURCE = #{hotspotSource,jdbcType=VARCHAR},</if>
+                <if test="hotspotAuthor != null">HOTSPOT_AUTHOR = #{hotspotAuthor,jdbcType=VARCHAR},</if>
+                <if test="dataStatus != null">DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},</if>
+                <if test="dataType != null">DATA_TYPE = #{dataType,jdbcType=VARCHAR},</if>
+                <if test="userCode != null">USER_CODE = #{userCode,jdbcType=CHAR},</if>
+                <if test="creater != null">CREATER = #{creater,jdbcType=VARCHAR},</if>
+                <if test="itemcreateat != null">itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},</if>
+                <if test="updater != null">UPDATER = #{updater,jdbcType=VARCHAR},</if>
+                <if test="itemupdateat != null">itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+        update tb_natmeha_hotspot
+        <set>
+                <if test="hotspotTitle != null">
+                    HOTSPOT_TITLE = #{hotspotTitle,jdbcType=VARCHAR},
+                </if>
+                <if test="hotspotContent != null">
+                    HOTSPOT_CONTENT = #{hotspotContent,jdbcType=VARCHAR},
+                </if>
+                <if test="hotspotSource != null">
+                    HOTSPOT_SOURCE = #{hotspotSource,jdbcType=VARCHAR},
+                </if>
+                <if test="hotspotAuthor != null">
+                    HOTSPOT_AUTHOR = #{hotspotAuthor,jdbcType=VARCHAR},
+                </if>
+                <if test="dataStatus != null">
+                    DATA_STATUS = #{dataStatus,jdbcType=VARCHAR},
+                </if>
+                <if test="dataType != null">
+                    DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+                </if>
+                <if test="userCode != null">
+                    USER_CODE = #{userCode,jdbcType=CHAR},
+                </if>
+                <if test="creater != null">
+                    CREATER = #{creater,jdbcType=VARCHAR},
+                </if>
+                <if test="itemcreateat != null">
+                    itemCreateAt = #{itemcreateat,jdbcType=TIMESTAMP},
+                </if>
+                <if test="updater != null">
+                    UPDATER = #{updater,jdbcType=VARCHAR},
+                </if>
+                <if test="itemupdateat != null">
+                    itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},
+                </if>
+        </set>
+        where   itemCode = #{itemcode,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lanqiao.natmeha.model.TbNatmehaHotspot">
+        update tb_natmeha_hotspot
+        set 
+            HOTSPOT_TITLE =  #{hotspotTitle,jdbcType=VARCHAR},
+            HOTSPOT_CONTENT =  #{hotspotContent,jdbcType=VARCHAR},
+            HOTSPOT_SOURCE =  #{hotspotSource,jdbcType=VARCHAR},
+            HOTSPOT_AUTHOR =  #{hotspotAuthor,jdbcType=VARCHAR},
+            DATA_STATUS =  #{dataStatus,jdbcType=VARCHAR},
+            DATA_TYPE =  #{dataType,jdbcType=VARCHAR},
+            USER_CODE =  #{userCode,jdbcType=CHAR},
+            CREATER =  #{creater,jdbcType=VARCHAR},
+            itemCreateAt =  #{itemcreateat,jdbcType=TIMESTAMP},
+            UPDATER =  #{updater,jdbcType=VARCHAR},
+            itemUpdateAt =  #{itemupdateat,jdbcType=TIMESTAMP}
+        where   itemID = #{itemid,jdbcType=INTEGER} AND itemCode = #{itemcode,jdbcType=CHAR} 
+    </update>
+
+    <!--中医文化 儿童健康 县级管理员搜索-->
+    <select id="selectAllByPage" resultMap="BaseResultMap">
+        select
+        *
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType}
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 县级管理员搜索-->
+    <select id="selectAllByPageWithTime" resultMap="BaseResultMap" parameterType="tbNatmehaHotspot">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = '3'
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where itemID = #{itemid}
+    </select>
+
+    <select id="queryByIdAndCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where itemID = #{itemid} and itemcode = #{itemcode}
+    </select>
+
+    <delete id="deleteById">
+        delete from tb_natmeha_hotspot
+        where  itemID = #{itemid,jdbcType=INTEGER}
+    </delete>
+
+    <!--中医文化 县级管理部门搜索-->
+    <select id="selectAllByPageForCountry" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS = '1'
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 市级管理员搜索-->
+    <select id="selectAllByPageTwo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS in ('9','3','4','5','6','7','8','11')
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 市级管理部门搜索-->
+    <select id="selectAllByPageForCity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS = '3'
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 省级管理员搜索-->
+    <select id="selectAllByPageThree" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS in ('10','5','6','7','8','11')
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 省级管理部门搜索-->
+    <select id="selectAllByPageForProvince" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS = '5'
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+
+    <!--中医文化 国医堂管理员搜索-->
+    <select id="selectAllByPageFour" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from
+        tb_natmeha_hotspot h
+        where
+        h.DATA_TYPE = #{dataType} and h.DATA_STATUS in ('7','8','11')
+        <if test="message!=null and message.trim().length()>0">
+            <bind name="pattern" value="'%' + message + '%'"/>
+            and CONCAT(h.HOTSPOT_TITLE,h.HOTSPOT_SOURCE,h.HOTSPOT_AUTHOR) like #{pattern}
+        </if>
+    </select>
+    <!--中医文化end-->
+
+
+
+</mapper>
