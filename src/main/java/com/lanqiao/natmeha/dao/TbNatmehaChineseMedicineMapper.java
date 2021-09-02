@@ -1,8 +1,7 @@
-package com.lanqiao.natmeha.mapper;
+package com.lanqiao.natmeha.dao;
 
 import com.github.pagehelper.Page;
 import com.lanqiao.natmeha.model.TbNatmehaChineseMedicine;
-import com.lanqiao.natmeha.model.TbNatmehaHotspot;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -34,9 +33,17 @@ public interface TbNatmehaChineseMedicineMapper {
                                                      @Param("pageNum") Integer pageNum,
                                                      @Param("pageSize") Integer pageSize);
 
+    Page<TbNatmehaChineseMedicine> selectAllByCity(@Param("tbNatmehaChineseMedicine") TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                                      @Param("pageNum") Integer pageNum,
+                                                      @Param("pageSize") Integer pageSize);
+
     Page<TbNatmehaChineseMedicine> selectAllByPageForCity(@Param("tbNatmehaChineseMedicine") TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
                                                              @Param("pageNum") Integer pageNum,
                                                              @Param("pageSize") Integer pageSize);
+
+    Page<TbNatmehaChineseMedicine> selectAllByProvince(@Param("tbNatmehaChineseMedicine") TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                                   @Param("pageNum") Integer pageNum,
+                                                   @Param("pageSize") Integer pageSize);
 
     Page<TbNatmehaChineseMedicine> selectAllByPageForProvince(@Param("tbNatmehaChineseMedicine") TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
                                                           @Param("pageNum") Integer pageNum,

@@ -38,6 +38,7 @@ public class TbNatmehaChineseMedicineController {
      */
     @Resource
     private TbNatmehaFileService tbNatmehaFileService;
+
     //县级管理员
     @RequestMapping("/countryMan")  //  /tbNatmehaChineseMedicine/countryMan
     public String selectAllByPageForCountry(Model model,
@@ -53,7 +54,7 @@ public class TbNatmehaChineseMedicineController {
             tbNatmehaChineseMedicine = (TbNatmehaChineseMedicine) session.getAttribute("tbNatmehaChineseMedicine");
         }
         Page<TbNatmehaChineseMedicine> tbCHNMedicineList = this.tbNatmehaChineseMedicineService.selectAllByCountry(tbNatmehaChineseMedicine,pageNum,5);
-        // System.out.println(tbCHNMedicineList);
+        System.out.println(tbCHNMedicineList);
         model.addAttribute("tbCHNMedicineList",tbCHNMedicineList);
         return "tcmCommon/countryM";
     }
@@ -281,6 +282,151 @@ public class TbNatmehaChineseMedicineController {
             return null;
     }
 
+    //市级管理员
+    @RequestMapping("/cityManCM")  //  /tbNatmehaChineseMedicine/cityManCM
+    public String selectAllByPageForCity(Model model,
+                                            Integer pageNum,
+                                            TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                            HttpSession session){
+        if(pageNum == null){
+            pageNum = 1;
+            // 保留当前的查询条件，供接下来点击分页链接时使用
+            session.setAttribute("tbNatmehaChineseMedicine",tbNatmehaChineseMedicine);
+        }else {
+            // 点击分页链接时取回查询条件
+            tbNatmehaChineseMedicine = (TbNatmehaChineseMedicine) session.getAttribute("tbNatmehaChineseMedicine");
+        }
+        Page<TbNatmehaChineseMedicine> tbCHNMedicineList = this.tbNatmehaChineseMedicineService.selectAllByCity(tbNatmehaChineseMedicine,pageNum,5);
+        System.out.println(tbCHNMedicineList);
+        model.addAttribute("tbCHNMedicineList",tbCHNMedicineList);
+        return "tcmCommon/cityM";
+    }
+
+    //市级管理员新增
+    @RequestMapping("/cityAddTCMCommon")  //  /tbNatmehaChineseMedicine/cityAddTCMCommon
+    public String cityAddTCMCommon(){
+        return "tcmCommon/cityAddTCMCommon";
+    }
+
+    //新增内容管理
+    @RequestMapping("/cityInsertTCMCommon")  //  /tbNatmehaChineseMedicine/cityInsertTCMCommon
+    public String cityInsertTCMCommon(@RequestParam("uploadImg") MultipartFile uploadImg,
+                                    String save,
+                                    String refer,
+                                    TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                    String mark
+    ){
+        if(save != null){
+            String itemcode = UUID.randomUUID().toString();
+            String fileDataCode = itemcode;
+            String userCode = UUID.randomUUID().toString();
+            String fileItemCode = userCode;
+            tbNatmehaChineseMedicine.setStatus("9");  //设置市级保存状态
+            tbNatmehaChineseMedicine.setItemcode(itemcode);
+            tbNatmehaChineseMedicine.setUserCode(userCode);
+            tbNatmehaChineseMedicine.setCreater("admin"); //设定默认值
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, fileItemCode, fileDataCode, tbNatmehaChineseMedicine.getItemcreateat());
+                result += this.tbNatmehaFileService.insertFile(tbNatmehaFile);
+            }
+            //加入信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.insertTCMCommon(tbNatmehaChineseMedicine);
+            if (result>0){
+                return "redirect:/tbNatmehaChineseMedicine/cityManCM";
+            }
+        }else if(refer != null){
+            String itemcode = UUID.randomUUID().toString();
+            String fileDataCode = itemcode;
+            String userCode = UUID.randomUUID().toString();
+            String fileItemCode = userCode;
+            tbNatmehaChineseMedicine.setStatus("3");  //设置待市级审核状态
+            tbNatmehaChineseMedicine.setItemcode(itemcode);
+            tbNatmehaChineseMedicine.setUserCode(userCode);
+            tbNatmehaChineseMedicine.setCreater("admin"); //设定默认值
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, fileItemCode, fileDataCode, tbNatmehaChineseMedicine.getItemcreateat());
+                result += this.tbNatmehaFileService.insertFile(tbNatmehaFile);
+            }
+            //加入信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.insertTCMCommon(tbNatmehaChineseMedicine);
+            if (result>0){
+                return "redirect:/tbNatmehaChineseMedicine/cityManCM";
+            }
+        }
+        return null;
+    }
+
+    // 市级管理员首页点击修改
+    @RequestMapping("/cityUpdateCM") // /tbNatmehaChineseMedicine/cityUpdateCM
+    public String undateToCityCM(Model model,Integer itemid){
+        TbNatmehaChineseMedicine tbNatmehaChineseMedicine = this.tbNatmehaChineseMedicineService.queryById(itemid);
+        model.addAttribute("tbNatmehaChineseMedicine",tbNatmehaChineseMedicine);
+        return "tcmCommon/cityUpdateCM";
+    }
+
+    //市级页面修改更新
+    @RequestMapping("/cityUpdateSave")  // /tbNatmehaChineseMedicine/cityUpdateSave
+    public String cityUpdateSave(@RequestParam("uploadImg") MultipartFile uploadImg, //@RequestParam 默认required = true,该图片必须上传
+                               String save, String refer,
+                               TbNatmehaChineseMedicine tbNatmehaChineseMedicine) {
+
+        if(save != null){
+            tbNatmehaChineseMedicine.setStatus("9");  //设置县级保存状态
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, tbNatmehaChineseMedicine.getUserCode(), tbNatmehaChineseMedicine.getItemcode(), tbNatmehaChineseMedicine.getItemcreateat());
+                int i = this.tbNatmehaFileService.updateByPrimaryKeySelective(tbNatmehaFile);
+                result += i;
+            } //加入更改后信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.updateByPrimaryKeySelective(tbNatmehaChineseMedicine);
+            if (result > 0){
+                return "redirect:/tbNatmehaChineseMedicine/cityManCM";
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param itemid
+     * @return
+     */
+    //市级管理员首页点击删除
+    @RequestMapping("/cityDeleteCM")  // /tbNatmehaChineseMedicine/cityDeleteCM
+    public String deleteToCityCM(Integer itemid){
+        int i = this.tbNatmehaChineseMedicineService.deleteById(itemid);
+        if(i>0){
+            return "redirect:/tbNatmehaChineseMedicine/cityManCM";
+        }
+        return null;
+    }
+
+    //市级级管理员页面提交
+    @RequestMapping("/citySubmitCM")  // /tbNatmehaChineseMedicine/citySubmitCM
+    public String citySubmitCM(Model model,Integer itemid){
+        if(itemid != null){
+            TbNatmehaChineseMedicine tbNatmehaChineseMedicine = this.tbNatmehaChineseMedicineService.queryById(itemid);
+            String dataStatus = tbNatmehaChineseMedicine.getStatus();
+            //已保存、市级、省级不通过
+            if(dataStatus.equals("9") || dataStatus.equals("4") ||dataStatus.equals("6")){
+                dataStatus = "3";
+                tbNatmehaChineseMedicine.setStatus(dataStatus);
+                int i = this.tbNatmehaChineseMedicineService.updateByPrimaryKeySelective(tbNatmehaChineseMedicine);
+                if(i>0){
+                    return "redirect:/tbNatmehaChineseMedicine/countryMan";
+                }
+            }
+        }
+        return null;
+    }
+
     // 待市级审核
     @RequestMapping("/citySelectCM")    // /tbNatmehaChineseMedicine/citySelectCM
     public String citySelectCM(Model model,
@@ -324,6 +470,152 @@ public class TbNatmehaChineseMedicineController {
             return "redirect:/tbNatmehaChineseMedicine/citySelectCM";
         }else
             return null;
+    }
+
+
+    //省级级管理员
+    @RequestMapping("/provinceManCM")  //  /tbNatmehaChineseMedicine/provinceManCM
+    public String selectAllByPageForProvince(Model model,
+                                         Integer pageNum,
+                                         TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                         HttpSession session){
+        if(pageNum == null){
+            pageNum = 1;
+            // 保留当前的查询条件，供接下来点击分页链接时使用
+            session.setAttribute("tbNatmehaChineseMedicine",tbNatmehaChineseMedicine);
+        }else {
+            // 点击分页链接时取回查询条件
+            tbNatmehaChineseMedicine = (TbNatmehaChineseMedicine) session.getAttribute("tbNatmehaChineseMedicine");
+        }
+        Page<TbNatmehaChineseMedicine> tbCHNMedicineList = this.tbNatmehaChineseMedicineService.selectAllByProvince(tbNatmehaChineseMedicine,pageNum,5);
+        System.out.println(tbCHNMedicineList);
+        model.addAttribute("tbCHNMedicineList",tbCHNMedicineList);
+        return "tcmCommon/provinceM";
+    }
+
+    //省级管理员新增
+    @RequestMapping("/provinceAddTCMCommon")  //  /tbNatmehaChineseMedicine/cityAddTCMCommon
+    public String provinceAddTCMCommon(){
+        return "tcmCommon/provinceAddTCMCommon";
+    }
+
+    //新增内容管理
+    @RequestMapping("/provinceInsertTCMCommon")  //  /tbNatmehaChineseMedicine/provinceInsertTCMCommon
+    public String provinceInsertTCMCommon(@RequestParam("uploadImg") MultipartFile uploadImg,
+                                      String save,
+                                      String refer,
+                                      TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                      String mark
+    ){
+        if(save != null){
+            String itemcode = UUID.randomUUID().toString();
+            String fileDataCode = itemcode;
+            String userCode = UUID.randomUUID().toString();
+            String fileItemCode = userCode;
+            tbNatmehaChineseMedicine.setStatus("10");  //设置省级保存状态
+            tbNatmehaChineseMedicine.setItemcode(itemcode);
+            tbNatmehaChineseMedicine.setUserCode(userCode);
+            tbNatmehaChineseMedicine.setCreater("省级"); //设定默认值
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, fileItemCode, fileDataCode, tbNatmehaChineseMedicine.getItemcreateat());
+                result += this.tbNatmehaFileService.insertFile(tbNatmehaFile);
+            }
+            //加入信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.insertTCMCommon(tbNatmehaChineseMedicine);
+            if (result>0){
+                return "redirect:/tbNatmehaChineseMedicine/provinceManCM";
+            }
+        }else if(refer != null){
+            String itemcode = UUID.randomUUID().toString();
+            String fileDataCode = itemcode;
+            String userCode = UUID.randomUUID().toString();
+            String fileItemCode = userCode;
+            tbNatmehaChineseMedicine.setStatus("5");  //设置待省级审核状态
+            tbNatmehaChineseMedicine.setItemcode(itemcode);
+            tbNatmehaChineseMedicine.setUserCode(userCode);
+            tbNatmehaChineseMedicine.setCreater("省级"); //设定默认值
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, fileItemCode, fileDataCode, tbNatmehaChineseMedicine.getItemcreateat());
+                result += this.tbNatmehaFileService.insertFile(tbNatmehaFile);
+            }
+            //加入信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.insertTCMCommon(tbNatmehaChineseMedicine);
+            if (result>0){
+                return "redirect:/tbNatmehaChineseMedicine/provinceManCM";
+            }
+        }
+        return null;
+    }
+
+    // 省级管理员首页点击修改
+    @RequestMapping("/provinceUpdateCM") // /tbNatmehaChineseMedicine/provinceUpdateCM
+    public String undateToProvinceCM(Model model,Integer itemid){
+        TbNatmehaChineseMedicine tbNatmehaChineseMedicine = this.tbNatmehaChineseMedicineService.queryById(itemid);
+        model.addAttribute("tbNatmehaChineseMedicine",tbNatmehaChineseMedicine);
+        return "tcmCommon/provinceUpdateCM";
+    }
+
+    //市级页面修改更新
+    @RequestMapping("/provinceUpdateSave")  // /tbNatmehaChineseMedicine/cityUpdateSave
+    public String provinceUpdateSave(@RequestParam("uploadImg") MultipartFile uploadImg, //@RequestParam 默认required = true,该图片必须上传
+                                 String save, String refer,
+                                 TbNatmehaChineseMedicine tbNatmehaChineseMedicine) {
+
+        if(save != null){
+            tbNatmehaChineseMedicine.setStatus("10");  //设置省级保存状态
+            tbNatmehaChineseMedicine.setItemcreateat(new Date());
+            int result = 0;
+            if (uploadImg != null){
+                //加入信息进入file表，成功则result为1
+                TbNatmehaFile tbNatmehaFile = this.insertFileOne(uploadImg, tbNatmehaChineseMedicine.getUserCode(), tbNatmehaChineseMedicine.getItemcode(), tbNatmehaChineseMedicine.getItemcreateat());
+                int i = this.tbNatmehaFileService.updateByPrimaryKeySelective(tbNatmehaFile);
+                result += i;
+            } //加入更改后信息进入热点表，成功则result为2
+            result += this.tbNatmehaChineseMedicineService.updateByPrimaryKeySelective(tbNatmehaChineseMedicine);
+            if (result > 0){
+                return "redirect:/tbNatmehaChineseMedicine/provinceManCM";
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param itemid
+     * @return
+     */
+    //市级管理员首页点击删除
+    @RequestMapping("/provinceDeleteCM")  // /tbNatmehaChineseMedicine/provinceDeleteCM
+    public String deleteToProvinceCM(Integer itemid){
+        int i = this.tbNatmehaChineseMedicineService.deleteById(itemid);
+        if(i>0){
+            return "redirect:/tbNatmehaChineseMedicine/provinceManCM";
+        }
+        return null;
+    }
+
+    //市级级管理员页面提交
+    @RequestMapping("/provinceSubmitCM")  // /tbNatmehaChineseMedicine/provinceSubmitCM
+    public String provinceSubmitCM(Model model,Integer itemid){
+        if(itemid != null){
+            TbNatmehaChineseMedicine tbNatmehaChineseMedicine = this.tbNatmehaChineseMedicineService.queryById(itemid);
+            String dataStatus = tbNatmehaChineseMedicine.getStatus();
+            //已保存、省级不通过
+            if(dataStatus.equals("10") ||dataStatus.equals("6")){
+                dataStatus = "5"; //待省级审核
+                tbNatmehaChineseMedicine.setStatus(dataStatus);
+                int i = this.tbNatmehaChineseMedicineService.updateByPrimaryKeySelective(tbNatmehaChineseMedicine);
+                if(i>0){
+                    return "redirect:/tbNatmehaChineseMedicine/provinceManCM";
+                }
+            }
+        }
+        return null;
     }
 
     // 待省级审核
@@ -410,7 +702,7 @@ public class TbNatmehaChineseMedicineController {
         tbNatmehaChineseMedicine.setStatus("11"); //下架状态
         int i = this.tbNatmehaChineseMedicineService.updateByPrimaryKeySelective(tbNatmehaChineseMedicine);
         if(i>0){
-            return "redirect:/tbNatmehaChineseMedicine/allManCH";
+            return "redirect:/tbNatmehaChineseMedicine/allManCM";
         }else
             return null;
     }

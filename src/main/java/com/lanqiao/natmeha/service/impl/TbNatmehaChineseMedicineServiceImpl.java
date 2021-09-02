@@ -1,12 +1,9 @@
 package com.lanqiao.natmeha.service.impl;
 
 import com.github.pagehelper.Page;
-import com.lanqiao.natmeha.mapper.TbNatmehaChineseMedicineMapper;
+import com.lanqiao.natmeha.dao.TbNatmehaChineseMedicineMapper;
 import com.lanqiao.natmeha.model.TbNatmehaChineseMedicine;
-import com.lanqiao.natmeha.model.TbNatmehaHotspot;
 import com.lanqiao.natmeha.service.TbNatmehaChineseMedicineService;
-import com.lanqiao.natmeha.service.TbNatmehaHotspotService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -71,9 +68,20 @@ public class TbNatmehaChineseMedicineServiceImpl implements TbNatmehaChineseMedi
         return this.tbNatmehaChineseMedicineMapper.selectAllByPageForCountry(tbNatmehaChineseMedicine,pageNum,pageSize);
     }
 
+
+    @Override
+    public Page<TbNatmehaChineseMedicine> selectAllByCity(TbNatmehaChineseMedicine tbNatmehaChineseMedicine, Integer pageNum, Integer pageSize) {
+        return this.tbNatmehaChineseMedicineMapper.selectAllByCity(tbNatmehaChineseMedicine,pageNum,pageSize);
+    }
+
     @Override
     public Page<TbNatmehaChineseMedicine> selectAllByPageForCity(TbNatmehaChineseMedicine tbNatmehaChineseMedicine, Integer pageNum, Integer pageSize) {
         return this.tbNatmehaChineseMedicineMapper.selectAllByPageForCity(tbNatmehaChineseMedicine,pageNum,pageSize);
+    }
+
+    @Override
+    public Page<TbNatmehaChineseMedicine> selectAllByProvince(TbNatmehaChineseMedicine tbNatmehaChineseMedicine, Integer pageNum, Integer pageSize) {
+        return this.tbNatmehaChineseMedicineMapper.selectAllByProvince(tbNatmehaChineseMedicine,pageNum,pageSize);
     }
 
     @Override

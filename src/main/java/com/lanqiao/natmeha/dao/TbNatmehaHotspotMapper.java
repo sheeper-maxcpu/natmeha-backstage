@@ -1,4 +1,4 @@
-package com.lanqiao.natmeha.mapper;
+package com.lanqiao.natmeha.dao;
 
 import com.github.pagehelper.Page;
 import com.lanqiao.natmeha.model.TbNatmehaHotspot;

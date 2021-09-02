@@ -1,4 +1,4 @@
-package com.lanqiao.natmeha.mapper;
+package com.lanqiao.natmeha.dao;
 
 import com.lanqiao.natmeha.model.TbNatmehaFile;
 import org.apache.ibatis.annotations.Param;

@@ -1,10 +1,9 @@
 package com.lanqiao.natmeha.service.impl;
 
 import com.github.pagehelper.Page;
-import com.lanqiao.natmeha.mapper.TbNatmehaHotspotMapper;
+import com.lanqiao.natmeha.dao.TbNatmehaHotspotMapper;
 import com.lanqiao.natmeha.model.TbNatmehaHotspot;
 import com.lanqiao.natmeha.service.TbNatmehaHotspotService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

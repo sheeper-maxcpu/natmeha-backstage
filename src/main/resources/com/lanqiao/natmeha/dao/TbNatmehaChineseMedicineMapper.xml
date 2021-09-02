@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lanqiao.natmeha.mapper.TbNatmehaChineseMedicineMapper">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaChineseMedicineMapper">
 
     <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaChineseMedicine">
             <id property="itemid" column="itemID" jdbcType="INTEGER"/>
@@ -21,37 +21,13 @@
             <result property="itemcreateat" column="itemCreateAt" jdbcType="TIMESTAMP"/>
             <result property="updater" column="UPDATER" jdbcType="VARCHAR"/>
             <result property="itemupdateat" column="itemUpdateAt" jdbcType="TIMESTAMP"/>
-
-        <association property="tbNatmehaFile" columnPrefix="f_" javaType="com.lanqiao.natmeha.model.TbNatmehaFile" >
-            <!--@Table tbNatmehaFile 关联表-->
-            <result property="itemcode" column="itemCode_File" jdbcType="VARCHAR"/>
-            <result property="dataCode" column="DATA_CODE_File" jdbcType="VARCHAR"/>
-            <result property="uploader" column="UPLOADER_File" jdbcType="VARCHAR"/>
-            <result property="uploaderCode" column="f.UPLOADER_CODE_File" jdbcType="VARCHAR"/>
-            <result property="fileName" column="FILE_NAME_File" jdbcType="VARCHAR"/>
-            <result property="fileType" column="FILE_TYPE_File" jdbcType="VARCHAR"/>
-            <result property="fileSize" column="FILE_SIZE_File" jdbcType="VARCHAR"/>
-            <result property="filePath" column="FILE_PATH_File" jdbcType="VARCHAR"/>
-            <result property="itemcreateat" column="itemCreateAt_File" jdbcType="TIMESTAMP"/>
-        </association>
+            <association property="tbNatmehaFile">
+                <id column="f_itemid" jdbcType="INTEGER" property="itemid" />
+                <id column="f_itemCode" jdbcType="CHAR" property="itemcode" />
+                <result column="f_dataCode" jdbcType="VARCHAR" property="dataCode" />
+                <result column="f_fileName" jdbcType="VARCHAR" property="fileName" />
+            </association>
     </resultMap>
-
-    <!--<resultMap id="extendsTbNatmehaHealthMedChiManageMap" type="com.lanqiao.natmeha.model.TbNatmehaChineseMedicine" extends="BaseResultMap">
-        <collection property="tbNatmehaFile" ofType="com.lanqiao.natmeha.model.TbNatmehaFile" column="itemID">
-            <id property="itemid" column="itemID_File" jdbcType="INTEGER"/>
-            <result property="itemcode" column="itemCode_File" jdbcType="VARCHAR"/>
-            <result property="dataCode" column="DATA_CODE_File" jdbcType="VARCHAR"/>
-            <result property="uploader" column="UPLOADER_File" jdbcType="VARCHAR"/>
-            <result property="uploaderCode" column="f.UPLOADER_CODE_File" jdbcType="VARCHAR"/>
-            <result property="fileName" column="FILE_NAME_File" jdbcType="VARCHAR"/>
-            <result property="fileType" column="FILE_TYPE_File" jdbcType="VARCHAR"/>
-            <result property="fileSize" column="FILE_SIZE_File" jdbcType="VARCHAR"/>
-            <result property="filePath" column="FILE_PATH_File" jdbcType="VARCHAR"/>
-            <result property="itemcreateat" column="itemCreateAt_File" jdbcType="TIMESTAMP"/>
-        </collection>
-    </resultMap>-->
-
-
 
     <sql id="Base_Column_List" >
         itemID,itemCode,NAME,
@@ -197,12 +173,31 @@
 
     <select id="selectAllByCountry" resultMap="BaseResultMap" parameterType="tbNatmehaChineseMedicine">
         select
-        *
+        m.itemID,
+        m.itemCode,
+        m.NAME,
+        m.ALIAS,
+        m.CLASSIFICATION,
+        m.HARVESTING,
+        m.TASTE,
+        m.MER_TROPISM,
+        m.GOVERNANCE,
+        m.`USAGE`,
+        m.STATUS,
+        m.USER_CODE,
+        m.CREATER,
+        m.itemCreateAt,
+        m.UPDATER,
+        m.itemUpdateAt,
+        f.itemID f_itemid,
+        f.itemCode f_itemcode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
         from
         tb_natmeha_chinese_medicine m
         left join
-            tb_natmeha_file f
-            on m.itemCode = f.DATA_CODE
+        tb_natmeha_file f
+        on m.itemCode = f.DATA_CODE
         <where>
         <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
             <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
@@ -240,6 +235,40 @@
         </where>
     </select>
 
+    <select id="selectAllByCity" resultMap="BaseResultMap" parameterType="tbNatmehaChineseMedicine">
+        select
+        m.itemID,
+        m.itemCode,
+        m.NAME,
+        m.ALIAS,
+        m.CLASSIFICATION,
+        m.HARVESTING,
+        m.TASTE,
+        m.MER_TROPISM,
+        m.GOVERNANCE,
+        m.`USAGE`,
+        m.STATUS,
+        m.USER_CODE,
+        m.CREATER,
+        m.itemCreateAt,
+        m.UPDATER,
+        m.itemUpdateAt,
+        f.itemID f_itemid,
+        f.itemCode f_itemcode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from
+        tb_natmeha_chinese_medicine m
+        left join
+        tb_natmeha_file f
+        on m.itemCode = f.DATA_CODE
+        where m.status in ('9','3','4','5','6','7','8','11')
+            <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
+                <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
+                and CONCAT(m.name,m.alias,m.classification) like #{pattern}
+            </if>
+    </select>
+
     <!--中医常识 市级管理部门搜索-->
     <select id="selectAllByPageForCity" resultMap="BaseResultMap">
         select
@@ -254,6 +283,40 @@
                 and CONCAT(m.name,m.alias,m.classification) like #{pattern}
             </if>
         </where>
+    </select>
+
+    <select id="selectAllByProvince" resultMap="BaseResultMap" parameterType="tbNatmehaChineseMedicine">
+        select
+        m.itemID,
+        m.itemCode,
+        m.NAME,
+        m.ALIAS,
+        m.CLASSIFICATION,
+        m.HARVESTING,
+        m.TASTE,
+        m.MER_TROPISM,
+        m.GOVERNANCE,
+        m.`USAGE`,
+        m.STATUS,
+        m.USER_CODE,
+        m.CREATER,
+        m.itemCreateAt,
+        m.UPDATER,
+        m.itemUpdateAt,
+        f.itemID f_itemid,
+        f.itemCode f_itemcode,
+        f.DATA_CODE f_dataCode,
+        f.FILE_NAME f_fileName
+        from
+        tb_natmeha_chinese_medicine m
+        left join
+        tb_natmeha_file f
+        on m.itemCode = f.DATA_CODE
+        where m.status in ('10','5','6','7','8','11')
+        <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
+            <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
+            and CONCAT(m.name,m.alias,m.classification) like #{pattern}
+        </if>
     </select>
 
     <!--中医常识 省级管理部门搜索-->

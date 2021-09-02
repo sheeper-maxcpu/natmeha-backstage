@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lanqiao.natmeha.mapper.TbNatmehaFileMapper">
+<mapper namespace="com.lanqiao.natmeha.dao.TbNatmehaFileMapper">
 
     <resultMap id="BaseResultMap" type="com.lanqiao.natmeha.model.TbNatmehaFile">
             <id property="itemid" column="itemID" jdbcType="INTEGER"/>

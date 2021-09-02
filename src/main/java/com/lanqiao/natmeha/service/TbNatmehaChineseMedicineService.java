@@ -33,9 +33,17 @@ public interface TbNatmehaChineseMedicineService {
                                                      Integer pageNum,
                                                      Integer pageSize);
 
+    Page<TbNatmehaChineseMedicine> selectAllByCity( TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                                       Integer pageNum,
+                                                       Integer pageSize);
+
     Page<TbNatmehaChineseMedicine> selectAllByPageForCity(TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
                                                              Integer pageNum,
                                                              Integer pageSize);
+
+    Page<TbNatmehaChineseMedicine> selectAllByProvince( TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
+                                                    Integer pageNum,
+                                                    Integer pageSize);
 
     Page<TbNatmehaChineseMedicine> selectAllByPageForProvince(TbNatmehaChineseMedicine tbNatmehaChineseMedicine,
                                                           Integer pageNum,

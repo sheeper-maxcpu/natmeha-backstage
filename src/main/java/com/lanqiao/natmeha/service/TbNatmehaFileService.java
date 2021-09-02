@@ -1,5 +1,6 @@
 package com.lanqiao.natmeha.service;
 
+import com.lanqiao.natmeha.model.TbNatmehaFile;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -9,15 +10,15 @@ import org.apache.ibatis.annotations.Param;
 public interface TbNatmehaFileService {
     int deleteByPrimaryKey(Long id);
 
-    int insertFile(com.lanqiao.natmeha.model.TbNatmehaFile record);
+    int insertFile(TbNatmehaFile record);
 
-    int insertSelective(com.lanqiao.natmeha.model.TbNatmehaFile record);
+    int insertSelective(TbNatmehaFile record);
 
-    com.lanqiao.natmeha.model.TbNatmehaFile selectByPrimaryKey(Long id);
+    TbNatmehaFile selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(com.lanqiao.natmeha.model.TbNatmehaFile record);
+    int updateByPrimaryKeySelective(TbNatmehaFile record);
 
-    int updateByPrimaryKey(com.lanqiao.natmeha.model.TbNatmehaFile record);
+    int updateByPrimaryKey(TbNatmehaFile record);
 
     int updateFile(String itemcode,String fileName);
 }

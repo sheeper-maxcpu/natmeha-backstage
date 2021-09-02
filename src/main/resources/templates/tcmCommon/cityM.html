@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中医常识县级管理员</title>
+    <title>中医常识市级管理员</title>
     <link rel="stylesheet" th:href="@{/component/bootstrap-3.3.7/css/bootstrap.min.css}"
           href="../../static/component/bootstrap-3.3.7/css/bootstrap.min.css">
     <script th:src="@{/component/js/jquery-2.2.4.js}"
@@ -70,14 +70,14 @@
             <div class="navitem"><p><a th:href="@{/tbCulproData/news}" style="cursor: pointer">&gt;自我保健</a></p></div>
             <div class="navitem"><p><a th:href="@{/TbCulproData/notice}" style="cursor: pointer">&gt;药膳食疗</a></p></div>
             <div class="navitem"><p><a th:href="@{/tbCulproData/selectAllByPage}" style="cursor: pointer">&gt;中医常识</a></p></div>
-            <div class="navitem" ><p ><a th:href="@{/tbNatmehaChineseMedicine/countryMan}"  style="cursor: pointer">&gt;中医文化</a></p></div>
-            <div class="navitem" style="border-bottom: #bdbfbd 1px dashed"><p ><a th:href="@{/tbNatmehaChineseMedicine/countryMan}"  style="cursor: pointer">&gt;儿童健康</a></p></div>
+            <div class="navitem" ><p ><a th:href="@{/tbNatmehaChineseMedicine/cityManCM}"  style="cursor: pointer">&gt;中医文化</a></p></div>
+            <div class="navitem" style="border-bottom: #bdbfbd 1px dashed"><p ><a th:href="@{/tbNatmehaChineseMedicine/cityManCM}"  style="cursor: pointer">&gt;儿童健康</a></p></div>
         </div>
         <!--右边主体-->
         <div class="col-md-10">
             <!--搜索栏-->
             <div class="row">
-                <form action="/tbNatmehaChineseMedicine/countryMan" method="get">
+                <form action="/tbNatmehaChineseMedicine/cityManCM" method="get">
                     <div style="height: 77px">
                         <input type="text" placeholder="请输入" th:value="${param.message}" name="message" class="workSearch"/>
                         <input type="submit" value="搜 索" class="searchBtn"/>
@@ -119,7 +119,7 @@
             </div>
 
             <br>
-            <a th:href="@{/tbNatmehaChineseMedicine/countryAddTCMCommon}" class="addBtn btn">新增中医常识</a>
+            <a th:href="@{/tbNatmehaChineseMedicine/cityAddTCMCommon}" class="addBtn btn">新增中医常识</a>
             <!--展示表格-->
             <div>
                 <table width="100%">
@@ -142,18 +142,18 @@
                         </td>
                         <td th:text="${tbCHNMedicineItem.classification}"></td>
                         <td>
-                            <!--待县级、市级、省级审核状态、发布状态-->
-                            <a th:if="${tbCHNMedicineItem.status} =='1' or ${tbCHNMedicineItem.status} =='3' or ${tbCHNMedicineItem.status} =='5' or ${tbCHNMedicineItem.status} =='8'"
+                            <a th:if="${tbCHNMedicineItem.status} =='3' or ${tbCHNMedicineItem.status} =='5' or ${tbCHNMedicineItem.status} =='8'"
                                th:href="@{/tbNatmehaChineseMedicine/countryCheck(itemid=${tbCHNMedicineItem.itemid})}">查看</a>
-                            <!--保存状态、县级、市级、省级不通过状态-->
-                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
-                               th:href="@{/tbNatmehaChineseMedicine/countryUpdateCM(itemid=${tbCHNMedicineItem.itemid},itemcode=${tbCHNMedicineItem.itemcode})}">修改</a>
-                            <!--保存状态、县级、市级、省级不通过状态-->
-                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
-                               th:href="@{/tbNatmehaChineseMedicine/countrySubmitCM(itemid=${tbCHNMedicineItem.itemid})}">提交</a>
-                            <!--县级管理员 保存状态、提交至县级、市级、省级但不通过状态-->
-                            <a th:if="${tbCHNMedicineItem.status} =='0' or ${tbCHNMedicineItem.status} =='2' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
-                               th:href="@{/tbNatmehaChineseMedicine/countryDeleteCM(itemid=${tbCHNMedicineItem.itemid})}">删除</a>
+                            <!--保存状态、市级、省级不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='9' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/cityUpdateCM(itemid=${tbCHNMedicineItem.itemid},itemcode=${tbCHNMedicineItem.itemcode})}">修改</a>
+                            <!--保存状态、市级、省级不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='9' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/citySubmitCM(itemid=${tbCHNMedicineItem.itemid})}">提交</a>
+                            <!--市级管理员 保存状态、提交至市级、省级但不通过状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='9' or ${tbCHNMedicineItem.status} =='4' or ${tbCHNMedicineItem.status} =='6'"
+                               th:href="@{/tbNatmehaChineseMedicine/cityDeleteCM(itemid=${tbCHNMedicineItem.itemid})}">删除</a>
+                            <a th:if="${tbCHNMedicineItem.status} =='11'" th:href="@{/tbNatmehaChineseMedicine/countryCheck(itemid=${tbCHNMedicineItem.itemid})}">已下架</a>
                         </td>
                     </tr>
                     </tbody>
@@ -162,47 +162,47 @@
                 <nav aria-label="Page navigation" class="text-center">
                     <ul class="pagination">
                         <li th:if="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages}">
-                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=1)}" aria-label="Previous">
+                            <a th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=1)}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum}>1">
-                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-1)}">&lt;</a>
+                            <a th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}-1)}">&lt;</a>
                         </li>
                         <li th:if="${(tbCHNMedicineList.pageNum)-3 gt 1}">
-                            <a th:text="${(tbCHNMedicineList.pageNum)-4}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-4)}"></a>
+                            <a th:text="${(tbCHNMedicineList.pageNum)-4}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}-4)}"></a>
                         </li>
                         <li th:if="${(tbCHNMedicineList.pageNum)-2 gt 1}">
-                            <a th:text="${(tbCHNMedicineList.pageNum)-3}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-3)}"></a>
+                            <a th:text="${(tbCHNMedicineList.pageNum)-3}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}-3)}"></a>
                         </li>
                         <li th:if="${(tbCHNMedicineList.pageNum)-1 gt 1}">
-                            <a th:text="${(tbCHNMedicineList.pageNum)-2}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-2)}"></a>
+                            <a th:text="${(tbCHNMedicineList.pageNum)-2}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}-2)}"></a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum gt 1}" >
-                            <a th:text="${(tbCHNMedicineList.pageNum)-1}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}-1)}"></a>
+                            <a th:text="${(tbCHNMedicineList.pageNum)-1}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}-1)}"></a>
                         </li>
                         <!--/* 当前页 */-->
                         <li th:if="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages}" th:class="${tbCHNMedicineList.pageNum le tbCHNMedicineList.pages ? 'active':''}">
-                            <a th:text="${tbCHNMedicineList.pageNum}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum})}"></a>
+                            <a th:text="${tbCHNMedicineList.pageNum}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum})}"></a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum+1 le tbCHNMedicineList.pages}">
-                            <a th:text="${tbCHNMedicineList.pageNum+1}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+1)}"></a>
+                            <a th:text="${tbCHNMedicineList.pageNum+1}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}+1)}"></a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum+2 le tbCHNMedicineList.pages}">
-                            <a th:text="${tbCHNMedicineList.pageNum+2}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+2)}"></a>
+                            <a th:text="${tbCHNMedicineList.pageNum+2}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}+2)}"></a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum+3 le tbCHNMedicineList.pages}">
-                            <a th:text="${tbCHNMedicineList.pageNum+3}" th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+3)}"></a>
+                            <a th:text="${tbCHNMedicineList.pageNum+3}" th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}+3)}"></a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum lt tbCHNMedicineList.pages}">
-                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pageNum}+1)}">&gt;</a>
+                            <a th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pageNum}+1)}">&gt;</a>
                         </li>
                         <li th:if="${tbCHNMedicineList.pageNum lt tbCHNMedicineList.pages}">
-                            <a th:href="@{/tbNatmehaChineseMedicine/countryMan(pageNum=${tbCHNMedicineList.pages})}" aria-label="Next">
+                            <a th:href="@{/tbNatmehaChineseMedicine/cityManCM(pageNum=${tbCHNMedicineList.pages})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
-                        <form style="display: inline-block;margin-left: 20px" action="/tbNatmehaChineseMedicine/countryMan" method="get">
+                        <form style="display: inline-block;margin-left: 20px" action="/tbNatmehaChineseMedicine/cityManCM" method="get">
                             <span>跳至</span>
                             <input name="pageNum" type="number" class="skip" th:value="${#request.getParameter('pageNum')}"/>
                             <span>页</span>

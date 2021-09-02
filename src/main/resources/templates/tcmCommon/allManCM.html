@@ -132,6 +132,12 @@
                             <!--发布状态-->
                             <a th:if="${tbCHNMedicineItem.status} =='8'"
                                th:href="@{/tbNatmehaChineseMedicine/closeCM(itemid=${tbCHNMedicineItem.itemid})}">下架</a>
+                            <!--下架状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='11'"
+                               th:href="@{/tbNatmehaChineseMedicine/countryCheck(itemid=${tbCHNMedicineItem.itemid})}">已下架</a>
+                            <!--下架状态-->
+                            <a th:if="${tbCHNMedicineItem.status} =='11'"
+                               th:href="@{/tbNatmehaChineseMedicine/closeCM(itemid=${tbCHNMedicineItem.itemid})}">删除</a>
                         </td>
                     </tr>
                     </tbody>
