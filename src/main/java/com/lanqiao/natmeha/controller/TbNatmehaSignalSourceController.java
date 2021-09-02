@@ -161,6 +161,7 @@ public class TbNatmehaSignalSourceController {
 //            java.sql.Date itemupdateat = new java.sql.Date(ite.getTime());
 //            num.setItemupdateat(itemupdateat);
         User logUser = (User) session.getAttribute("logUser");
+        num.setItemcode(itemcode);
         num.setUserCode(logUser.getItemcode());
         this.tbNatmehaSignalSourceService.updateNum(num);
         return "redirect:/numManage";//修改成功后返回数据主页面
