@@ -1,4 +1,4 @@
-package com.lanqiao.natmeha.service.impl;
+package com.lanqiao.natmeha.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.lanqiao.natmeha.model.TbNatmehaDoctor;
