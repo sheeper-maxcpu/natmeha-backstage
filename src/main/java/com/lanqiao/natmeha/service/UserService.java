@@ -1,6 +1,5 @@
 package com.lanqiao.natmeha.service;
 
-import com.lanqiao.natmeha.model.Organization;
 import com.lanqiao.natmeha.model.User;
 
 /**

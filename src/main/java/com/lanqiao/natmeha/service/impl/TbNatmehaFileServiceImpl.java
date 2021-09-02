@@ -1,5 +1,6 @@
-package com.lanqiao.natmeha.service.impl;
+package com.lanqiao.natmeha.service.Impl;
 
+import com.lanqiao.natmeha.dao.TbNatmehaFileDao;
 import com.lanqiao.natmeha.dao.TbNatmehaFileMapper;
 import com.lanqiao.natmeha.model.TbNatmehaFile;
 import com.lanqiao.natmeha.service.TbNatmehaFileService;
@@ -17,6 +18,24 @@ public class TbNatmehaFileServiceImpl implements TbNatmehaFileService {
 
     @Resource
     private TbNatmehaFileMapper tbNatmehaFileMapper;
+
+    @Autowired
+    private TbNatmehaFileDao tbNatmehaFileDao;
+
+    /**
+     * @param tbNatmehaFile
+     * @return 向文件表里面添加文件
+     */
+    @Override
+    public int insert(TbNatmehaFile tbNatmehaFile) {
+        return this.tbNatmehaFileDao.insert(tbNatmehaFile);
+    }
+
+    //更改图片
+    @Override
+    public int updataFile(TbNatmehaFile tbNatmehaFile) {
+        return this.tbNatmehaFileDao.updateByTbNatmehaFile(tbNatmehaFile);
+    }
 
     @Override
     public int deleteByPrimaryKey(Long id) {

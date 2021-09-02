@@ -23,7 +23,7 @@ import java.io.IOException;
 
 
 @Controller
-@RequestMapping("/start")
+@RequestMapping(value = {"/start","/tbNatmehaHotspot"})
 public class TbNatmehaHotspotController {
     /*
      * 启动科员“智慧”国医堂惠民信息系统的信息处理页面
@@ -36,6 +36,10 @@ public class TbNatmehaHotspotController {
     //注入对象
     @Autowired
     private TbNatmehaHotspotDaoService tbNatmehaHotspotDaoService;
+
+    @Autowired
+    private TbNatmehaHotspotService tbNatmehaHotspotService;
+
     //文件表的对象
     @Autowired
     private TbNatmehaFileService tbNatmehaFileService;
@@ -3327,34 +3331,7 @@ public class TbNatmehaHotspotController {
      * @param session
      * @return 县级国医堂信息
      */
-/*    @RequestMapping("/countryMan")  //  /tbNatmehaHotspot/countryMan
-    public String selectAllByPage(Model model,
-                                  Integer pageNum,
-                                  String message,
-                                  String startStr,
-                                  String endStr,
-                                  HttpSession session){
-        if(pageNum == null){
-            pageNum = 1;
-            // 保留当前的查询条件，供接下来点击分页链接时使用
-            session.setAttribute("message",message);
-            session.setAttribute("startStr",startStr);
-            session.setAttribute("endStr",endStr);
-        }else {
-            // 点击分页链接时取回查询条件
-            message = (String) session.getAttribute(message);
-            startStr = (String) session.getAttribute(startStr);
-            endStr = (String) session.getAttribute(endStr);
-        }
-        Page<TbNatmehaHotspot> tbHotspotsList;
-        if (startStr == null || endStr == null){
-            tbHotspotsList = this.tbNatmehaHotspotService.selectAllByPage(message,pageNum,5);
-        }else{
-           00000
-        }
-        model.addAttribute("tbHotspotsList",tbHotspotsList);
-        return "tcmCulture/countryM";
-    }*/
+
     //县级管理员
     @RequestMapping("/countryMan")  //  /tbNatmehaHotspot/countryMan
     public String selectAllByPageForCountry(Model model,

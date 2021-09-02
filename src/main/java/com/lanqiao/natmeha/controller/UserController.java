@@ -1,6 +1,5 @@
 package com.lanqiao.natmeha.controller;
 
-import com.lanqiao.natmeha.model.Organization;
 import com.lanqiao.natmeha.model.User;
 import com.lanqiao.natmeha.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +60,7 @@ public class UserController {
 
     //注册
     @RequestMapping("/user/reg")
-    public Object insertForReg(User user, Organization organization){
+    public Object insertForReg(User user){
         if (user.getUsername() != null && user.getPassword() != null){
             user.setItemcode(UUID.randomUUID().toString());
             user.setType(99);
