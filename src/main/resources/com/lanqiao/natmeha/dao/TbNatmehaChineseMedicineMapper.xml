@@ -227,12 +227,10 @@
         tb_natmeha_chinese_medicine m
         where
         m.STATUS = '1'
-        <where>
             <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
                 <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
                 and CONCAT(m.name,m.alias,m.classification) like #{pattern}
             </if>
-        </where>
     </select>
 
     <select id="selectAllByCity" resultMap="BaseResultMap" parameterType="tbNatmehaChineseMedicine">
@@ -277,12 +275,10 @@
         tb_natmeha_chinese_medicine m
         where
         m.STATUS = '3'
-        <where>
             <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
                 <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
                 and CONCAT(m.name,m.alias,m.classification) like #{pattern}
             </if>
-        </where>
     </select>
 
     <select id="selectAllByProvince" resultMap="BaseResultMap" parameterType="tbNatmehaChineseMedicine">
@@ -327,12 +323,10 @@
         tb_natmeha_chinese_medicine m
         where
         m.STATUS = '5'
-        <where>
             <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
                 <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
                 and CONCAT(m.name,m.alias,m.classification) like #{pattern}
             </if>
-        </where>
     </select>
 
     <!--中医常识 国医堂管理员搜索-->
@@ -343,12 +337,10 @@
         tb_natmeha_chinese_medicine m
         where
         m.STATUS in ('7','8','11')
-        <where>
             <if test="tbNatmehaChineseMedicine.message!=null and tbNatmehaChineseMedicine.message.trim().length()>0">
                 <bind name="pattern" value="'%' + tbNatmehaChineseMedicine.message + '%'"/>
                 and CONCAT(m.name,m.alias,m.classification) like #{pattern}
             </if>
-        </where>
     </select>
     <!--中医文化end-->
 </mapper>
