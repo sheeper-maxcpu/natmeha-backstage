@@ -25,4 +25,9 @@ public class TbFileServiceImpl implements TbFileService {
         return this.tbFileDao.selectFile(dateCode);
     }
 
+    @Override
+    public int updateFilePath(TbNatmehaFile tbNatmehaFile) {
+        return this.tbFileDao.updateFilePath(tbNatmehaFile);
+    }
+
 }

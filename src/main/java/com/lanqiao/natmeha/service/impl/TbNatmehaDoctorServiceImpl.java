@@ -27,8 +27,8 @@ public class TbNatmehaDoctorServiceImpl implements TbNatmehaDoctorService{
     }
 
     @Override
-    public String getFile(String itemCode){
-        return this.tbNatmehaDoctorDao.getFile(itemCode);
+    public String getFile(String filePath){
+        return this.tbNatmehaDoctorDao.getFile(filePath);
     }
 
 

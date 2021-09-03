@@ -21,7 +21,7 @@ public interface TbNatmehaDoctorDao {
                                                  @Param("pageNum") int pageNum,
                                                  @Param("pageSize")int pageSize);
 
-    public String getFile(@Param("itemCode") String itemCode);
+    public String getFile(@Param("filePath") String filePath);
 
     public TbNatmehaDoctor insertDoctor(TbNatmehaDoctor tbNatmehaDoctor);
 

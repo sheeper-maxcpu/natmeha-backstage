@@ -233,7 +233,7 @@
 <!--                itemUpdateAt = #{itemupdateat,jdbcType=TIMESTAMP},-->
 <!--            </if>-->
         </set>
-        where itemCode = #{itemcode,jdbcType=INTEGER}
+        where itemCode = #{itemcode}
     </update>
 
 

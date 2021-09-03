@@ -10,4 +10,6 @@ public interface TbFileDao {
 
     public TbNatmehaFile selectFile(String dateCode);
 
+    public int updateFilePath(TbNatmehaFile tbNatmehaFile);
+
 }

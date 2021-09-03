@@ -3,7 +3,6 @@ package com.lanqiao.natmeha.controller;
 import com.github.pagehelper.Page;
 import com.lanqiao.natmeha.model.TbNatmehaDoctor;
 import com.lanqiao.natmeha.model.TbNatmehaFile;
-import com.lanqiao.natmeha.model.TbNatmehaHotspot;
 import com.lanqiao.natmeha.model.User;
 import com.lanqiao.natmeha.service.TbFileService;
 import com.lanqiao.natmeha.service.TbNatmehaDoctorService;
@@ -55,8 +54,9 @@ public class TbNatmehaDoctorController {
         final Page<TbNatmehaDoctor> tbNatmehaDoctor = this.tbNatmehaDoctorService.selectAllDoctor(doctor,pageNum,6);
         for (int i = 0; i < tbNatmehaDoctor.size(); i++) {
             String itemcode = tbNatmehaDoctor.get(i).getItemcode();
-            TbNatmehaFile dateCode = tbFileService.selectFile(itemcode);;
+            TbNatmehaFile dateCode = tbFileService.selectFile(itemcode);
             tbNatmehaDoctor.get(i).setTbNatmehaFile(dateCode);
+
         }
 
         model.addAttribute("neirou", neirou);
@@ -143,20 +143,37 @@ public class TbNatmehaDoctorController {
     @RequestMapping("/doctorUpdate")
     public String doctorUpdate(Integer itemid,Model model) {
         TbNatmehaDoctor tbNatmehaDoctor = this.tbNatmehaDoctorService.selectByItemid(itemid);
+
+        String itemcode = tbNatmehaDoctor.getItemcode();
+        TbNatmehaFile dateCode = tbFileService.selectFile(itemcode);
+        tbNatmehaDoctor.setTbNatmehaFile(dateCode);
+        System.out.println(tbNatmehaDoctor.getTbNatmehaFile().getFilePath());
+
+//        TbNatmehaFile tbNatmehaFile=tbNatmehaDoctor.setTbNatmehaFile(dateCode);
+//        String filePath2=tbNatmehaFile.getFilePath();
+//        String filePath = tbNatmehaDoctor.getTbNatmehaFile().getFilePath();
+//        String filePath = tbFileService.selectFile(tbNatmehaDoctor.getItemcode()).getFilePath();
+
         model.addAttribute("tbNatmehaDoctor", tbNatmehaDoctor);
 
         return "serviceTeam/updateDoctor";
     }
+
+
     //修改保存状态下的信息
     @RequestMapping("/doctorUpdatecode")
-    public String doctorUpdatecode(Integer itemid,String doctorName,String doctorTitle,String numType,String deptCode,
-                                  String doctorTreatment,String savebtn,String putbtn,String reset) throws Exception {
+    public String doctorUpdatecode(@RequestParam("file") MultipartFile file,String itemcode,
+                                   Integer itemid,String doctorName,String doctorTitle,String numType,String deptCode,
+                                  String doctorTreatment,String savebtn,String reset,
+                                   String filePath) throws Exception {
 
+        System.out.println(file);
         if (savebtn != null) {
             Thread.sleep(2000);//等待2秒后在执行下一步代码
             //自动生成唯一标识码
-            String itemcode = UUID.randomUUID().toString();
+//            String itemcode = UUID.randomUUID().toString();
             TbNatmehaDoctor tbNatmehaDoctor = new TbNatmehaDoctor();
+//            tbNatmehaDoctor.setItemcode(itemcode);
             tbNatmehaDoctor.setItemcode(itemcode);
             tbNatmehaDoctor.setItemid(itemid);
             tbNatmehaDoctor.setDoctorName(doctorName);
@@ -165,6 +182,43 @@ public class TbNatmehaDoctorController {
             tbNatmehaDoctor.setDeptCode(deptCode);
             tbNatmehaDoctor.setDoctorTreatment(doctorTreatment);
 
+            String originalFilename = file.getOriginalFilename();
+            if (!originalFilename.equals("")) {
+                System.out.println(originalFilename);
+                //获取源文件前缀
+                String fileNamePrefix = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+                //获取源文件后缀
+                String fileNameSuffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+                //将源文件前缀之后加上时间戳避免重名
+                String newFileNamePrefix = fileNamePrefix + "_" + new Date().getTime();
+                //得到上传后新文件的文件名
+                String newFileName = newFileNamePrefix + fileNameSuffix;
+                //获取要保存的文件夹路径
+                String path = "E:\\1蓝桥\\国医堂";
+                //在指定路径下，产生一个指定名称的新文件
+                File newfile = new File(path, newFileName);
+                file.transferTo(newfile);
+                //存入数据库的图片地址
+                String sqlFilePath = "http://142.4.123.27:8081/";
+                //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
+                filePath = sqlFilePath + newFileName;
+                String Filename = newFileName;//格式如：u2363_1629798462733.png
+//                String itemcode2 = UUID.randomUUID().toString();
+                TbNatmehaFile tbNatmehaFile = new TbNatmehaFile();
+//                tbNatmehaFile.setItemcode(itemcode2);
+                tbNatmehaFile.setDataCode(tbNatmehaDoctor.getItemcode());
+                tbNatmehaFile.setFileName(Filename);
+                tbNatmehaFile.setFileType(fileNameSuffix);
+                tbNatmehaFile.setFileSize((double) file.getSize());
+                tbNatmehaFile.setFilePath(filePath);
+                System.out.println("daooooooo+++++++》"+filePath);
+                System.out.println(tbNatmehaFile);
+                System.out.println("file=============================>" + file);
+                System.out.println(tbNatmehaFile);
+                int update = this.tbFileService.updateFilePath(tbNatmehaFile);
+            }
+
+//            tbNatmehaDoctor.getTbNatmehaFile().getFilePath();
             //创建时间
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             String ict = df.format(new Date());

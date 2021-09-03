@@ -48,8 +48,8 @@
     </select>
 
     <!--  查询医生图片  -->
-    <select id="getFile" resultType="java.lang.String">
-        SELECT FILE_NAME
+    <select id="getFile" resultType="String">
+        SELECT FILE_PATH
         FROM tb_natmeha_file LEFT JOIN tb_natmeha_doctor ON tb_natmeha_file.DATA_CODE=tb_natmeha_doctor.itemCode
         WHERE  tb_natmeha_file.DATA_CODE=(select itemCode from tb_natmeha_doctor where itemCode=#{itemCode});
     </select>

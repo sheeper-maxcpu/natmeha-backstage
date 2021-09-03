@@ -34,5 +34,24 @@
         select * from tb_natmeha_file where DATA_CODE=#{dateCode}
     </select>
 
+    <update id="updateFilePath" parameterType="TbNatmehaFile">
+        update tb_natmeha_file
+        <set>
+            <if test="fileName != null">
+                FILE_NAME = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                FILE_PATH = #{filePath},
+            </if>
+            <if test="fileSize != null">
+                FILE_SIZE = #{fileSize,jdbcType=DOUBLE},
+            </if>
+            <if test="fileType != null">
+                FILE_TYPE = #{fileType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where DATA_CODE=#{dataCode}
+    </update>
+
 
 </mapper>

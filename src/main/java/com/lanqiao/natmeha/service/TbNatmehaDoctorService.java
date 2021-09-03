@@ -13,7 +13,7 @@ import java.util.List;
 public interface TbNatmehaDoctorService {
     public Page<TbNatmehaDoctor> selectAllDoctor(TbNatmehaDoctor tbNatmehaDoctor, int pageNum, int pageSize);
 
-    public String getFile(String itemCode);
+    public String getFile(String filePath);
 
 //    public TbNatmehaDoctor insertDoctor(TbNatmehaDoctor tbNatmehaDoctor);
 

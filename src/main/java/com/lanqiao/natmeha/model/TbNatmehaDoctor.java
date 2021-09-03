@@ -91,4 +91,14 @@ public class TbNatmehaDoctor implements Serializable {
     private TbNatmehaFile tbNatmehaFile;
 
     private static final long serialVersionUID = 1L;
+
+    public TbNatmehaFile setTbNatmehaFile(TbNatmehaFile tbNatmehaFile) {
+        this.tbNatmehaFile = tbNatmehaFile;
+        return this.tbNatmehaFile;
+    }
+
+    public Integer getItemid() {
+        return itemid;
+    }
+
 }

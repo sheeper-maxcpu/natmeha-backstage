@@ -10,5 +10,7 @@ public interface TbFileService {
     public int insert(TbNatmehaFile tbNatmehaFile);
 
     public TbNatmehaFile selectFile(String dateCode);
+
+    public int updateFilePath(TbNatmehaFile tbNatmehaFile);
 }
 

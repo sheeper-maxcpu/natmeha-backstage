@@ -170,9 +170,9 @@
                         <td th:text="${tbNatmehaSignalSources.tbNatmehaDoctor.doctorName}"></td>
 <!--                        <td th:text="${name}"></td>-->
                         <td th:text="${tbNatmehaSignalSources.registerType}"></td>
-                        <td>
-                            <div th:if="${tbNatmehaSignalSources.status} eq 0">失效</div>
-                            <div th:if="${tbNatmehaSignalSources.status} eq 1">有效</div>
+                        <td th:text="${tbNatmehaSignalSources.status}">
+<!--                            <div th:if="${tbNatmehaSignalSources.status} eq 0">失效</div>-->
+<!--                            <div th:if="${tbNatmehaSignalSources.status} eq 1">有效</div>-->
                         </td>
                         <td>
 <!--                            <a th:href="@{/numManage/numUpdate(itemid = ${tbNatmehaSignalSources.itemid})}">修改</a>-->

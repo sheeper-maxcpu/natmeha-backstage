@@ -46,12 +46,41 @@
         }
     </style>
 
+    <script>
+        //图片上传到浏览器并显示
+        function imgfile(obj) {
+            //判断是否支持FileReader
+            if (window.FileReader) {
+                var reader = new FileReader();
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+            //获取文件
+            var file = obj.files[0];
+            console.log(file);
+            var imageType = /^image\//;
+            //是否是图片
+            if (!imageType.test(file.type)) {
+                alert("请选择图片！");
+                return;
+            }
+            //读取完成
+            reader.onload = function(e) {
+                //获取图片展示的位置
+                var img = document.getElementById("demo1");
+                //图片路径设置为读取的图片
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="col-md-12 column">
-        <form class="layui-form" action="/serviceTeam/doctorUpdatecode" lay-filter="example" style="margin-top: 20px" method="post">
+        <form class="layui-form" action="/serviceTeam/doctorUpdatecode" lay-filter="example" style="margin-top: 20px" method="post" enctype="multipart/form-data" multiple="false">
             <input type="text" name="itemid" th:value="${tbNatmehaDoctor.itemid}" hidden="hidden">
+            <input type="text" name="itemcode" th:value="${tbNatmehaDoctor.itemcode}" hidden="hidden">
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 100px">专家姓名</label>
                 <div class="layui-input-block">
@@ -73,9 +102,13 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 100px">专家照片</label>
                 <div class="layui-input-block">
-<!--                    <td><img th:src="${tbNatmehaDoctor.tbNatmehaFile.filePath}" style="width: 50px;height: 50px"></td>-->
+                    <input type="file" name="file" onchange="imgfile(this)" accept="image/gif,image/jpeg, image/png, image/jpg">
+<!--                    <div>-->
+<!--                        <img src=""  id="demo1" width="202px" height="auto">-->
+<!--                    </div>-->
+                    <div><img th:src="${tbNatmehaDoctor.getTbNatmehaFile().getFilePath()}" id="demo1" style="width: 150px;height: auto"></div>
 <!--                    th:value="${tbNatmehaDoctor.deptCode}"-->
-                    <input type="text" name="deptCode" th:value="${tbNatmehaDoctor.deptCode}" placeholder="请输入专家照片" autocomplete="off" class="layui-input" style="width: 300px">
+<!--                    <input type="text" name="deptCode" th:value="${tbNatmehaDoctor.deptCode}" placeholder="请输入专家照片" autocomplete="off" class="layui-input" style="width: 300px">-->
                 </div>
             </div>
             <div class="layui-form-item">

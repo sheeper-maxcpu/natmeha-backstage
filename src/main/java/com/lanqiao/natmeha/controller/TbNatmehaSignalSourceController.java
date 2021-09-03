@@ -130,7 +130,7 @@ public class TbNatmehaSignalSourceController {
             num.setStatus("失效");
         }
 
-        num.setUserCode("17adfbf5-7cc6-4b86-b09d-e9b23c0e13bc");
+        num.setUserCode("9f1992a0-f60d-4738-b15e-b17e8e10717e");
         System.out.println("num==================>" + num);
         this.tbNatmehaSignalSourceService.insertNum(num);
         return "redirect:/numManage";
