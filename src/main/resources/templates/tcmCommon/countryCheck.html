@@ -150,7 +150,7 @@
                     <div class="row img_show img_show1" style="height: 202px">
                         <div class="col-md-2 "><p>药材图片:</p></div>
                         <div class="col-md-4 img" style="padding: 0px">
-                            <img src=""  id="pic" width="100%" height="100%" >
+                            <img th:src="@{http://142.4.123.27:8081/{image}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.fileName}))}"  id="pic" width="80px" height="80px">
                         </div>
                         <div class="col-md-2">
                             <input type="file"  name="uploadImg" id="upload" style="display: none" disabled>

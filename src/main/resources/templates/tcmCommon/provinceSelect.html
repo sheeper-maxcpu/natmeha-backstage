@@ -118,9 +118,9 @@
                     <tr  th:each="tbCHNMedicineItem,iter:${tbCHNMedicineList}" >
                         <td th:text="${tbCHNMedicineItem.name}"></td>
                         <td th:text="${tbCHNMedicineItem.alias}"></td>
-                        <!--                        <td th:if="${tbCHNMedicineItem.tbNatmehaFile.filePath} !=null"><span th:src="${tbCHNMedicineItem.tbNatmehaFile.filePath}"></span></td>-->
-                        <!--                        <td th:src="${tbCHNMedicineItem.tbNatmehaFile.filePath}"></td>-->
-                        <td><div  th:if="${tbCHNMedicineItem.tbNatmehaFile != null}" ><img th:src="${tbCHNMedicineItem.tbNatmehaFile.filePath}"  alt="" style="width: 80px"></div></td>
+                        <td>
+                            <img th:src="@{http://142.4.123.27:8081/{image}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.fileName}))}"  id="demo1" width="80px" height="80px">
+                        </td>
                         <td th:text="${tbCHNMedicineItem.classification}"></td>
                         <td>
                             <a th:href="@{/tbNatmehaChineseMedicine/countryCheck(itemid = ${tbCHNMedicineItem.itemid})}">查看</a>
