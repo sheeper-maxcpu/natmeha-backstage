@@ -17,5 +17,7 @@ public interface UserDao {
 
 //    void insertForRegOrg(Organization organization);
 
+    //权限管理
+    User getUserByUsername(String username);
 
 }

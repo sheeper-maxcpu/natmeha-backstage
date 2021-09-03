@@ -57,4 +57,10 @@
 <!--    value (#{orgName},#{orgCode});-->
 <!--    </select>-->
 
+    <select id="getUserByUsername" parameterType="string" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from user
+        where USERNAME=#{value,jdbcType=VARCHAR}
+    </select>
+
 </mapper>
