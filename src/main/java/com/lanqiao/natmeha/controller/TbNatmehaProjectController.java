@@ -61,8 +61,8 @@ public class  TbNatmehaProjectController {
     }
 
     //添加新的数据
-    @RequestMapping("/solar_insert")
-    public String solar_insert(@RequestParam("file") MultipartFile file, String name, String creater, String content,
+    @RequestMapping("/item_insert")
+    public String item_insert(@RequestParam("file") MultipartFile file, String name, String creater, String content,
                                String datasource, String savebtn, String putbtn, String reset) throws Exception {
         String dataType = "1";//0功效特色 ， 1开展项目
         //如果是保存按钮，即是已保存状态 0，提交状态即是 1
@@ -255,9 +255,9 @@ public class  TbNatmehaProjectController {
     }
 
     //管理员开展项目信息页面直接提交数据给上一级审核,只需要改变数据状态就可
-    @RequestMapping("/solar_clerck_directUpdate/{itemid}")
+    @RequestMapping("/item_clerck_directUpdate/{itemid}")
     @ResponseBody
-    public int solar_clerck_directUpdate(@PathVariable("itemid") Integer itemid) {
+    public int item_clerck_directUpdate(@PathVariable("itemid") Integer itemid) {
         //String dataType = "1";//0功效特色 ， 1开展项目
         TbNatmehaProject tbNatmehaProject = new TbNatmehaProject();
         tbNatmehaProject.setItemid(itemid);
@@ -267,7 +267,7 @@ public class  TbNatmehaProjectController {
     }
 
     //管理员删除信息
-    @RequestMapping("/solar_clerk_deleteByItemid/{itemid}")
+    @RequestMapping("/item_clerk_deleteByItemid/{itemid}")
     @ResponseBody
     public int solar_clerk_deleteByItemid(@PathVariable("itemid") Integer itemid) {
         int i = this.tbNatmehaProjectService.deleteByItemid(itemid);
@@ -279,7 +279,7 @@ public class  TbNatmehaProjectController {
     }
 
     //管理员发布信息
-    @RequestMapping("/solar_clerck_release/{itemid}")
+    @RequestMapping("/item_clerck_release/{itemid}")
     @ResponseBody
     public int solar_clerck_release(@PathVariable("itemid") Integer itemid) {
         TbNatmehaProject tbNatmehaProject = new TbNatmehaProject();
@@ -290,7 +290,7 @@ public class  TbNatmehaProjectController {
     }
 
     //管理员下架发布信息
-    @RequestMapping("/solar_clerck_norelease/{itemid}")
+    @RequestMapping("/item_clerck_norelease/{itemid}")
     @ResponseBody
     public int solar_clerck_norelease(@PathVariable("itemid") Integer itemid) {
         TbNatmehaProject tbNatmehaProject = new TbNatmehaProject();
@@ -366,7 +366,7 @@ public class  TbNatmehaProjectController {
     }
 
     //显示信息页面，直接审核通过
-    @RequestMapping("/solar_county_pass/{itemid}")
+    @RequestMapping("/item_county_pass/{itemid}")
     @ResponseBody
     public int solar_county_pass(@PathVariable("itemid") Integer itemid) {
         TbNatmehaProject tbNatmehaProject = new TbNatmehaProject();
@@ -376,9 +376,9 @@ public class  TbNatmehaProjectController {
         return i;
     }
     //显示信息页面，直接审核不通过
-    @RequestMapping("/solar_county_nopass/{itemid}")
+    @RequestMapping("/item_county_nopass/{itemid}")
     @ResponseBody
-    public int solar_county_nopass(@PathVariable("itemid") Integer itemid) {
+    public int item_county_nopass(@PathVariable("itemid") Integer itemid) {
         TbNatmehaProject tbNatmehaProject = new TbNatmehaProject();
         tbNatmehaProject.setItemid(itemid);
         tbNatmehaProject.setDataStatus("2");

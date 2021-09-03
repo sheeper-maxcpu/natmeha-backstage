@@ -2664,7 +2664,7 @@ public class TbNatmehaHotspotController {
     }
 
     //管理员节气养生信息页面直接提交数据给上一级审核,只需要改变数据状态就可
-    @RequestMapping("/solar_provincialclerck_directUpdate/{itemid}")
+    @RequestMapping("/solar_provincialclerck_directUpdates/{itemid}")
     @ResponseBody
     public int solar_provincialclerck_directUpdate(@PathVariable("itemid") Integer itemid) {
         //String dataType = "0";//0代表节气养生 ， 1代表自我保健，2代表药膳食疗
