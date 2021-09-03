@@ -95,7 +95,19 @@
             };
             reader.readAsDataURL(file);
         }
+        function test(input) {
+            var value = input.value;
+            console.log(value);
+            var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+            var div = document.getElementById("hint");
+            if(reg.test(value)) {
+            } else {
+                alert("格式不对");
+            }
+        }
+
     </script>
+
 </head>
 <body>
 <div class="container">
@@ -110,8 +122,8 @@
             <br>
             <div class="layui-form-item">
                 <label class="layui-form-label">功效特色价格</label>
-                <div class="layui-input-block">
-                    <input type="text" name="price" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" style="width: 300px">
+                <div class="layui-input-block"  id="hint">
+                    <input type="text" name="price" lay-verify="title"  autocomplete="off" placeholder="请输入" class="layui-input" style="width: 300px" onblur="test(this);">
                 </div>
             </div>
             <br>

@@ -352,7 +352,7 @@
                     <tr th:each="data,iter:${tbNatmehaProjects}">
                         <td th:text="${data.name}"></td>
                         <td>
-                            <img th:src="@{http://localhost/portals/images/{image}(image=(${data.tbNatmehaFile}==null?'':${data.tbNatmehaFile.fileName}))}"  id="demo1" width="100px" height="50px">
+                            <img th:src="@http://142.4.123.27:8081/{image}(image=(${data.tbNatmehaFile}==null?'':${data.tbNatmehaFile.fileName}))}"  id="demo1" width="100px" height="50px">
                         </td>
                         <td th:text="${data.content}"></td>
                         <td th:text="${data.dataStatus}"></td>

@@ -11,3 +11,4 @@ public interface TbFileService {
 
     public TbNatmehaFile selectFile(String dateCode);
 }
+

@@ -100,12 +100,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -153,12 +153,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -622,12 +622,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -675,12 +675,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1136,12 +1136,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1189,12 +1189,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件D
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1377,12 +1377,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1431,12 +1431,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件D
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1629,12 +1629,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1682,12 +1682,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件D
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1871,12 +1871,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
@@ -1925,12 +1925,12 @@ public class  TbNatmehaProjectController {
                 //得到上传后新文件的文件名
                 String newFileName = newFileNamePrefix+fileNameSuffix;
                 //获取要保存的文件夹路径
-                String path = "D:\\dev\\nginx-1.20.1\\html\\portals\\images";
+                String path = "/root/images";
                 //在指定路径下，产生一个指定名称的新文件D
                 File newfile = new File(path, newFileName);
                 file.transferTo(newfile);
                 //存入数据库的图片地址
-                String sqlFilePath = "http://localhost/portals/images/";
+                String sqlFilePath = "http://142.4.123.27:8081/";
                 //存入数据库的路径，格式如：http://114.55.92.180/portals/images/ffilepackge/u2363_1629798462733.png
                 String filePath = sqlFilePath + newFileName;
                 String Filename = newFileName;//格式如：u2363_1629798462733.png
