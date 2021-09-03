@@ -137,8 +137,7 @@
                         <td th:text="${tbCHNMedicineItem.name}"></td>
                         <td th:text="${tbCHNMedicineItem.alias}"></td>
                         <td>
-<!--                            <img th:src="@{{im}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.filePath}))}"  id="demo1" width="100px" height="100px">-->
-                            <img th:src="@{http://localhost/portals/images/{image}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.fileName}))}"  id="demo1" width="80px" height="80px">
+                            <img th:src="@{http://142.4.123.27:8081/{image}(image=(${tbCHNMedicineItem.tbNatmehaFile}==null?'':${tbCHNMedicineItem.tbNatmehaFile.fileName}))}"  id="demo1" width="80px" height="80px">
                         </td>
                         <td th:text="${tbCHNMedicineItem.classification}"></td>
                         <td>
