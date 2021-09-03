@@ -3436,9 +3436,9 @@ public class TbNatmehaHotspotController {
     }
 
     // 本地存放路径
-    private static String localFilePath = "D:/dev/nginx-1.20.1/html/portals/images/";
+    private static String localFilePath = "/root/images";
     // nginx数据库地址
-    private static String sqlFilePath = "http://localhost/portals/images/";
+    private static String sqlFilePath = "http://142.4.123.27:8081/";
 
 
     public TbNatmehaFile insertFileOne(MultipartFile file,String itemcode,String dataCode,Date itemcreateat){

@@ -1,17 +1,23 @@
 package com.lanqiao.natmeha.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 用户表
+ *
  * @TableName user
  */
 @Data
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     /**
-     * 
+     *
      */
     private Integer itemid;
 
@@ -66,7 +72,7 @@ public class User implements Serializable {
     private String email;
 
     /**
-     * 
+     *
      */
     private String state;
 
@@ -111,7 +117,7 @@ public class User implements Serializable {
     private Date birth;
 
     /**
-     * 
+     *
      */
     private String wxOpenid;
 
@@ -120,5 +126,33 @@ public class User implements Serializable {
      */
     private byte[] portrait;
 
+    // 用户角色集合
+    private List<Role> userRoles;
+    // 角色菜单集合
+    private List<Menu> roleMenus;
+    // 用户权限集合
+    private Collection<? extends GrantedAuthority> authorities;
+
+
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
