@@ -36,10 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        log.debug(username + "的登录信息：" + user.toString());
-
         if (user != null) {
-            log.debug(">>> UserDetailsService.loadUserByUsername({})", username);
             List<Role> roles = roleDao.getUserRoleByRoleType(user.getType());
             Collection<SimpleGrantedAuthority> authorities = new HashSet<SimpleGrantedAuthority>();
             for (Role role : roles) {

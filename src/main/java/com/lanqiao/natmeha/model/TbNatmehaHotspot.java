@@ -2,6 +2,8 @@ package com.lanqiao.natmeha.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
+
 import lombok.Data;
 
 /**

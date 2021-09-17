@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * 权限菜单表
@@ -21,7 +22,6 @@ public class Menu implements Serializable {
      * 菜单名称
      */
     private String menuName;
-
     /**
      * 菜单url（Controller 请求路径）
      */

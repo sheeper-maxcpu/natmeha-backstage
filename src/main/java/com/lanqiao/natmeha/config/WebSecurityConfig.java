@@ -72,7 +72,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index")
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(customAccessDeniedHandler)
+                .accessDeniedHandler(customAccessDeniedHandler)//无权限处理器
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout");
